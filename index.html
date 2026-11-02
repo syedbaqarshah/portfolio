@@ -2,294 +2,529 @@
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Baqar Shah – E-Commerce Operations & MarTech Specialist</title>
-  <meta name="description" content="Portfolio of Baqar Shah: E-Commerce Operations & MarTech Specialist based in Wildau, Germany." />
-  
-  <!-- Tailwind & Icons -->
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
-  
-  <!-- UPGRADE 1: Premium Typography & Scroll Animation CSS -->
+  <meta name="description" content="Portfolio of Baqar Shah: E-Commerce Operations, MarTech, and AI Data Specialist based in Wildau / Berlin, Germany." />
+
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Space Grotesk & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  
-  <style>
-    html { scroll-padding-top: 6rem; }
-    body {
-      font-family: 'Space Grotesk', sans-serif; /* Applied Premium Font */
-      background-color: #020617;
-      background-image:
-        linear-gradient(to right, rgba(30,41,59,.55) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(30,41,59,.55) 1px, transparent 1px);
-      background-size: 48px 48px;
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              400: '#34d399',
+              500: '#10b981',
+              900: '#064e3b',
+              950: '#022c22'
+            }
+          }
+        }
+      }
     }
-    .glass { background: rgba(2,6,23,.65); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
-    .step-dot { box-shadow: 0 0 0 4px #020617, 0 0 0 5px rgba(52,211,153,.4); }
+  </script>
+
+  <style>
+    html { scroll-padding-top: 5rem; }
+    body {
+      background-color: #030712;
+      color: #f3f4f6;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(6, 78, 59, 0.15) 0px, transparent 50%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+    }
+    .glass-nav {
+      background: rgba(3, 7, 18, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .card-spotlight {
+      position: relative;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(12px);
+    }
+    .card-spotlight::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: radial-gradient(400px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(52, 211, 153, 0.4), transparent 40%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .timeline-line::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 19px;
+      width: 2px;
+      background: linear-gradient(to bottom, #10b981 0%, #334155 70%, transparent 100%);
+    }
   </style>
 </head>
-<body class="text-slate-100 antialiased selection:bg-emerald-400/30 overflow-x-hidden">
+<body class="selection:bg-brand-500/30 selection:text-brand-400 font-sans antialiased">
 
-  <!-- 1. NAVIGATION -->
-  <header class="fixed top-0 inset-x-0 z-50 glass border-b border-slate-800">
+  <!-- TOP NAVIGATION -->
+  <header class="fixed top-0 inset-x-0 z-50 glass-nav border-b border-slate-800/80">
     <nav class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3 min-w-0">
-        <a href="#top" class="font-semibold tracking-tight whitespace-nowrap text-lg">Baqar Shah</a>
-        <span class="hidden lg:inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs text-emerald-400 whitespace-nowrap">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-          </span>
-          📍 Wildau, Germany | Seeking Full-Time MarTech Roles
+      <div class="flex items-center gap-3">
+        <a href="#top" class="font-bold tracking-tight text-lg text-white hover:text-brand-400 transition flex items-center gap-2">
+          <span class="h-2.5 w-2.5 rounded-full bg-brand-400 animate-pulse"></span>
+          Baqar Shah
+        </a>
+        <span class="hidden lg:inline-flex items-center gap-1.5 rounded-full border border-brand-500/30 bg-brand-950/60 px-3 py-0.5 text-xs font-mono text-brand-400">
+          📍 Wildau / Berlin · Open to Roles
         </span>
       </div>
-      <div class="hidden md:flex items-center gap-6 text-sm text-slate-400 font-medium">
-        <a href="#journey" class="hover:text-emerald-400 transition">Journey</a>
-        <a href="#projects" class="hover:text-emerald-400 transition">Projects</a>
-        <a href="#stack" class="hover:text-emerald-400 transition">Stack</a>
-        <a href="#beyond-work" class="hover:text-emerald-400 transition">Beyond Work</a>
-        <a href="#impressum" class="hover:text-emerald-400 transition">Impressum</a>
-        <a href="cv.pdf" download class="inline-flex items-center gap-2 rounded-lg bg-emerald-400 px-4 py-2 font-bold text-slate-950 hover:bg-emerald-300 transition shadow-[0_0_15px_rgba(52,211,153,0.3)]">
-          <i data-lucide="download" class="h-4 w-4"></i> Download CV
+
+      <div class="hidden md:flex items-center gap-6 text-sm text-slate-300 font-medium">
+        <a href="#journey" class="hover:text-brand-400 transition">Career Staircase</a>
+        <a href="#projects" class="hover:text-brand-400 transition">Case Studies</a>
+        <a href="#stack" class="hover:text-brand-400 transition">Knowledge Graph</a>
+        <a href="#console" class="hover:text-brand-400 transition">System Console</a>
+        <a href="#impressum" class="hover:text-slate-500 transition text-xs">Impressum</a>
+        <a href="https://www.linkedin.com/in/syedbaqar/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-400 px-3.5 py-1.5 font-semibold text-slate-950 hover:bg-brand-500 hover:shadow-[0_0_15px_rgba(52,211,153,0.4)] transition text-xs">
+          <i data-lucide="linkedin" class="w-3.5 h-3.5"></i> Connect
         </a>
       </div>
-      <button id="menu-btn" class="md:hidden p-2 rounded-lg border border-slate-800 text-emerald-400" aria-label="Toggle menu">
-        <i data-lucide="menu" class="h-5 w-5"></i>
+
+      <button id="menu-btn" class="md:hidden p-2 rounded-lg border border-slate-800 text-slate-300 hover:text-white" aria-label="Toggle Menu">
+        <i data-lucide="menu" class="w-5 h-5"></i>
       </button>
     </nav>
-    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-800 px-4 py-4 space-y-3 text-sm text-slate-300">
-      <span class="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs text-emerald-400">
-        <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        📍 Wildau, Germany
-      </span>
-      <a href="#journey" class="block hover:text-emerald-400">Journey</a>
-      <a href="#projects" class="block hover:text-emerald-400">Projects</a>
-      <a href="#stack" class="block hover:text-emerald-400">Stack</a>
-      <a href="#beyond-work" class="block hover:text-emerald-400">Beyond Work</a>
-      <a href="#impressum" class="block hover:text-emerald-400">Impressum</a>
+
+    <!-- MOBILE MENU -->
+    <div id="mobile-menu" class="hidden md:hidden border-b border-slate-800 bg-slate-950/95 px-6 py-4 space-y-3 text-sm text-slate-300">
+      <a href="#journey" class="block py-1 hover:text-brand-400">Career Staircase</a>
+      <a href="#projects" class="block py-1 hover:text-brand-400">Case Studies</a>
+      <a href="#stack" class="block py-1 hover:text-brand-400">Knowledge Graph</a>
+      <a href="#console" class="block py-1 hover:text-brand-400">System Console</a>
+      <a href="#impressum" class="block py-1 text-slate-500">Impressum</a>
     </div>
   </header>
 
   <main id="top">
-    <!-- 2. HERO -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 pt-32 pb-20 md:pt-44 md:pb-28">
-      <div class="grid md:grid-cols-5 gap-12 items-center">
-        <!-- UPGRADE 2: Added data-aos="fade-up" -->
-        <div class="md:col-span-3" data-aos="fade-up">
-          <p class="inline-block rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-xs sm:text-sm text-emerald-400 leading-snug">
-            Turns out the biggest campaign I ever managed was convincing myself to start over in a new country.
-          </p>
-          <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08]">
-            E-Commerce Operations <br/><span class="text-emerald-400">&amp; MarTech</span> Specialist
+    <!-- HERO SECTION -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 pt-32 pb-20 md:pt-44 md:pb-32">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs sm:text-sm font-medium text-brand-400">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <span>The biggest campaign I managed was starting over in Germany.</span>
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.08]">
+            E-Commerce Operations <br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-emerald-200">&amp; MarTech Specialist</span>
           </h1>
-          <p class="mt-6 text-lg text-slate-400 max-w-2xl leading-relaxed">
-            Bridging 4+ years of hands-on e-commerce growth with European business compliance, marketing technology, and applied AI workflows.
+
+          <p class="text-base sm:text-lg text-slate-400 max-w-xl leading-relaxed">
+            Bridging 4+ years of data-driven growth across US/UK marketplaces with European business compliance, applied AI personalization models, and modern marketing workflows.
           </p>
-          <div class="mt-8 flex flex-wrap gap-3">
-            <a href="https://www.linkedin.com/in/syedbaqar/" target="_blank" rel="noopener noreferrer"
-               class="inline-flex items-center gap-2 rounded-lg bg-emerald-400 px-6 py-3 font-bold text-slate-950 hover:bg-emerald-300 hover:shadow-[0_0_20px_rgba(52,211,153,0.4)] transition-all">
-              <i data-lucide="linkedin" class="h-4 w-4"></i> Connect on LinkedIn
+
+          <!-- Metric Highlights Box -->
+          <div class="grid grid-cols-3 gap-3 py-2 max-w-lg border-y border-slate-800/80 font-mono">
+            <div>
+              <p class="text-xl sm:text-2xl font-bold text-brand-400">+92%</p>
+              <p class="text-[11px] text-slate-500 uppercase tracking-wider">Sales Scale</p>
+            </div>
+            <div>
+              <p class="text-xl sm:text-2xl font-bold text-white">+35%</p>
+              <p class="text-[11px] text-slate-500 uppercase tracking-wider">PPC ROI Boost</p>
+            </div>
+            <div>
+              <p class="text-xl sm:text-2xl font-bold text-brand-400">1.00</p>
+              <p class="text-[11px] text-slate-500 uppercase tracking-wider">German GPA Equiv.</p>
+            </div>
+          </div>
+
+          <div class="pt-2 flex flex-wrap gap-4">
+            <a href="https://www.linkedin.com/in/syedbaqar/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg bg-brand-400 px-5 py-3 font-semibold text-slate-950 hover:bg-brand-500 hover:shadow-[0_0_20px_rgba(52,211,153,0.35)] transition">
+              <i data-lucide="linkedin" class="w-4 h-4"></i> View LinkedIn
             </a>
-            <a href="mailto:baaqi55@gmail.com"
-               class="inline-flex items-center gap-2 rounded-lg border border-slate-700 px-6 py-3 font-bold text-slate-100 hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_15px_rgba(52,211,153,0.2)] transition-all">
-              <i data-lucide="mail" class="h-4 w-4"></i> Email Me
+            <a href="mailto:baaqi55@gmail.com" class="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-900/60 px-5 py-3 font-semibold text-slate-200 hover:border-brand-400 hover:text-brand-400 transition">
+              <i data-lucide="mail" class="w-4 h-4"></i> Get in Touch
             </a>
           </div>
         </div>
-        <div class="md:col-span-2 flex md:justify-end" data-aos="fade-left" data-aos-delay="200">
-          <div class="relative w-64 sm:w-72 md:w-full max-w-sm">
-            <div class="absolute -inset-2 rounded-3xl bg-emerald-400/20 blur-2xl animate-pulse"></div>
-            <div class="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 aspect-[4/5] shadow-2xl">
-              <!-- FIXED TO .PNG -->
-              <img src="headshot.png" alt="Baqar Shah" class="h-full w-full object-cover grayscale hover:grayscale-0 transition-all duration-500" />
+
+        <!-- PROFILE FRAME WITH ERROR-FALLBACK -->
+        <div class="lg:col-span-5 flex justify-center lg:justify-end">
+          <div class="relative w-64 sm:w-80 aspect-[4/5] group">
+            <div class="absolute -inset-1.5 rounded-3xl bg-gradient-to-tr from-brand-500/30 to-emerald-400/10 blur-xl opacity-75 group-hover:opacity-100 transition duration-500"></div>
+            <div class="relative h-full w-full rounded-2xl border border-slate-800 bg-slate-900 overflow-hidden shadow-2xl">
+              <!-- Auto-fallback handles .jpg vs .png naming gracefully -->
+              <img 
+                src="headshot.jpg" 
+                onerror="this.onerror=null; this.src='headshot.png';" 
+                alt="Baqar Shah" 
+                class="h-full w-full object-cover object-center filter grayscale contrast-105 group-hover:grayscale-0 transition-all duration-700" 
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
+              <div class="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 backdrop-blur-md">
+                <p class="text-xs font-mono text-brand-400 font-semibold">TH Wildau · WS26</p>
+                <p class="text-xs text-slate-300">Master in European Business Management</p>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
-    <!-- 3. CAREER STAIRCASE -->
+    <!-- 3. CAREER STAIRCASE / TIMELINE -->
     <section id="journey" class="max-w-4xl mx-auto px-4 sm:px-6 py-20">
-      <div data-aos="fade-up">
-        <p class="text-emerald-400 text-sm font-bold uppercase tracking-widest">The Journey</p>
-        <h2 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight">The Career Staircase</h2>
+      <div class="mb-12">
+        <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Progression Architecture</span>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1">The Career Staircase</h2>
       </div>
 
-      <ol class="relative mt-12 ml-3 border-l-2 border-slate-800 space-y-12">
-        <li class="relative pl-8 sm:pl-10" data-aos="fade-up" data-aos-delay="100">
-          <!-- UPGRADE 3: Glowing Timeline Dots -->
-          <span class="step-dot absolute -left-[9px] top-1.5 h-4 w-4 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]"></span>
-          <p class="text-xs font-mono text-emerald-400 font-bold">Aug 2020 – Jun 2023</p>
-          <h3 class="mt-1 text-xl font-bold">E-Commerce Project Manager</h3>
-          <p class="text-slate-500 text-sm font-medium">Semicolon Tech · Pakistan</p>
-          <p class="mt-3 text-slate-400 leading-relaxed">Managed end-to-end e-commerce operations, streamlining product launch cycles by <span class="text-emerald-400 font-semibold">19%</span> and driving <span class="text-emerald-400 font-semibold">92%</span> sales growth through targeted segmentation.</p>
-        </li>
-        <li class="relative pl-8 sm:pl-10 sm:ml-6" data-aos="fade-up" data-aos-delay="200">
-          <span class="step-dot absolute -left-[9px] top-1.5 h-4 w-4 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]"></span>
-          <p class="text-xs font-mono text-emerald-400 font-bold">Jul 2023 – Mar 2026</p>
-          <h3 class="mt-1 text-xl font-bold">Growth Marketing Manager</h3>
-          <p class="text-slate-500 text-sm font-medium">Semicolon Tech · Pakistan</p>
-          <p class="mt-3 text-slate-400 leading-relaxed">Scaled performance marketing funnels for US &amp; UK markets. Managed automation workflows, boosted conversion rates by <span class="text-emerald-400 font-semibold">25%</span>, and increased YoY customer acquisition by <span class="text-emerald-400 font-semibold">76%</span>.</p>
-        </li>
-        <li class="relative pl-8 sm:pl-10 sm:ml-12" data-aos="fade-up" data-aos-delay="300">
-          <span class="step-dot absolute -left-[9px] top-1.5 h-4 w-4 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_15px_rgba(52,211,153,1)]"></span>
-          <p class="text-xs font-mono text-emerald-400 font-bold">Apr 2026 – Present</p>
-          <h3 class="mt-1 text-xl font-bold">Master in European Business Management</h3>
-          <p class="text-slate-500 text-sm font-medium">TH Wildau · Germany</p>
-          <p class="mt-3 text-slate-400 leading-relaxed">Relocated to Germany to master cross-cultural commercial strategy. Currently specializing in Data Science, Artificial Intelligence, and International Marketing Strategy.</p>
-        </li>
-      </ol>
+      <div class="relative timeline-line space-y-12">
+        
+        <!-- Step 1 -->
+        <div class="relative pl-10 group">
+          <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-slate-800 border-2 border-brand-400 group-hover:scale-125 group-hover:bg-brand-400 transition-all duration-300"></div>
+          <div class="card-spotlight p-6 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition">
+            <span class="text-xs font-mono text-brand-400 font-semibold uppercase">Aug 2020 – Jun 2023 · Pakistan</span>
+            <h3 class="text-lg font-bold text-white mt-1">E-Commerce Project Manager · Semicolon Tech</h3>
+            <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+              Spearheaded full lifecycle marketplace operations. Reduced product launch intervals by <span class="text-brand-400 font-mono font-medium">19%</span> and drove a <span class="text-brand-400 font-mono font-medium">92%</span> sales increase through data-informed customer segmentation and targeted funnel adjustments.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-4">
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Marketplace Ops</span>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Agile Launches</span>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Funnel Auditing</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="relative pl-10 group">
+          <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-slate-800 border-2 border-brand-400 group-hover:scale-125 group-hover:bg-brand-400 transition-all duration-300"></div>
+          <div class="card-spotlight p-6 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition">
+            <span class="text-xs font-mono text-brand-400 font-semibold uppercase">Jul 2023 – Mar 2026 · Pakistan &amp; Remote</span>
+            <h3 class="text-lg font-bold text-white mt-1">Growth Marketing Manager · Semicolon Tech</h3>
+            <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+              Orchestrated multi-channel performance marketing for US &amp; UK home goods brands. Automated lead-nurturing workflows, elevated conversion rates by <span class="text-brand-400 font-mono font-medium">25%</span>, and increased customer acquisition by <span class="text-brand-400 font-mono font-medium">76% YoY</span>.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-4">
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">CRM Automation</span>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Performance PPC</span>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">US/UK Market Scaling</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="relative pl-10 group">
+          <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-brand-400 ring-4 ring-brand-950 animate-pulse"></div>
+          <div class="card-spotlight p-6 rounded-2xl border border-brand-500/40 bg-brand-950/20">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono text-brand-400 font-semibold uppercase">Current Focus · Germany</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-brand-400/20 text-brand-400 border border-brand-400/30">Active</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mt-1">M.Sc. European Business Management · TH Wildau</h3>
+            <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+              Focusing on European regulatory frameworks, cross-border commercial strategy, and the intersection of Data Science and AI for automated consumer personalization engines.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-4">
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-500/30">Data Science &amp; AI</span>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-500/30">Strategic Marketing</span>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-500/30">GDPR Compliance</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </section>
 
-    <!-- 4. PROJECTS -->
+    <!-- 4. SELECTED CASE STUDIES -->
     <section id="projects" class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
-      <div data-aos="fade-up">
-        <p class="text-emerald-400 text-sm font-bold uppercase tracking-widest">Portfolio Evidence</p>
-        <h2 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight">Selected Projects</h2>
+      <div class="mb-12">
+        <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Verified Evidence</span>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1">Operational Case Studies</h2>
       </div>
 
-      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- UPGRADE 4: Added advanced transition and hover glow classes to articles -->
-        <article class="group flex flex-col rounded-2xl border border-slate-800 bg-slate-900/50 p-6 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(52,211,153,0.15)] hover:border-emerald-500" data-aos="fade-up" data-aos-delay="100">
-          <i data-lucide="trending-up" class="h-8 w-8 text-emerald-400 mb-2"></i>
-          <h3 class="mt-4 text-lg font-bold leading-snug group-hover:text-emerald-400 transition-colors">Multi-Channel US PPC Campaign</h3>
-          <div class="mt-4 flex flex-wrap gap-2">
-            <span class="rounded-full border border-slate-700 bg-slate-800 px-3 py-1 text-xs text-slate-300 font-mono">Meta Ads</span>
-            <span class="rounded-full border border-slate-700 bg-slate-800 px-3 py-1 text-xs text-slate-300 font-mono">Amazon Ads</span>
-            <span class="rounded-full border border-slate-700 bg-slate-800 px-3 py-1 text-xs text-slate-300 font-mono">A/B Testing</span>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Case Study 1 -->
+        <div class="card-spotlight p-6 rounded-2xl border border-slate-800 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-slate-400 mb-4">
+              <i data-lucide="bar-chart-3" class="w-6 h-6 text-brand-400"></i>
+              <span class="text-[11px] font-mono text-slate-500">Scale Project</span>
+            </div>
+            <h3 class="text-lg font-bold text-white group-hover:text-brand-400 transition">Multi-Channel US PPC Optimization</h3>
+            <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+              Managed paid search and social campaigns across Amazon Ads and Meta Ads for US/UK home goods lines. Restructured ad spend allocations through systematic A/B testing, driving:
+            </p>
+            <ul class="mt-4 space-y-2 text-xs font-mono text-slate-300">
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span> +35% ROI on Paid Spend</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span> +50% Customer Acquisition in 6 Mo.</li>
+            </ul>
           </div>
-          <p class="mt-5 text-sm text-slate-400 leading-relaxed">Scaled ad spend and optimized funnels for home goods across Amazon, eBay, and Shopify, boosting ROI by <span class="text-emerald-400 font-bold">35%</span> and acquisition by <span class="text-emerald-400 font-bold">50%</span> within 6 months.</p>
-        </article>
+          <div class="pt-6 border-t border-slate-800/80 mt-6 flex flex-wrap gap-1.5">
+            <span class="text-[10px] font-mono bg-slate-800/80 px-2 py-0.5 rounded text-slate-400">Amazon Ads</span>
+            <span class="text-[10px] font-mono bg-slate-800/80 px-2 py-0.5 rounded text-slate-400">Meta Business</span>
+            <span class="text-[10px] font-mono bg-slate-800/80 px-2 py-0.5 rounded text-slate-400">Shopify</span>
+          </div>
+        </div>
 
-        <article class="group flex flex-col rounded-2xl border border-slate-800 bg-slate-900/50 p-6 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(52,211,153,0.15)] hover:border-emerald-500" data-aos="fade-up" data-aos-delay="200">
-          <i data-lucide="brain-circuit" class="h-8 w-8 text-emerald-400 mb-2"></i>
-          <h3 class="mt-4 text-lg font-bold leading-snug group-hover:text-emerald-400 transition-colors">AI-Driven Personalization Thesis</h3>
-          <div class="mt-4 flex flex-wrap gap-2">
-            <span class="rounded-full border border-slate-700 bg-slate-800 px-3 py-1 text-xs text-slate-300 font-mono">Predictive AI</span>
-            <span class="rounded-full border border-slate-700 bg-slate-800 px-3 py-1 text-xs text-slate-300 font-mono">SEM</span>
-            <span class="rounded-full border border-slate-700 bg-slate-800 px-3 py-1 text-xs text-slate-300 font-mono">Behavior</span>
+        <!-- Case Study 2 -->
+        <div class="card-spotlight p-6 rounded-2xl border border-slate-800 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-slate-400 mb-4">
+              <i data-lucide="cpu" class="w-6 h-6 text-brand-400"></i>
+              <span class="text-[11px] font-mono text-slate-500">Master Thesis</span>
+            </div>
+            <h3 class="text-lg font-bold text-white group-hover:text-brand-400 transition">AI-Driven Personalization Models</h3>
+            <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+              Empirical study evaluating Customer Engagement (CE), AI-Driven Personalization (AIP), and Privacy Concerns (PC) using Structural Equation Modeling (SEM):
+            </p>
+            <ul class="mt-4 space-y-2 text-xs font-mono text-slate-300">
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span> CE → AIP: Path coef = 0.835 (p &lt; 0.001)</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span> Privacy Moderation: -0.254 (p &lt; 0.001)</li>
+            </ul>
           </div>
-          <p class="mt-5 text-sm text-slate-400 leading-relaxed">Empirical study of Pakistani e-commerce proving Customer Engagement drives personalization effectiveness, mapping the dual moderating role of Privacy Concerns.</p>
-        </article>
+          <div class="pt-6 border-t border-slate-800/80 mt-6 flex flex-wrap gap-1.5">
+            <span class="text-[10px] font-mono bg-slate-800/80 px-2 py-0.5 rounded text-slate-400">SmartPLS / SEM</span>
+            <span class="text-[10px] font-mono bg-slate-800/80 px-2 py-0.5 rounded text-slate-400">Privacy Calculus</span>
+            <span class="text-[10px] font-mono bg-slate-800/80 px-2 py-0.5 rounded text-slate-400">AI Personalization</span>
+          </div>
+        </div>
 
-        <article class="group flex flex-col rounded-2xl border border-slate-800 bg-slate-900/50 p-6 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(52,211,153,0.15)] hover:border-emerald-500" data-aos="fade-up" data-aos-delay="300">
-          <i data-lucide="trophy" class="h-8 w-8 text-emerald-400 mb-2"></i>
-          <h3 class="mt-4 text-lg font-bold leading-snug group-hover:text-emerald-400 transition-colors">E-Commerce Middleman Platform</h3>
-          <div class="mt-4 flex flex-wrap gap-2">
-            <span class="rounded-full border border-slate-700 bg-slate-800 px-3 py-1 text-xs text-slate-300 font-mono">Marketplace</span>
-            <span class="rounded-full border border-slate-700 bg-slate-800 px-3 py-1 text-xs text-slate-300 font-mono">Validation</span>
-            <span class="rounded-full border border-slate-700 bg-slate-800 px-3 py-1 text-xs text-slate-300 font-mono">UI/UX</span>
+        <!-- Case Study 3 -->
+        <div class="card-spotlight p-6 rounded-2xl border border-slate-800 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-slate-400 mb-4">
+              <i data-lucide="trophy" class="w-6 h-6 text-brand-400"></i>
+              <span class="text-[11px] font-mono text-slate-500">Hackathon Winner</span>
+            </div>
+            <h3 class="text-lg font-bold text-white group-hover:text-brand-400 transition">E-Commerce Middleman Platform</h3>
+            <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+              Designed and pitched a multi-sided intermediary platform to bridge operational friction between independent manufacturers and fragmented digital sellers in developing markets:
+            </p>
+            <ul class="mt-4 space-y-2 text-xs font-mono text-slate-300">
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span> Validated &amp; Monetized Prototype</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span> Successful Early-Stage Asset Exit</li>
+            </ul>
           </div>
-          <p class="mt-5 text-sm text-slate-400 leading-relaxed">Built and validated a multi-sided marketplace connecting buyers and sellers to resolve transaction friction, successfully selling the platform post-launch.</p>
-        </article>
+          <div class="pt-6 border-t border-slate-800/80 mt-6 flex flex-wrap gap-1.5">
+            <span class="text-[10px] font-mono bg-slate-800/80 px-2 py-0.5 rounded text-slate-400">Platform Strategy</span>
+            <span class="text-[10px] font-mono bg-slate-800/80 px-2 py-0.5 rounded text-slate-400">Rapid MVP</span>
+            <span class="text-[10px] font-mono bg-slate-800/80 px-2 py-0.5 rounded text-slate-400">Transaction Flow</span>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- 5. STACK -->
+    <!-- 5. KNOWLEDGE GRAPH / TOOLKIT -->
     <section id="stack" class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
-      <div data-aos="fade-up">
-        <p class="text-emerald-400 text-sm font-bold uppercase tracking-widest">Toolkit</p>
-        <h2 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight">MarTech &amp; Operations Stack</h2>
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div>
+          <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Ecosystem Capabilities</span>
+          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1">MarTech Knowledge Graph</h2>
+        </div>
+        
+        <!-- Live Filter Buttons -->
+        <div class="flex flex-wrap gap-2 text-xs font-mono">
+          <button onclick="filterStack('all')" class="stack-btn active px-3 py-1.5 rounded-lg border border-brand-400 bg-brand-400/10 text-brand-400">All Nodes</button>
+          <button onclick="filterStack('growth')" class="stack-btn px-3 py-1.5 rounded-lg border border-slate-800 text-slate-400 hover:text-white">Growth &amp; Commerce</button>
+          <button onclick="filterStack('crm')" class="stack-btn px-3 py-1.5 rounded-lg border border-slate-800 text-slate-400 hover:text-white">CRM &amp; Retention</button>
+          <button onclick="filterStack('ai')" class="stack-btn px-3 py-1.5 rounded-lg border border-slate-800 text-slate-400 hover:text-white">Data &amp; AI</button>
+        </div>
       </div>
 
-      <div class="mt-12 space-y-10">
-        <div data-aos="fade-up" data-aos-delay="100">
-          <h3 class="text-sm font-mono text-slate-500 uppercase tracking-wider font-bold">Growth &amp; Funnels</h3>
-          <div class="mt-4 flex flex-wrap gap-3">
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">Shopify</span>
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">Meta Ads</span>
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">TikTok Ads</span>
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">SEO</span>
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">Landing Page Optimization</span>
-          </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="stack-grid">
+        <!-- Growth -->
+        <div class="stack-item growth card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+          <i data-lucide="shopping-bag" class="w-5 h-5 text-brand-400"></i>
+          <div><p class="text-sm font-bold text-white">Shopify Plus</p><p class="text-[10px] font-mono text-slate-500">Store Architecture</p></div>
         </div>
-        <div data-aos="fade-up" data-aos-delay="200">
-          <h3 class="text-sm font-mono text-slate-500 uppercase tracking-wider font-bold">CRM &amp; Retention</h3>
-          <div class="mt-4 flex flex-wrap gap-3">
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">HubSpot</span>
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">Salesforce</span>
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">Klaviyo</span>
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">Mailchimp</span>
-          </div>
+        <div class="stack-item growth card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+          <i data-lucide="target" class="w-5 h-5 text-brand-400"></i>
+          <div><p class="text-sm font-bold text-white">Meta Ads Manager</p><p class="text-[10px] font-mono text-slate-500">Pixel &amp; CAPI Funnels</p></div>
         </div>
-        <div data-aos="fade-up" data-aos-delay="300">
-          <h3 class="text-sm font-mono text-slate-500 uppercase tracking-wider font-bold">AI &amp; Data</h3>
-          <div class="mt-4 flex flex-wrap gap-3">
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">Google Analytics 4</span>
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">Copilot</span>
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">Claude</span>
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">Gemini</span>
-            <span class="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2 text-sm font-medium hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_10px_rgba(52,211,153,0.2)] transition-all cursor-default">SEM Modeling</span>
-          </div>
+        <div class="stack-item growth card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+          <i data-lucide="video" class="w-5 h-5 text-brand-400"></i>
+          <div><p class="text-sm font-bold text-white">TikTok Ads</p><p class="text-[10px] font-mono text-slate-500">Creative Scaling</p></div>
+        </div>
+        <div class="stack-item growth card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+          <i data-lucide="search" class="w-5 h-5 text-brand-400"></i>
+          <div><p class="text-sm font-bold text-white">SEO &amp; Content</p><p class="text-[10px] font-mono text-slate-500">Organic Visibility</p></div>
+        </div>
+
+        <!-- CRM -->
+        <div class="stack-item crm card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+          <i data-lucide="mail-check" class="w-5 h-5 text-emerald-300"></i>
+          <div><p class="text-sm font-bold text-white">Klaviyo</p><p class="text-[10px] font-mono text-slate-500">Lifecycle Flows</p></div>
+        </div>
+        <div class="stack-item crm card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+          <i data-lucide="database" class="w-5 h-5 text-emerald-300"></i>
+          <div><p class="text-sm font-bold text-white">HubSpot CRM</p><p class="text-[10px] font-mono text-slate-500">Pipeline Tracking</p></div>
+        </div>
+        <div class="stack-item crm card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+          <i data-lucide="layers" class="w-5 h-5 text-emerald-300"></i>
+          <div><p class="text-sm font-bold text-white">Salesforce</p><p class="text-[10px] font-mono text-slate-500">Enterprise Sync</p></div>
+        </div>
+        <div class="stack-item crm card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+          <i data-lucide="send" class="w-5 h-5 text-emerald-300"></i>
+          <div><p class="text-sm font-bold text-white">Mailchimp</p><p class="text-[10px] font-mono text-slate-500">Audience Segmentation</p></div>
+        </div>
+
+        <!-- AI & Analytics -->
+        <div class="stack-item ai card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+          <i data-lucide="activity" class="w-5 h-5 text-teal-400"></i>
+          <div><p class="text-sm font-bold text-white">Google Analytics 4</p><p class="text-[10px] font-mono text-slate-500">Event Exploration</p></div>
+        </div>
+        <div class="stack-item ai card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+          <i data-lucide="binary" class="w-5 h-5 text-teal-400"></i>
+          <div><p class="text-sm font-bold text-white">Structural Equation (SEM)</p><p class="text-[10px] font-mono text-slate-500">Predictive Path Analysis</p></div>
+        </div>
+        <div class="stack-item ai card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+          <i data-lucide="bot" class="w-5 h-5 text-teal-400"></i>
+          <div><p class="text-sm font-bold text-white">Applied GenAI APIs</p><p class="text-[10px] font-mono text-slate-500">Claude · Gemini · LLMs</p></div>
+        </div>
+        <div class="stack-item ai card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+          <i data-lucide="table" class="w-5 h-5 text-teal-400"></i>
+          <div><p class="text-sm font-bold text-white">Quantitative Modeling</p><p class="text-[10px] font-mono text-slate-500">Cohort &amp; LTV Analysis</p></div>
         </div>
       </div>
     </section>
 
-    <!-- 6. BEYOND THE DESK -->
-    <section id="beyond-work" class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
-      <div data-aos="fade-up">
-        <p class="text-emerald-400 text-sm font-bold uppercase tracking-widest">Beyond the Desk</p>
-        <h2 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight">Outside of Work</h2>
-      </div>
-
-      <div class="mt-12 grid md:grid-cols-2 gap-6">
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/30 p-6 hover:border-emerald-400/50 transition-colors" data-aos="fade-up" data-aos-delay="100">
-          <i data-lucide="rocket" class="h-6 w-6 text-emerald-400"></i>
-          <h3 class="mt-4 font-bold text-lg">Startup Mentoring</h3>
-          <p class="mt-2 text-sm text-slate-400 leading-relaxed">Passionate about guiding early-stage founders and driving digital innovation.</p>
+    <!-- 6. LIVE CONSOLE WIDGET (SANKAR-INSPIRED INTERACTIVE COMPONENT) -->
+    <section id="console" class="max-w-4xl mx-auto px-4 sm:px-6 py-16">
+      <div class="rounded-2xl border border-slate-800 bg-slate-950/90 shadow-2xl overflow-hidden font-mono text-xs">
+        <div class="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="h-3 w-3 rounded-full bg-rose-500/80 inline-block"></span>
+            <span class="h-3 w-3 rounded-full bg-amber-500/80 inline-block"></span>
+            <span class="h-3 w-3 rounded-full bg-emerald-500/80 inline-block"></span>
+            <span class="text-slate-400 ml-2 font-semibold">baqar-martech-runtime --v2.6</span>
+          </div>
+          <span class="text-[10px] text-brand-400">STATUS: OPTIMIZED</span>
         </div>
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/30 p-6 hover:border-emerald-400/50 transition-colors" data-aos="fade-up" data-aos-delay="200">
-          <i data-lucide="compass" class="h-6 w-6 text-emerald-400"></i>
-          <h3 class="mt-4 font-bold text-lg">Cultural Explorer</h3>
-          <p class="mt-2 text-sm text-slate-400 leading-relaxed">From the peaks of Neelum Valley (visited 3x) and Hunza in Pakistan, to navigating the Spreewald and streets of Hamburg and Berlin.</p>
+        <div class="p-6 space-y-3 text-slate-300 leading-relaxed overflow-x-auto">
+          <p class="text-slate-500">// Quantitative Structural Equation Model (SEM) Verification</p>
+          <p><span class="text-brand-400">&gt;</span> const thesisModel = new StructuralEquationModel("Pakistan_Ecom_Dataset");</p>
+          <p><span class="text-brand-400">&gt;</span> thesisModel.evaluatePath("CustomerEngagement", "AIPersonalization");</p>
+          <p class="text-emerald-400">&nbsp;&nbsp;[Result] Path Coefficient: 0.835 | Significance: p &lt; 0.001 (Strong Mediation)</p>
+          <p><span class="text-brand-400">&gt;</span> thesisModel.evaluateModeration("PrivacyConcerns", "PurchaseIntention");</p>
+          <p class="text-rose-400">&nbsp;&nbsp;[Result] Negative Moderating Impact: -0.254 (Privacy Calculus Confirmed)</p>
+          <p class="text-slate-500 pt-2">// Current Focus at TH Wildau</p>
+          <p><span class="text-brand-400">&gt;</span> candidate.getCurrentStatus();</p>
+          <p class="text-slate-200">&nbsp;&nbsp;{ location: "15745 Wildau, Germany", intent: "Full-Time MarTech / E-Com Operations", workAuth: "EU Eligible" }</p>
         </div>
       </div>
     </section>
+
+    <!-- 7. BEYOND THE DESK -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+      <div class="card-spotlight p-8 rounded-2xl border border-slate-800/80">
+        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <i data-lucide="compass" class="w-5 h-5 text-brand-400"></i>
+          Beyond Operational Metrics
+        </h3>
+        <p class="text-slate-400 text-sm leading-relaxed max-w-3xl">
+          When not auditing PPC funnels or analyzing privacy calculus equations, I actively mentor early-stage entrepreneurs in building sustainable digital operations. Having navigated cultural landscapes from the heights of Neelum Valley (visited 3×) and Hunza in Pakistan to the historic waterways of Spreewald, Hamburg, and Berlin, I approach both business and cross-functional teams with deep intercultural adaptability.
+        </p>
+      </div>
+    </section>
+
   </main>
 
-  <!-- 7. IMPRESSUM -->
-  <footer id="impressum" class="border-t border-slate-800 mt-12 bg-slate-950">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 text-sm text-slate-500">
-      <h2 class="text-xs font-mono uppercase tracking-widest text-slate-400 font-bold">Impressum</h2>
-      <p class="mt-1 text-xs">Angaben gemäß § 5 TMG</p>
-      <div class="mt-6 grid sm:grid-cols-3 gap-6">
+  <!-- 8. GERMAN LEGAL IMPRESSUM (§ 5 DDG / TMG) -->
+  <footer id="impressum" class="border-t border-slate-800/80 bg-slate-950/60 mt-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 text-xs text-slate-500">
+      <div class="flex flex-col md:flex-row justify-between gap-8">
         <div>
-          <p class="text-slate-400 font-semibold mb-1">Name</p>
-          <p>Syed Muhammad Baqar Ali Shah</p>
+          <p class="font-bold text-slate-400 uppercase tracking-widest text-[11px] mb-2 font-mono">Impressum / Legal Disclosure</p>
+          <p class="text-slate-400">Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG):</p>
+          <p class="mt-2 text-slate-300 font-medium">Syed Muhammad Baqar Ali Shah</p>
+          <p>Schillerallee 1, App. 312</p>
+          <p>15745 Wildau, Germany</p>
+          <p class="mt-2">E-Mail: <a href="mailto:baaqi55@gmail.com" class="text-brand-400 hover:underline">baaqi55@gmail.com</a></p>
         </div>
-        <div>
-          <p class="text-slate-400 font-semibold mb-1">Address</p>
-          <p>Schillerallee 1<br />15745 Wildau, Germany</p>
-        </div>
-        <div>
-          <p class="text-slate-400 font-semibold mb-1">Contact</p>
-          <p><a href="mailto:baaqi55@gmail.com" class="hover:text-emerald-400 transition">baaqi55@gmail.com</a></p>
+        <div class="max-w-md">
+          <p class="font-bold text-slate-400 uppercase tracking-widest text-[11px] mb-2 font-mono">Academic Project Notice</p>
+          <p class="leading-relaxed">
+            This website is an academic portfolio developed for the module <em>Project International Marketing (WS26)</em> at the <strong>Technische Hochschule Wildau (TH Wildau)</strong>. It serves non-commercial, educational, and professional showcase purposes.
+          </p>
         </div>
       </div>
-      <p class="mt-10 text-xs border-t border-slate-800/50 pt-4">Disclaimer: Academic portfolio project for TH Wildau [WS26].</p>
+      <div class="border-t border-slate-900 mt-8 pt-6 flex flex-col sm:flex-row justify-between gap-4 text-[11px]">
+        <p>© 2026 Syed Muhammad Baqar Ali Shah. All rights reserved.</p>
+        <p class="font-mono text-slate-600">Built with HTML5 · Tailwind CSS · Pure Vanilla JS</p>
+      </div>
     </div>
   </footer>
 
-  <!-- UPGRADE 5: Initialization Scripts -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <!-- DYNAMIC INTERACTIONS SCRIPT -->
   <script>
-    // Initialize Icons
+    // Initialize Lucide Icons
     lucide.createIcons();
-    
-    // Initialize Scroll Animations
-    AOS.init({
-      duration: 800,
-      once: true, // Animates only once when scrolling down
-      offset: 50
-    });
 
     // Mobile Menu Toggle
     const btn = document.getElementById('menu-btn');
     const menu = document.getElementById('mobile-menu');
     btn.addEventListener('click', () => menu.classList.toggle('hidden'));
-    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.add('hidden')));
+    menu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => menu.classList.add('hidden'));
+    });
+
+    // Dynamic Card Spotlight Following Mouse
+    document.querySelectorAll('.card-spotlight').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    // Stack Filter Engine
+    function filterStack(category) {
+      const items = document.querySelectorAll('.stack-item');
+      const buttons = document.querySelectorAll('.stack-btn');
+
+      buttons.forEach(b => {
+        b.classList.remove('border-brand-400', 'bg-brand-400/10', 'text-brand-400');
+        b.classList.add('border-slate-800', 'text-slate-400');
+      });
+      event.target.classList.add('border-brand-400', 'bg-brand-400/10', 'text-brand-400');
+      event.target.classList.remove('border-slate-800', 'text-slate-400');
+
+      items.forEach(item => {
+        if (category === 'all' || item.classList.contains(category)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
   </script>
 </body>
 </html>
