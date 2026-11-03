@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Baqar Shah – MarTech Specialist & E-Commerce Operations</title>
-  <meta name="description" content="Portfolio of Baqar Shah: E-Commerce Operations, MarTech, and Applied AI Specialist based in Wildau / Berlin, Germany." />
+  <title>Baqar Shah – E-Commerce Operations & MarTech Specialist</title>
+  <meta name="description" content="Portfolio of Baqar Shah: E-Commerce Operations, MarTech Infrastructure, and AI Personalization Specialist based in Wildau / Berlin." />
 
   <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Google Fonts: Space Grotesk & JetBrains Mono -->
+  <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -25,6 +25,7 @@
           },
           colors: {
             brand: {
+              300: '#6ee7b7',
               400: '#34d399',
               500: '#10b981',
               900: '#064e3b',
@@ -42,16 +43,16 @@
       background-color: #030712;
       color: #f3f4f6;
       background-image: 
-        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(6, 78, 59, 0.15) 0px, transparent 50%),
+        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.14) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(6, 78, 59, 0.18) 0px, transparent 50%),
         linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
       background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
     }
     .glass-nav {
-      background: rgba(3, 7, 18, 0.8);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(3, 7, 18, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
     .card-spotlight {
       position: relative;
@@ -79,9 +80,24 @@
       width: 2px;
       background: linear-gradient(to bottom, #10b981 0%, #334155 80%, transparent 100%);
     }
+    .equalizer-bar {
+      animation: bounceBar 1.2s ease-in-out infinite alternate;
+    }
+    @keyframes bounceBar {
+      0% { height: 4px; }
+      100% { height: 16px; }
+    }
+    .plane-anim {
+      offset-path: path("M 40 180 Q 240 40 480 180 T 920 60");
+      animation: flyPlane 12s linear infinite;
+    }
+    @keyframes flyPlane {
+      0% { offset-distance: 0%; }
+      100% { offset-distance: 100%; }
+    }
   </style>
 </head>
-<body class="selection:bg-brand-500/30 selection:text-brand-400 font-sans antialiased">
+<body class="selection:bg-brand-500/30 selection:text-brand-400 font-sans antialiased overflow-x-hidden">
 
   <!-- TOP NAVIGATION -->
   <header class="fixed top-0 inset-x-0 z-50 glass-nav border-b border-slate-800/80">
@@ -92,24 +108,30 @@
           Baqar Shah
         </a>
         <span class="hidden xl:inline-flex items-center gap-1.5 rounded-full border border-brand-500/30 bg-brand-950/60 px-3 py-0.5 text-xs font-mono text-brand-400">
-          📍 Wildau / Berlin · Seeking Full-Time Roles
+          📍 Wildau / Berlin · Open to Full-Time Roles
         </span>
       </div>
 
       <div class="hidden md:flex items-center gap-5 text-sm text-slate-300 font-medium">
+        <a href="#flightpath" class="hover:text-brand-400 transition">Flight Path</a>
         <a href="#journey" class="hover:text-brand-400 transition">Career</a>
         <a href="#education" class="hover:text-brand-400 transition">Education</a>
         <a href="#projects" class="hover:text-brand-400 transition">Cases</a>
         <a href="#stack" class="hover:text-brand-400 transition">Stack</a>
         <a href="#credentials" class="hover:text-brand-400 transition">Credentials</a>
 
-        <!-- CREATIVE AUDIO TOGGLE BUTTON -->
-        <button id="sound-toggle" onclick="toggleAudio()" class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 text-xs font-mono text-slate-300 hover:border-brand-400 hover:text-brand-400 transition">
-          <i data-lucide="volume-x" id="sound-icon" class="w-3.5 h-3.5 text-slate-400"></i>
-          <span id="sound-text">Audio: Off</span>
+        <!-- AMBIENT MUSIC ENGINE TOGGLE -->
+        <button id="sound-btn" onclick="toggleAudio()" class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/90 px-3 py-1 text-xs font-mono text-slate-300 hover:border-brand-400 hover:text-brand-400 transition">
+          <div id="equalizer" class="flex items-end gap-0.5 h-3.5 w-3.5 hidden">
+            <span class="equalizer-bar w-0.5 bg-brand-400 rounded-full" style="animation-delay: 0.1s"></span>
+            <span class="equalizer-bar w-0.5 bg-brand-400 rounded-full" style="animation-delay: 0.3s"></span>
+            <span class="equalizer-bar w-0.5 bg-brand-400 rounded-full" style="animation-delay: 0.2s"></span>
+          </div>
+          <i data-lucide="music" id="music-static-icon" class="w-3.5 h-3.5 text-slate-400"></i>
+          <span id="sound-text">Sound: Off</span>
         </button>
 
-        <a href="https://www.linkedin.com/in/syedbaqar/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-400 px-3 py-1.5 font-semibold text-slate-950 hover:bg-brand-500 hover:shadow-[0_0_15px_rgba(52,211,153,0.4)] transition text-xs">
+        <a href="https://www.linkedin.com/in/syedbaqar/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-400 px-3.5 py-1.5 font-semibold text-slate-950 hover:bg-brand-500 hover:shadow-[0_0_15px_rgba(52,211,153,0.4)] transition text-xs">
           <i data-lucide="linkedin" class="w-3.5 h-3.5"></i> Connect
         </a>
       </div>
@@ -121,6 +143,7 @@
 
     <!-- MOBILE MENU -->
     <div id="mobile-menu" class="hidden md:hidden border-b border-slate-800 bg-slate-950/95 px-6 py-4 space-y-3 text-sm text-slate-300">
+      <a href="#flightpath" class="block py-1 hover:text-brand-400">Flight Path</a>
       <a href="#journey" class="block py-1 hover:text-brand-400">Career</a>
       <a href="#education" class="block py-1 hover:text-brand-400">Education</a>
       <a href="#projects" class="block py-1 hover:text-brand-400">Cases</a>
@@ -129,6 +152,11 @@
       <a href="#impressum" class="block py-1 text-slate-500">Impressum</a>
     </div>
   </header>
+
+  <!-- BACKGROUND AUDIO ELEMENT (Lofi Beats) -->
+  <audio id="bg-audio" loop preload="none">
+    <source src="https://stream.zeno.fm/f3wvbbqmdg8uv" type="audio/mpeg">
+  </audio>
 
   <main id="top">
     <!-- HERO SECTION -->
@@ -147,31 +175,31 @@
           </h1>
 
           <p class="text-base sm:text-lg text-slate-400 max-w-xl leading-relaxed">
-            Bridging 4+ years of data-driven growth across US/UK marketplaces with European business compliance, applied AI personalization models, and modern marketing workflows.
+            Bridging 4+ years of data-driven growth across international marketplaces with European business strategy, applied AI personalization models, and operational automation.
           </p>
 
-          <!-- Metric Highlights Box -->
+          <!-- Core Metric Badges -->
           <div class="grid grid-cols-3 gap-3 py-3 max-w-lg border-y border-slate-800/80 font-mono">
             <div>
               <p class="text-xl sm:text-2xl font-bold text-brand-400">+92%</p>
-              <p class="text-[11px] text-slate-500 uppercase tracking-wider">Sales Scale</p>
+              <p class="text-[11px] text-slate-500 uppercase tracking-wider">E-Com Sales Lift</p>
             </div>
             <div>
               <p class="text-xl sm:text-2xl font-bold text-white">+35%</p>
-              <p class="text-[11px] text-slate-500 uppercase tracking-wider">PPC ROI Boost</p>
+              <p class="text-[11px] text-slate-500 uppercase tracking-wider">Marketplace ROI</p>
             </div>
             <div>
               <p class="text-xl sm:text-2xl font-bold text-brand-400">1.00</p>
-              <p class="text-[11px] text-slate-500 uppercase tracking-wider">German GPA Equiv.</p>
+              <p class="text-[11px] text-slate-500 uppercase tracking-wider">Summa Cum Laude</p>
             </div>
           </div>
 
           <div class="pt-2 flex flex-wrap gap-4">
             <a href="https://www.linkedin.com/in/syedbaqar/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg bg-brand-400 px-5 py-3 font-semibold text-slate-950 hover:bg-brand-500 hover:shadow-[0_0_20px_rgba(52,211,153,0.35)] transition">
-              <i data-lucide="linkedin" class="w-4 h-4"></i> View LinkedIn
+              <i data-lucide="linkedin" class="w-4 h-4"></i> View LinkedIn Profile
             </a>
             <a href="mailto:baaqi55@gmail.com" class="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-900/60 px-5 py-3 font-semibold text-slate-200 hover:border-brand-400 hover:text-brand-400 transition">
-              <i data-lucide="mail" class="w-4 h-4"></i> Get in Touch
+              <i data-lucide="mail" class="w-4 h-4"></i> Send Direct Message
             </a>
           </div>
         </div>
@@ -190,7 +218,7 @@
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
               <div class="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 backdrop-blur-md">
                 <p class="text-xs font-mono text-brand-400 font-semibold">TH Wildau · European Business</p>
-                <p class="text-xs text-slate-300">Summa Cum Laude Graduate</p>
+                <p class="text-xs text-slate-300">Summa Cum Laude MBA Graduate</p>
               </div>
             </div>
           </div>
@@ -199,8 +227,64 @@
       </div>
     </section>
 
-    <!-- 2. CAREER STAIRCASE / TIMELINE -->
-    <section id="journey" class="max-w-4xl mx-auto px-4 sm:px-6 py-20">
+    <!-- INTERACTIVE FLIGHT PATH VECTOR MAP -->
+    <section id="flightpath" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80">
+      <div class="mb-8">
+        <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Global Trajectory</span>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-1">Intercontinental Flight Path</h2>
+      </div>
+
+      <div class="card-spotlight p-6 sm:p-8 rounded-2xl border border-slate-800 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:24px_24px] opacity-10"></div>
+        
+        <!-- Flight SVG Radar Map -->
+        <div class="relative w-full overflow-x-auto pb-4">
+          <svg viewBox="0 0 960 220" class="min-w-[650px] w-full text-slate-700" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 40 180 Q 240 40 480 180 T 920 60" stroke="currentColor" stroke-width="2" stroke-dasharray="6 6"/>
+            <path d="M 40 180 Q 240 40 480 180 T 920 60" stroke="#10b981" stroke-width="2" stroke-opacity="0.4"/>
+            
+            <!-- Nodes -->
+            <!-- Jhelum -->
+            <g transform="translate(40, 180)">
+              <circle r="8" fill="#030712" stroke="#10b981" stroke-width="3"/>
+              <circle r="3" fill="#10b981"/>
+              <text x="-10" y="28" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="14">Jhelum, PK</text>
+              <text x="-10" y="44" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="11">B.Com Operations (1.53)</text>
+            </g>
+
+            <!-- Islamabad -->
+            <g transform="translate(480, 180)">
+              <circle r="8" fill="#030712" stroke="#10b981" stroke-width="3"/>
+              <circle r="3" fill="#10b981"/>
+              <text x="-30" y="28" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="14">Islamabad, PK</text>
+              <text x="-30" y="44" fill="#34d399" font-family="'JetBrains Mono'" font-size="11">MBA Summa Cum Laude (1.00)</text>
+            </g>
+
+            <!-- Wildau / Berlin -->
+            <g transform="translate(920, 60)">
+              <circle r="10" fill="#030712" stroke="#34d399" stroke-width="3" class="animate-pulse"/>
+              <circle r="4" fill="#34d399"/>
+              <text x="-80" y="28" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="14">Wildau / Berlin, DE</text>
+              <text x="-80" y="44" fill="#34d399" font-family="'JetBrains Mono'" font-size="11">European Business &amp; AI</text>
+            </g>
+
+            <!-- Plane Indicator -->
+            <g class="plane-anim text-brand-400">
+              <circle r="4" fill="#34d399"/>
+              <circle r="12" stroke="#34d399" stroke-width="1.5" opacity="0.6"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-400">
+          <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-brand-400"></span> Active Station: Brandenburg / Berlin Metropolregion</span>
+          <span>Intercultural Bridge: South Asia ➔ European Union</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAREER STAIRCASE / TIMELINE -->
+    <section id="journey" class="max-w-4xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="mb-12">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Career Progression</span>
         <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1">The Experience Staircase</h2>
@@ -211,8 +295,8 @@
         <div class="relative pl-10 group">
           <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-slate-800 border-2 border-brand-400 group-hover:scale-125 group-hover:bg-brand-400 transition-all duration-300"></div>
           <div class="card-spotlight p-6 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition">
-            <span class="text-xs font-mono text-brand-400 font-semibold uppercase">Aug 2020 – Jun 2023 · Pakistan</span>
-            <h3 class="text-lg font-bold text-white mt-1">E-Commerce Project Manager · Semicolon Tech</h3>
+            <span class="text-xs font-mono text-brand-400 font-semibold uppercase">Aug 2020 – Jun 2023 · Semicolon Tech</span>
+            <h3 class="text-lg font-bold text-white mt-1">E-Commerce Project Manager</h3>
             <p class="text-slate-400 text-sm mt-2 leading-relaxed">
               Spearheaded full lifecycle marketplace operations. Reduced product launch intervals by <span class="text-brand-400 font-mono font-medium">19%</span> and drove a <span class="text-brand-400 font-mono font-medium">92%</span> sales increase through data-informed customer segmentation and targeted funnel adjustments.
             </p>
@@ -228,15 +312,15 @@
         <div class="relative pl-10 group">
           <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-slate-800 border-2 border-brand-400 group-hover:scale-125 group-hover:bg-brand-400 transition-all duration-300"></div>
           <div class="card-spotlight p-6 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition">
-            <span class="text-xs font-mono text-brand-400 font-semibold uppercase">Jul 2023 – Mar 2026 · Pakistan &amp; Remote</span>
-            <h3 class="text-lg font-bold text-white mt-1">Growth Marketing Manager · Semicolon Tech</h3>
+            <span class="text-xs font-mono text-brand-400 font-semibold uppercase">Jul 2023 – Mar 2026 · Semicolon Tech</span>
+            <h3 class="text-lg font-bold text-white mt-1">Growth Marketing Manager</h3>
             <p class="text-slate-400 text-sm mt-2 leading-relaxed">
               Orchestrated multi-channel performance marketing for US &amp; UK home goods brands. Automated lead-nurturing workflows, elevated conversion rates by <span class="text-brand-400 font-mono font-medium">25%</span>, and increased customer acquisition by <span class="text-brand-400 font-mono font-medium">76% YoY</span>.
             </p>
             <div class="flex flex-wrap gap-2 mt-4">
               <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">CRM Automation</span>
               <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Performance PPC</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">US/UK Market Scaling</span>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">US/UK Scaling</span>
             </div>
           </div>
         </div>
@@ -247,7 +331,7 @@
           <div class="card-spotlight p-6 rounded-2xl border border-brand-500/40 bg-brand-950/20">
             <div class="flex items-center justify-between">
               <span class="text-xs font-mono text-brand-400 font-semibold uppercase">Apr 2026 – Present · Germany</span>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-brand-400/20 text-brand-400 border border-brand-400/30">Active</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-brand-400/20 text-brand-400 border border-brand-400/30">Active Candidate</span>
             </div>
             <h3 class="text-lg font-bold text-white mt-1">Master in European Business Management · TH Wildau</h3>
             <p class="text-slate-400 text-sm mt-2 leading-relaxed">
@@ -256,18 +340,18 @@
             <div class="flex flex-wrap gap-2 mt-4">
               <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-500/30">Data Science &amp; AI</span>
               <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-500/30">International Marketing</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-500/30">GDPR &amp; Compliance</span>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-900/50 text-brand-300 border border-brand-500/30">GDPR Compliance</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 3. ACADEMIC ARCHITECTURE MATRIX (NEW SANKAR-STYLE SECTION) -->
+    <!-- ACADEMIC ARCHITECTURE MATRIX -->
     <section id="education" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="mb-12">
-        <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Academic Flight Path</span>
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1">Education &amp; Scholarly Honors</h2>
+        <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Academic Excellence</span>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1">Degrees &amp; Scholarly Honors</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -287,26 +371,26 @@
           </div>
           <div class="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400 font-mono">
             <span>EQF Level 6</span>
-            <span class="text-brand-400">Jhelum Roots</span>
+            <span class="text-brand-400">Jhelum Campus</span>
           </div>
         </div>
 
         <!-- Degree 2: MBA in Islamabad -->
-        <div class="card-spotlight p-6 rounded-2xl border border-brand-500/40 bg-brand-950/10 flex flex-col justify-between">
+        <div class="card-spotlight p-6 rounded-2xl border border-brand-500/40 bg-brand-950/20 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between text-brand-400 mb-2 font-mono text-xs">
               <span>2023 – 2025</span>
-              <span class="font-bold">Summa Cum Laude (1.00)</span>
+              <span class="font-bold bg-brand-400 text-slate-950 px-2 py-0.5 rounded">Summa Cum Laude (1.00)</span>
             </div>
             <h3 class="text-lg font-bold text-white">Master of Business Administration (MBA)</h3>
             <p class="text-xs font-mono text-slate-400 mt-1">Bahria University · Islamabad, Pakistan</p>
             <p class="text-xs text-slate-400 mt-4 leading-relaxed">
-              Achieved highest academic honors (Summa Cum Laude, CGPA 4.00/4.00). Focus on Digital Analytics, Strategic Management, and AI-Driven Personalization Modeling.
+              Achieved highest academic honors (Summa Cum Laude, CGPA 4.00/4.00). Quantitative research in Structural Equation Modeling (SEM) and digital analytics.
             </p>
           </div>
           <div class="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-300 font-mono">
             <span>EQF Level 7</span>
-            <span class="text-brand-400 flex items-center gap-1"><i data-lucide="award" class="w-3.5 h-3.5"></i> Top Honor Award</span>
+            <span class="text-brand-400 flex items-center gap-1"><i data-lucide="award" class="w-3.5 h-3.5"></i> Highest Academic Honor</span>
           </div>
         </div>
 
@@ -320,7 +404,7 @@
             <h3 class="text-lg font-bold text-white">M.Sc. European Business Management</h3>
             <p class="text-xs font-mono text-slate-400 mt-1">TH Wildau · Wildau / Berlin, Germany</p>
             <p class="text-xs text-slate-400 mt-4 leading-relaxed">
-              Specializing in Data Science and Artificial Intelligence, International Marketing Strategy, Networks for Sustainable Development, and European Market Expansion.
+              Advanced specialization in Data Science &amp; Artificial Intelligence, International Marketing Strategy, Networks for Sustainable Development, and European Market Expansion.
             </p>
           </div>
           <div class="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400 font-mono">
@@ -332,7 +416,7 @@
       </div>
     </section>
 
-    <!-- 4. OPERATIONAL CASE STUDIES -->
+    <!-- OPERATIONAL CASE STUDIES -->
     <section id="projects" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="mb-12">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Verified Evidence</span>
@@ -413,7 +497,7 @@
       </div>
     </section>
 
-    <!-- 5. KNOWLEDGE GRAPH / TOOLKIT -->
+    <!-- KNOWLEDGE GRAPH / TOOLKIT -->
     <section id="stack" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
         <div>
@@ -487,11 +571,11 @@
       </div>
     </section>
 
-    <!-- 6. CERTIFICATIONS & ENDORSEMENTS (FROM YOUR ATTACHED IMAGES) -->
+    <!-- CERTIFICATIONS & ENDORSEMENTS -->
     <section id="credentials" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="grid lg:grid-cols-12 gap-12">
         
-        <!-- Left: Verified Certifications -->
+        <!-- Verified Certifications -->
         <div class="lg:col-span-6 space-y-6">
           <div>
             <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Verified Credentials</span>
@@ -545,7 +629,7 @@
           </div>
         </div>
 
-        <!-- Right: Executive Endorsements -->
+        <!-- Executive Endorsements -->
         <div class="lg:col-span-6 space-y-6">
           <div>
             <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Verified References</span>
@@ -586,33 +670,7 @@
       </div>
     </section>
 
-    <!-- 7. LIVE CONSOLE WIDGET -->
-    <section id="console" class="max-w-4xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80">
-      <div class="rounded-2xl border border-slate-800 bg-slate-950/90 shadow-2xl overflow-hidden font-mono text-xs">
-        <div class="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="h-3 w-3 rounded-full bg-rose-500/80 inline-block"></span>
-            <span class="h-3 w-3 rounded-full bg-amber-500/80 inline-block"></span>
-            <span class="h-3 w-3 rounded-full bg-emerald-500/80 inline-block"></span>
-            <span class="text-slate-400 ml-2 font-semibold">baqar-martech-runtime --v2.6</span>
-          </div>
-          <span class="text-[10px] text-brand-400">STATUS: OPTIMIZED</span>
-        </div>
-        <div class="p-6 space-y-3 text-slate-300 leading-relaxed overflow-x-auto">
-          <p class="text-slate-500">// Quantitative Structural Equation Model (SEM) Verification</p>
-          <p><span class="text-brand-400">&gt;</span> const thesisModel = new StructuralEquationModel("Pakistan_Ecom_Dataset");</p>
-          <p><span class="text-brand-400">&gt;</span> thesisModel.evaluatePath("CustomerEngagement", "AIPersonalization");</p>
-          <p class="text-emerald-400">&nbsp;&nbsp;[Result] Path Coefficient: 0.835 | Significance: p &lt; 0.001 (Strong Mediation)</p>
-          <p><span class="text-brand-400">&gt;</span> thesisModel.evaluateModeration("PrivacyConcerns", "PurchaseIntention");</p>
-          <p class="text-rose-400">&nbsp;&nbsp;[Result] Negative Moderating Impact: -0.254 (Privacy Calculus Confirmed)</p>
-          <p class="text-slate-500 pt-2">// Current Focus at TH Wildau</p>
-          <p><span class="text-brand-400">&gt;</span> candidate.getCurrentStatus();</p>
-          <p class="text-slate-200">&nbsp;&nbsp;{ roots: "Jhelum, PK", current: "15745 Wildau, Germany", intent: "Full-Time MarTech / E-Com Ops" }</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 8. BEYOND THE DESK -->
+    <!-- BEYOND THE DESK -->
     <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80">
       <div class="card-spotlight p-8 rounded-2xl border border-slate-800/80">
         <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
@@ -627,7 +685,7 @@
 
   </main>
 
-  <!-- 9. GERMAN LEGAL IMPRESSUM (§ 5 DDG / TMG) -->
+  <!-- GERMAN LEGAL IMPRESSUM (§ 5 DDG / TMG) -->
   <footer id="impressum" class="border-t border-slate-800/80 bg-slate-950/60 mt-20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 text-xs text-slate-500">
       <div class="flex flex-col md:flex-row justify-between gap-8">
@@ -640,22 +698,22 @@
           <p class="mt-2">E-Mail: <a href="mailto:baaqi55@gmail.com" class="text-brand-400 hover:underline">baaqi55@gmail.com</a></p>
         </div>
         <div class="max-w-md">
-          <p class="font-bold text-slate-400 uppercase tracking-widest text-[11px] mb-2 font-mono">Academic Project Notice</p>
+          <p class="font-bold text-slate-400 uppercase tracking-widest text-[11px] mb-2 font-mono">Executive Summary</p>
           <p class="leading-relaxed">
-            This website is an academic portfolio developed for the module <em>Project International Marketing (WS26)</em> at the <strong>Technische Hochschule Wildau (TH Wildau)</strong>. It serves non-commercial, educational, and professional showcase purposes.
+            Data-driven e-commerce operations specialist bridging South Asian market growth with European marketing compliance and automated personalization systems.
           </p>
         </div>
       </div>
       <div class="border-t border-slate-900 mt-8 pt-6 flex flex-col sm:flex-row justify-between gap-4 text-[11px]">
         <p>© 2026 Syed Muhammad Baqar Ali Shah. All rights reserved.</p>
-        <p class="font-mono text-slate-600">Built with HTML5 · Tailwind CSS · Web Audio API · Zero External Assets</p>
+        <p class="font-mono text-slate-600">Built with HTML5 · Tailwind CSS · Vector Engine</p>
       </div>
     </div>
   </footer>
 
-  <!-- DYNAMIC INTERACTIONS & SYNTH AUDIO SCRIPT -->
+  <!-- DYNAMIC INTERACTIONS & STREAMING AUDIO SCRIPT -->
   <script>
-    // Initialize Icons
+    // Initialize Lucide Icons
     lucide.createIcons();
 
     // Mobile Menu Toggle
@@ -698,62 +756,32 @@
       });
     }
 
-    // CREATIVE FEATURE: WEB AUDIO API AMBIENT SOUND (Zero MP3s needed)
-    let audioCtx = null;
+    // AMBIENT STREAM AUDIO ENGINE
+    const audio = document.getElementById('bg-audio');
+    const soundText = document.getElementById('sound-text');
+    const soundBtn = document.getElementById('sound-btn');
+    const equalizer = document.getElementById('equalizer');
+    const staticIcon = document.getElementById('music-static-icon');
     let isPlaying = false;
-    let osc1, osc2, gainNode;
 
     function toggleAudio() {
-      const icon = document.getElementById('sound-icon');
-      const label = document.getElementById('sound-text');
-
       if (!isPlaying) {
-        // Start Sound
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AudioContext();
-
-        // Warm ambient drone chords (C# minor / E major pentatonic vibe)
-        osc1 = audioCtx.createOscillator();
-        osc2 = audioCtx.createOscillator();
-        gainNode = audioCtx.createGain();
-
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(138.59, audioCtx.currentTime); // C#3
-
-        osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(207.65, audioCtx.currentTime); // G#3
-
-        gainNode.gain.setValueAtTime(0.01, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 3); // Smooth subtle fade-in
-
-        osc1.connect(gainNode);
-        osc2.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        osc1.start();
-        osc2.start();
-
-        isPlaying = true;
-        label.innerText = 'Audio: On';
-        label.classList.add('text-brand-400');
-        icon.setAttribute('data-lucide', 'volume-2');
-        icon.classList.add('text-brand-400');
-        lucide.createIcons();
+        audio.play().then(() => {
+          isPlaying = true;
+          soundText.innerText = 'Sound: On';
+          soundBtn.classList.add('border-brand-400', 'text-brand-400');
+          equalizer.classList.remove('hidden');
+          staticIcon.classList.add('hidden');
+        }).catch(err => {
+          console.log('Audio autoplay prevented or stream unavailable:', err);
+        });
       } else {
-        // Stop Sound
-        if (gainNode && audioCtx) {
-          gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
-          setTimeout(() => {
-            if (osc1) osc1.stop();
-            if (osc2) osc2.stop();
-            isPlaying = false;
-          }, 800);
-        }
-        label.innerText = 'Audio: Off';
-        label.classList.remove('text-brand-400');
-        icon.setAttribute('data-lucide', 'volume-x');
-        icon.classList.remove('text-brand-400');
-        lucide.createIcons();
+        audio.pause();
+        isPlaying = false;
+        soundText.innerText = 'Sound: Off';
+        soundBtn.classList.remove('border-brand-400', 'text-brand-400');
+        equalizer.classList.add('hidden');
+        staticIcon.classList.remove('hidden');
       }
     }
   </script>
