@@ -50,32 +50,15 @@
       background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
     }
     
-    /* Interactive Cursor Glow */
-    #cursor-dot {
-      pointer-events: none;
+    /* Interactive Canvas for Water Effect */
+    #water-canvas {
       position: fixed;
       top: 0;
       left: 0;
-      width: 8px;
-      height: 8px;
-      background-color: #34d399;
-      border-radius: 9999px;
-      z-index: 100;
-      transform: translate(-50%, -50%);
-      transition: opacity 0.2s ease;
-    }
-    #cursor-ring {
+      width: 100%;
+      height: 100%;
       pointer-events: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 36px;
-      height: 36px;
-      border: 1px solid rgba(52, 211, 153, 0.4);
-      border-radius: 9999px;
-      z-index: 99;
-      transform: translate(-50%, -50%);
-      transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+      z-index: 40;
     }
 
     .glass-nav {
@@ -138,7 +121,7 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* Dynamic SVG Flight Path & Moving Plane */
+    /* Dynamic SVG Flight Path & Moving Plane (Pakistan -> Germany) */
     .flight-path-line {
       stroke-dasharray: 6 6;
       animation: dashMove 28s linear infinite;
@@ -147,10 +130,10 @@
       to { stroke-dashoffset: -600; }
     }
     .flight-plane {
-      offset-path: path("M 820 220 Q 640 140 490 120 T 180 75");
-      animation: planeFly 14s ease-in-out infinite alternate;
+      offset-path: path("M 780 240 Q 620 150 460 130 T 220 85");
+      animation: planeFlyForward 12s ease-in-out infinite;
     }
-    @keyframes planeFly {
+    @keyframes planeFlyForward {
       0% { offset-distance: 0%; transform: scale(0.85); }
       50% { transform: scale(1.15); }
       100% { offset-distance: 100%; transform: scale(0.85); }
@@ -159,14 +142,13 @@
 </head>
 <body class="selection:bg-brand-500/30 selection:text-brand-400 font-sans antialiased overflow-x-hidden">
 
-  <!-- DYNAMIC INTERACTIVE MOUSE CURSOR -->
-  <div id="cursor-dot"></div>
-  <div id="cursor-ring"></div>
+  <!-- WATER RIPPLE CANVAS OVERLAY -->
+  <canvas id="water-canvas"></canvas>
 
   <!-- SCROLL PROGRESS INDICATOR -->
   <div id="scroll-progress" class="fixed top-0 left-0 h-[2.5px] bg-gradient-to-r from-brand-500 via-brand-400 to-teal-300 z-[60] transition-all duration-75" style="width: 0%;"></div>
 
-  <!-- CLEAN TOP NAVIGATION BAR -->
+  <!-- TOP NAVIGATION BAR -->
   <header class="fixed top-0 inset-x-0 z-50 glass-nav border-b border-slate-800/80">
     <nav class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
       
@@ -186,17 +168,18 @@
         <a href="#about" class="hover:text-brand-400 transition">About</a>
         <a href="#flightpath" class="hover:text-brand-400 transition">Trajectory</a>
         <a href="#journey" class="hover:text-brand-400 transition">Experience</a>
-        <a href="#knowledge-graph" class="hover:text-brand-400 transition">Knowledge</a>
-        <a href="#projects" class="hover:text-brand-400 transition">Cases</a>
+        <a href="#mindmap" class="hover:text-brand-400 transition">Knowledge</a>
+        <a href="#projects" class="hover:text-brand-400 transition">Evidence</a>
+        <a href="#gallery" class="hover:text-brand-400 transition">Gallery</a>
         <a href="#credentials" class="hover:text-brand-400 transition">Proof</a>
       </div>
 
       <!-- Action Items -->
       <div class="hidden md:flex items-center gap-3">
-        <!-- Native Web Audio Synthesizer (No Ads) -->
-        <button id="sound-btn" onclick="toggleSynthAudio()" class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/90 px-3.5 py-1.5 text-xs font-mono text-slate-300 hover:border-brand-400 hover:text-brand-400 transition">
+        <!-- Relaxing Ambient Music Player -->
+        <button id="sound-btn" onclick="toggleAudio()" class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/90 px-3.5 py-1.5 text-xs font-mono text-slate-300 hover:border-brand-400 hover:text-brand-400 transition">
           <i data-lucide="music" id="sound-icon" class="w-3.5 h-3.5 text-slate-400"></i>
-          <span id="sound-text">Sound: Off</span>
+          <span id="sound-text">Music: Off</span>
         </button>
 
         <a href="cv.pdf" download="Baqar_Shah_CV.pdf" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-400 px-3.5 py-1.5 font-semibold text-slate-950 hover:bg-brand-500 hover:shadow-[0_0_15px_rgba(52,211,153,0.4)] transition text-xs font-mono">
@@ -215,13 +198,19 @@
       <a href="#about" class="block py-1 hover:text-brand-400">About</a>
       <a href="#flightpath" class="block py-1 hover:text-brand-400">Trajectory</a>
       <a href="#journey" class="block py-1 hover:text-brand-400">Experience</a>
-      <a href="#knowledge-graph" class="block py-1 hover:text-brand-400">Knowledge</a>
-      <a href="#projects" class="block py-1 hover:text-brand-400">Cases</a>
+      <a href="#mindmap" class="block py-1 hover:text-brand-400">Knowledge</a>
+      <a href="#projects" class="block py-1 hover:text-brand-400">Evidence</a>
+      <a href="#gallery" class="block py-1 hover:text-brand-400">Gallery</a>
       <a href="#credentials" class="block py-1 hover:text-brand-400">Proof</a>
       <a href="cv.pdf" download class="block py-1 text-brand-400 font-bold">Download CV (PDF)</a>
       <a href="#impressum" class="block py-1 text-slate-500 text-xs lowercase">impressum</a>
     </div>
   </header>
+
+  <!-- AMBIENT STREAM (Ad-Free Relaxing Lo-Fi Stream) -->
+  <audio id="bg-audio" loop preload="none">
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+  </audio>
 
   <main id="top">
     <!-- HERO SECTION -->
@@ -319,7 +308,7 @@
       </div>
     </section>
 
-    <!-- REALISTIC WORLD MAP & INTERCONTINENTAL FLIGHT PATH -->
+    <!-- CORRECTED VECTOR MAP (PAKISTAN -> GERMANY WITH DIRECT AIRPLANE GLYPH) -->
     <section id="flightpath" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80">
       <div class="mb-8">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Global Trajectory</span>
@@ -328,58 +317,58 @@
 
       <div class="card-spotlight p-6 sm:p-8 rounded-2xl border border-slate-800 relative overflow-hidden">
         
-        <!-- SVG Vector Earth Projections -->
+        <!-- Scaled Earth Continental Map Projection (East to West / South Asia to Europe) -->
         <div class="relative w-full overflow-x-auto pb-4">
           <svg viewBox="0 0 1000 320" class="min-w-[750px] w-full text-slate-700" fill="none" xmlns="http://www.w3.org/2000/svg">
             
-            <!-- Continental Projections (Europe, Middle East, Pakistan/South Asia) -->
-            <path d="M 80 50 Q 150 40 210 70 T 260 140 T 190 220 T 110 180 Z" fill="rgba(30, 41, 59, 0.45)" stroke="rgba(51, 65, 85, 0.5)" stroke-width="1.2"/>
-            <path d="M 320 80 Q 480 40 650 60 T 780 160 T 680 260 T 450 250 T 350 160 Z" fill="rgba(30, 41, 59, 0.45)" stroke="rgba(51, 65, 85, 0.5)" stroke-width="1.2"/>
-            <path d="M 720 160 Q 820 160 860 210 T 800 290 T 730 240 Z" fill="rgba(16, 185, 129, 0.12)" stroke="rgba(52, 211, 153, 0.4)" stroke-width="1.2"/>
+            <!-- Continental Projections: Europe, Central Asia, South Asia -->
+            <path d="M 120 40 Q 220 30 280 80 T 310 160 T 210 240 T 110 180 Z" fill="rgba(30, 41, 59, 0.45)" stroke="rgba(51, 65, 85, 0.5)" stroke-width="1.2"/>
+            <path d="M 360 80 Q 520 40 680 60 T 800 160 T 700 270 T 470 260 T 370 170 Z" fill="rgba(30, 41, 59, 0.45)" stroke="rgba(51, 65, 85, 0.5)" stroke-width="1.2"/>
+            <path d="M 720 180 Q 820 180 860 230 T 810 300 T 730 250 Z" fill="rgba(16, 185, 129, 0.12)" stroke="rgba(52, 211, 153, 0.4)" stroke-width="1.2"/>
 
-            <!-- Correct Vector Flight Path: Jhelum (820, 220) -> Islamabad (730, 180) -> Wildau/Berlin (180, 75) -->
-            <path d="M 820 220 Q 640 140 490 120 T 180 75" stroke="rgba(51, 65, 85, 0.6)" stroke-width="2"/>
-            <path d="M 820 220 Q 640 140 490 120 T 180 75" stroke="#10b981" stroke-width="2.5" class="flight-path-line"/>
+            <!-- Correct Direction Flight Arc: Jhelum, PK (780, 240) -> Islamabad, PK (720, 190) -> Wildau/Berlin, DE (220, 85) -->
+            <path d="M 780 240 Q 620 150 460 130 T 220 85" stroke="rgba(51, 65, 85, 0.6)" stroke-width="2"/>
+            <path d="M 780 240 Q 620 150 460 130 T 220 85" stroke="#10b981" stroke-width="2.5" class="flight-path-line"/>
 
-            <!-- Node 1: Jhelum, PK -->
-            <g transform="translate(820, 220)">
+            <!-- Node 1: Jhelum, Pakistan -->
+            <g transform="translate(780, 240)">
               <circle r="8" fill="#030712" stroke="#10b981" stroke-width="3"/>
               <circle r="3" fill="#10b981"/>
-              <text x="-15" y="26" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="12">Jhelum, PK</text>
-              <text x="-15" y="40" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="10">B.Com Operations (1.53)</text>
+              <text x="-15" y="24" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="12">Jhelum, PK</text>
+              <text x="-15" y="38" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="10">B.Com Operations (1.53)</text>
             </g>
 
-            <!-- Node 2: Islamabad, PK -->
-            <g transform="translate(730, 180)">
+            <!-- Node 2: Islamabad, Pakistan -->
+            <g transform="translate(720, 190)">
               <circle r="8" fill="#030712" stroke="#10b981" stroke-width="3"/>
               <circle r="3" fill="#10b981"/>
               <text x="-35" y="-18" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="12">Islamabad, PK</text>
               <text x="-35" y="-6" fill="#34d399" font-family="'JetBrains Mono'" font-size="10">MBA Summa Cum Laude (1.00)</text>
             </g>
 
-            <!-- Node 3: Wildau / Berlin, DE -->
-            <g transform="translate(180, 75)">
+            <!-- Node 3: Wildau / Berlin, Germany -->
+            <g transform="translate(220, 85)">
               <circle r="12" fill="#030712" stroke="#34d399" stroke-width="3" class="animate-pulse"/>
               <circle r="5" fill="#34d399"/>
               <text x="-10" y="-20" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="13">Wildau / Berlin, DE</text>
               <text x="-10" y="-6" fill="#34d399" font-family="'JetBrains Mono'" font-size="10">M.Sc. European Business Management</text>
             </g>
 
-            <!-- Rotating Supersonic Aircraft Glyph -->
+            <!-- Correct Direction Airplane Glyph Banking to Europe (North-West) -->
             <g class="flight-plane text-brand-400">
-              <path d="M 0 -12 L 8 8 L 0 4 L -8 8 Z" fill="#34d399" stroke="#064e3b" stroke-width="1.5" transform="rotate(-65)"/>
+              <path d="M 0 -12 L 8 8 L 0 4 L -8 8 Z" fill="#34d399" stroke="#064e3b" stroke-width="1.5" transform="rotate(-115)"/>
             </g>
           </svg>
         </div>
 
         <div class="mt-4 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-400">
           <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-brand-400"></span> Current Station: Technical University of Applied Sciences Wildau</span>
-          <span>Intercultural Bridge: South Asian Digital Scale ➔ European Strategic Operations</span>
+          <span>Trajectory Direction: South Asia ➔ Central Europe</span>
         </div>
       </div>
     </section>
 
-    <!-- CAREER STAIRCASE / DETAILED EXPERIENCE -->
+    <!-- INTERACTIVE EXPERIENCE STAIRCASE (WITH HOVER ZOOM TRANSITIONS) -->
     <section id="journey" class="max-w-4xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="mb-12">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Career Progression</span>
@@ -389,9 +378,9 @@
       <div class="relative timeline-line space-y-12">
         
         <!-- Stage 1: Meezan Bank -->
-        <div class="relative pl-10 group">
-          <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-slate-800 border-2 border-slate-600 group-hover:scale-125 group-hover:border-brand-400 transition-all duration-300"></div>
-          <div class="card-spotlight p-6 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition">
+        <div class="relative pl-10 group transition-all duration-300 hover:translate-x-2">
+          <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-slate-800 border-2 border-slate-600 group-hover:scale-150 group-hover:border-brand-400 group-hover:bg-brand-400 transition-all duration-300"></div>
+          <div class="card-spotlight p-6 rounded-2xl border border-slate-800/80 transition-all duration-300 group-hover:border-brand-500/50 group-hover:shadow-[0_0_25px_rgba(52,211,153,0.15)] group-hover:scale-[1.02]">
             <span class="text-xs font-mono text-slate-400 font-semibold uppercase">Jul 2019 – Aug 2019 · Meezan Bank Ltd.</span>
             <h3 class="text-lg font-bold text-white mt-1">Operations &amp; Retail Banking Intern</h3>
             <p class="text-slate-400 text-sm mt-2 leading-relaxed">
@@ -405,9 +394,9 @@
         </div>
 
         <!-- Stage 2: Semicolon E-Com PM -->
-        <div class="relative pl-10 group">
-          <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-slate-800 border-2 border-brand-400 group-hover:scale-125 group-hover:bg-brand-400 transition-all duration-300"></div>
-          <div class="card-spotlight p-6 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition">
+        <div class="relative pl-10 group transition-all duration-300 hover:translate-x-2">
+          <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-slate-800 border-2 border-brand-400 group-hover:scale-150 group-hover:bg-brand-400 transition-all duration-300"></div>
+          <div class="card-spotlight p-6 rounded-2xl border border-slate-800/80 transition-all duration-300 group-hover:border-brand-500/50 group-hover:shadow-[0_0_25px_rgba(52,211,153,0.15)] group-hover:scale-[1.02]">
             <span class="text-xs font-mono text-brand-400 font-semibold uppercase">Aug 2020 – Jun 2023 · Semicolon Tech</span>
             <h3 class="text-lg font-bold text-white mt-1">E-Commerce Project Manager</h3>
             <p class="text-slate-400 text-sm mt-2 leading-relaxed">
@@ -422,9 +411,9 @@
         </div>
 
         <!-- Stage 3: Semicolon Growth Marketing Manager -->
-        <div class="relative pl-10 group">
-          <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-slate-800 border-2 border-brand-400 group-hover:scale-125 group-hover:bg-brand-400 transition-all duration-300"></div>
-          <div class="card-spotlight p-6 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition">
+        <div class="relative pl-10 group transition-all duration-300 hover:translate-x-2">
+          <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-slate-800 border-2 border-brand-400 group-hover:scale-150 group-hover:bg-brand-400 transition-all duration-300"></div>
+          <div class="card-spotlight p-6 rounded-2xl border border-slate-800/80 transition-all duration-300 group-hover:border-brand-500/50 group-hover:shadow-[0_0_25px_rgba(52,211,153,0.15)] group-hover:scale-[1.02]">
             <span class="text-xs font-mono text-brand-400 font-semibold uppercase">Jul 2023 – Mar 2026 · Semicolon Tech</span>
             <h3 class="text-lg font-bold text-white mt-1">Growth Marketing Manager</h3>
             <p class="text-slate-400 text-sm mt-2 leading-relaxed">
@@ -439,12 +428,12 @@
         </div>
 
         <!-- Stage 4: TH Wildau -->
-        <div class="relative pl-10 group">
+        <div class="relative pl-10 group transition-all duration-300 hover:translate-x-2">
           <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-brand-400 ring-4 ring-brand-950 animate-pulse"></div>
-          <div class="card-spotlight p-6 rounded-2xl border border-brand-500/40 bg-brand-950/20">
+          <div class="card-spotlight p-6 rounded-2xl border border-brand-500/40 bg-brand-950/20 transition-all duration-300 group-hover:border-brand-400 group-hover:shadow-[0_0_25px_rgba(52,211,153,0.25)] group-hover:scale-[1.02]">
             <div class="flex items-center justify-between">
               <span class="text-xs font-mono text-brand-400 font-semibold uppercase">Apr 2026 – Present · Germany</span>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-brand-400/20 text-brand-400 border border-brand-400/30">Active Candidate</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-brand-400/20 text-brand-400 border border-brand-400/30">Active</span>
             </div>
             <h3 class="text-lg font-bold text-white mt-1">M.Sc. European Business Management · TH Wildau</h3>
             <p class="text-slate-400 text-sm mt-2 leading-relaxed">
@@ -460,70 +449,57 @@
       </div>
     </section>
 
-    <!-- INTERACTIVE CAREER KNOWLEDGE GRAPH (SANKAR KUMAR STYLE) -->
-    <section id="knowledge-graph" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
+    <!-- INTERACTIVE MIND MAP CAREER KNOWLEDGE GRAPH (SANKAR KUMAR STYLE) -->
+    <section id="mindmap" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="mb-8">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">System Map</span>
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1">Career Knowledge Graph</h2>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1">Interactive Knowledge Mind Map</h2>
       </div>
 
-      <div class="grid lg:grid-cols-12 gap-6 items-start">
-        
-        <!-- Left: Interactive Node Selector -->
-        <div class="lg:col-span-5 space-y-3 font-mono text-xs">
-          <button onclick="selectGraphNode('ecom')" id="node-ecom" class="w-full text-left p-4 rounded-xl border border-brand-400 bg-brand-400/10 text-white transition flex items-center justify-between">
-            <span class="flex items-center gap-2"><i data-lucide="shopping-cart" class="w-4 h-4 text-brand-400"></i> E-Commerce Architecture</span>
-            <span class="text-brand-400">01</span>
+      <!-- Mind Map Vector Layout -->
+      <div class="card-spotlight p-6 sm:p-8 rounded-2xl border border-slate-800 relative">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <button onclick="setMindMap('ecom')" id="mm-ecom" class="p-4 rounded-xl border border-brand-400 bg-brand-400/10 text-white transition text-left font-mono text-xs">
+            <span class="text-brand-400 block mb-1">01 / NODE</span>
+            <strong class="text-sm">E-Com Architecture</strong>
           </button>
-          
-          <button onclick="selectGraphNode('martech')" id="node-martech" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-white transition flex items-center justify-between">
-            <span class="flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4 text-emerald-400"></i> Performance MarTech &amp; PPC</span>
-            <span class="text-slate-500">02</span>
+          <button onclick="setMindMap('martech')" id="mm-martech" class="p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-white transition text-left font-mono text-xs">
+            <span class="text-slate-500 block mb-1">02 / NODE</span>
+            <strong class="text-sm">Performance MarTech</strong>
           </button>
-
-          <button onclick="selectGraphNode('data')" id="node-data" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-white transition flex items-center justify-between">
-            <span class="flex items-center gap-2"><i data-lucide="cpu" class="w-4 h-4 text-teal-400"></i> Quantitative AI Modeling</span>
-            <span class="text-slate-500">03</span>
+          <button onclick="setMindMap('ai')" id="mm-ai" class="p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-white transition text-left font-mono text-xs">
+            <span class="text-slate-500 block mb-1">03 / NODE</span>
+            <strong class="text-sm">Quantitative AI (SEM)</strong>
           </button>
-
-          <button onclick="selectGraphNode('europe')" id="node-europe" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-white transition flex items-center justify-between">
-            <span class="flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4 text-cyan-400"></i> European Strategy &amp; Law</span>
-            <span class="text-slate-500">04</span>
+          <button onclick="setMindMap('europe')" id="mm-europe" class="p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-white transition text-left font-mono text-xs">
+            <span class="text-slate-500 block mb-1">04 / NODE</span>
+            <strong class="text-sm">European Strategy</strong>
           </button>
         </div>
 
-        <!-- Right: Dynamic Analysis Viewport -->
-        <div class="lg:col-span-7 card-spotlight p-6 sm:p-8 rounded-2xl border border-slate-800 min-h-[300px]">
-          <div class="flex items-center justify-between pb-4 border-b border-slate-800 text-xs font-mono">
-            <span class="text-brand-400 uppercase tracking-wider" id="graph-title">Node: E-Commerce Architecture</span>
-            <span class="text-slate-500" id="graph-tag">Verified System</span>
+        <!-- Telemetry Window for Selected Node -->
+        <div class="p-6 rounded-xl bg-slate-900/80 border border-slate-800/80" id="mm-display">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800 text-xs font-mono">
+            <span class="text-brand-400 font-bold" id="mm-title">CLUSTER: E-COMMERCE ARCHITECTURE & OPERATIONS</span>
+            <span class="text-slate-500" id="mm-status">STATUS: PRODUCTION VERIFIED</span>
           </div>
-
-          <div class="py-4 space-y-4 text-sm leading-relaxed text-slate-300" id="graph-content">
-            <p>
-              Orchestrated end-to-end multi-channel operations across Shopify, Amazon Seller Central, and eBay, managing catalog taxonomy and supply-chain logistics for <strong class="text-white">12,000+ active product SKUs</strong>.
-            </p>
-            <div class="grid grid-cols-2 gap-4 pt-2 font-mono text-xs">
-              <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                <p class="text-slate-500">Primary Tooling</p>
-                <p class="text-brand-400 font-semibold mt-1">Shopify Plus, Amazon SC, Asana</p>
-              </div>
-              <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                <p class="text-slate-500">Demonstrated Metric</p>
-                <p class="text-white font-semibold mt-1">92% Sales Growth Cycle</p>
-              </div>
-            </div>
+          <div class="mt-4 text-sm text-slate-300 leading-relaxed" id="mm-body">
+            Orchestrated end-to-end multi-channel operations across Shopify Plus, Amazon Seller Central, and eBay, managing catalog taxonomy and supply-chain logistics for <strong class="text-white">12,000+ active product SKUs</strong>, generating a verified 92% sales expansion.
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4 pt-4 border-t border-slate-800/60 font-mono text-xs" id="mm-tags">
+            <div class="p-2 rounded bg-slate-950 border border-slate-800"><span class="text-slate-500">Infrastructure:</span> <p class="text-brand-300 font-semibold">Shopify Plus</p></div>
+            <div class="p-2 rounded bg-slate-950 border border-slate-800"><span class="text-slate-500">Marketplaces:</span> <p class="text-brand-300 font-semibold">Amazon SC & eBay</p></div>
+            <div class="p-2 rounded bg-slate-950 border border-slate-800"><span class="text-slate-500">Project Scope:</span> <p class="text-brand-300 font-semibold">12,000+ SKUs</p></div>
           </div>
         </div>
-
       </div>
     </section>
 
-    <!-- OPERATIONAL CASE STUDIES -->
+    <!-- OPERATIONAL CASE STUDIES & THESIS ARTIFACT -->
     <section id="projects" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="mb-12">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Verified Evidence</span>
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1">Operational Case Studies</h2>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1">Operational Case Studies &amp; Research</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -552,27 +528,46 @@
           </div>
         </div>
 
-        <!-- Case Study 2 -->
-        <div class="card-spotlight p-6 rounded-2xl border border-slate-800 flex flex-col justify-between group">
+        <!-- Case Study 2: THESIS ARTIFACT 2 (SMARTPLS SEM MODEL OUTPUT) -->
+        <div class="card-spotlight p-6 rounded-2xl border border-brand-500/40 bg-brand-950/20 flex flex-col justify-between group">
           <div>
-            <div class="flex items-center justify-between text-slate-400 mb-4">
+            <div class="flex items-center justify-between text-brand-400 mb-4">
               <i data-lucide="cpu" class="w-6 h-6 text-brand-400"></i>
-              <span class="text-[11px] font-mono text-slate-500">Thesis Research</span>
+              <span class="text-[11px] font-mono text-brand-300 bg-brand-900/60 px-2 py-0.5 rounded border border-brand-500/30">Artifact 2 · SEM Path</span>
             </div>
-            <h3 class="text-lg font-bold text-white group-hover:text-brand-400 transition">AI-Driven Personalization Models</h3>
+            <h3 class="text-lg font-bold text-white group-hover:text-brand-400 transition">AI-Driven Personalization (MBA Thesis)</h3>
             <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
-              Empirical study evaluating Customer Engagement (CE), AI-Driven Personalization (AIP), and Privacy Concerns (PC) using Structural Equation Modeling (SEM):
+              Empirical investigation into Customer Engagement (CE), AI-Driven Personalization (AIP), and Privacy Concerns (PC) using Structural Equation Modeling in SmartPLS:
             </p>
-            <ul class="mt-4 space-y-2 text-xs font-mono text-slate-300">
-              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span> CE → AIP: Path coef = 0.835 (p &lt; 0.001)</li>
-              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span> Privacy Moderation: -0.254 (p &lt; 0.001)</li>
-              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span> Summa Cum Laude Master Dissertation</li>
-            </ul>
+
+            <!-- Vector Diagram of SmartPLS Path Model -->
+            <div class="my-3 p-3 rounded-xl bg-slate-950/90 border border-slate-800 font-mono text-[10px] text-slate-300 space-y-1.5">
+              <div class="flex justify-between items-center text-brand-400">
+                <span>CE ➔ AIP:</span>
+                <span class="font-bold">β = 0.835 (p &lt; 0.001)</span>
+              </div>
+              <div class="flex justify-between items-center text-brand-400">
+                <span>CE ➔ PI:</span>
+                <span class="font-bold">β = 0.626 (p &lt; 0.001)</span>
+              </div>
+              <div class="flex justify-between items-center text-slate-400">
+                <span>AIP ➔ PI (Direct):</span>
+                <span>β = 0.033 (p = 0.360, n.s.)</span>
+              </div>
+              <div class="flex justify-between items-center text-rose-400 border-t border-slate-800 pt-1">
+                <span>Privacy × AIP (Mod):</span>
+                <span class="font-bold">β = -0.254 (p &lt; 0.001)</span>
+              </div>
+              <div class="flex justify-between items-center text-emerald-300">
+                <span>Privacy × CE (Mod):</span>
+                <span class="font-bold">β = +0.195 (p = 0.002)</span>
+              </div>
+            </div>
           </div>
-          <div class="pt-6 border-t border-slate-800/80 mt-6 flex flex-wrap gap-1.5">
-            <span class="text-[10px] font-mono bg-slate-800/80 px-2 py-0.5 rounded text-slate-400">SmartPLS / SEM</span>
-            <span class="text-[10px] font-mono bg-slate-800/80 px-2 py-0.5 rounded text-slate-400">Privacy Calculus</span>
-            <span class="text-[10px] font-mono bg-slate-800/80 px-2 py-0.5 rounded text-slate-400">AI Models</span>
+          <div class="pt-4 border-t border-slate-800/80 mt-2 flex flex-wrap gap-1.5">
+            <span class="text-[10px] font-mono bg-brand-900/50 px-2 py-0.5 rounded text-brand-300">SmartPLS / SEM</span>
+            <span class="text-[10px] font-mono bg-brand-900/50 px-2 py-0.5 rounded text-brand-300">Privacy Calculus</span>
+            <span class="text-[10px] font-mono bg-brand-900/50 px-2 py-0.5 rounded text-brand-300">Summa Cum Laude</span>
           </div>
         </div>
 
@@ -600,6 +595,48 @@
           </div>
         </div>
 
+      </div>
+    </section>
+
+    <!-- NEELUM VALLEY 5-IMAGE MOSAIC GALLERY -->
+    <section id="gallery" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
+      <div class="mb-8">
+        <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Visual Proof &amp; Expeditions</span>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1">Neelum Valley Expeditions (3×)</h2>
+        <p class="text-xs font-mono text-slate-400 mt-2">Named locally in your project folder as: neelam1.jpg, neelam2.jpg, neelam3.jpg, neelam4.jpg, neelam5.jpg</p>
+      </div>
+
+      <!-- 5-Image Asymmetric Responsive Mosaic -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <!-- Main Large Frame -->
+        <div class="md:col-span-2 md:row-span-2 relative rounded-2xl overflow-hidden border border-slate-800 aspect-[4/3] md:aspect-auto group">
+          <img src="neelam1.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80';" alt="Neelum Valley Trek" class="w-full h-full object-cover filter grayscale contrast-105 group-hover:grayscale-0 transition duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
+          <div class="absolute bottom-4 left-4 right-4">
+            <span class="text-[10px] font-mono text-brand-400 uppercase">High Altitude Navigation</span>
+            <p class="text-sm font-bold text-white">Neelum Valley Mountain Pass</p>
+          </div>
+        </div>
+
+        <div class="relative rounded-2xl overflow-hidden border border-slate-800 aspect-[4/3] group">
+          <img src="neelam2.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80';" alt="Neelum Valley 2" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500" />
+          <div class="absolute bottom-3 left-3"><p class="text-xs font-mono text-slate-200">Expedition II</p></div>
+        </div>
+
+        <div class="relative rounded-2xl overflow-hidden border border-slate-800 aspect-[4/3] group">
+          <img src="neelam3.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80';" alt="Neelum Valley 3" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500" />
+          <div class="absolute bottom-3 left-3"><p class="text-xs font-mono text-slate-200">River Basin</p></div>
+        </div>
+
+        <div class="relative rounded-2xl overflow-hidden border border-slate-800 aspect-[4/3] group">
+          <img src="neelam4.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=600&q=80';" alt="Neelum Valley 4" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500" />
+          <div class="absolute bottom-3 left-3"><p class="text-xs font-mono text-slate-200">Altitude Contingency</p></div>
+        </div>
+
+        <div class="relative rounded-2xl overflow-hidden border border-slate-800 aspect-[4/3] group">
+          <img src="neelam5.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?auto=format&fit=crop&w=600&q=80';" alt="Neelum Valley 5" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500" />
+          <div class="absolute bottom-3 left-3"><p class="text-xs font-mono text-slate-200">The Ascent</p></div>
+        </div>
       </div>
     </section>
 
@@ -719,7 +756,7 @@
       </div>
     </section>
 
-    <!-- BEYOND THE DESK: FOCUSED ENGAGING STORY -->
+    <!-- BEYOND THE DESK: FOCUSED STORY -->
     <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80">
       <div class="card-spotlight p-8 rounded-2xl border border-slate-800/80 relative overflow-hidden">
         <div class="max-w-3xl">
@@ -729,7 +766,7 @@
             The Altitude of Neelum Valley: Managing Ambiguity
           </h3>
           <p class="text-slate-300 text-sm leading-relaxed">
-            I have climbed through the rugged terrain of northern Pakistan's <strong class="text-white">Neelum Valley three distinct times</strong>. In high-altitude travel, conditions change within minutes: sudden temperature drops, unmapped paths, and zero cell reception force you to plan contingencies, trust your team, and stay calm when plans break down. 
+            I have climbed through the rugged terrain of northern Pakistan's <strong class="text-white">Neelum Valley three distinct times</strong>. In high-altitude travel, conditions change within minutes: sudden temperature drops, unmapped paths, and zero cell reception force you to plan contingencies, trust your team, and stay calm when plans break down.
           </p>
           <p class="text-slate-400 text-sm leading-relaxed mt-3">
             Scaling high-velocity e-commerce operations presents the exact same dynamic: sudden ad platform policy changes, supply bottlenecks, or unexpected spikes in customer acquisition cost require structured agility rather than panic. Whether navigating high alpine valleys or orchestrating multichannel campaigns across foreign markets, the guiding principle remains constant: understand the terrain, build reliable systems, and keep moving forward.
@@ -761,14 +798,14 @@
       </div>
       <div class="border-t border-slate-900 mt-8 pt-6 flex flex-col sm:flex-row justify-between gap-4 text-[11px]">
         <p>© 2026 Syed Muhammad Baqar Ali Shah. All rights reserved.</p>
-        <p class="font-mono text-slate-600">Built with HTML5 · Tailwind CSS · Vector Engine</p>
+        <p class="font-mono text-slate-600">Built with HTML5 · Tailwind CSS · Water Particle Engine</p>
       </div>
     </div>
   </footer>
 
-  <!-- DYNAMIC INTERACTIONS, CURSOR, GRAPH, & WEB AUDIO SYNTH -->
+  <!-- DYNAMIC INTERACTIONS, WATER RIPPLE ENGINE, MIND MAP & AUDIO -->
   <script>
-    // Initialize Lucide Icons
+    // Initialize Icons
     lucide.createIcons();
 
     // Mobile Menu Toggle
@@ -777,40 +814,6 @@
     btn.addEventListener('click', () => menu.classList.toggle('hidden'));
     menu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => menu.classList.add('hidden'));
-    });
-
-    // Custom Fluid Cursor Engine
-    const dot = document.getElementById('cursor-dot');
-    const ring = document.getElementById('cursor-ring');
-    let mouseX = 0, mouseY = 0;
-    let ringX = 0, ringY = 0;
-
-    window.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-    });
-
-    function renderCursor() {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
-      ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
-      requestAnimationFrame(renderCursor);
-    }
-    requestAnimationFrame(renderCursor);
-
-    // Expand Cursor Ring on Interactive Elements
-    document.querySelectorAll('a, button, input, .card-spotlight').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        ring.style.width = '54px';
-        ring.style.height = '54px';
-        ring.style.borderColor = 'rgba(52, 211, 153, 0.8)';
-      });
-      el.addEventListener('mouseleave', () => {
-        ring.style.width = '36px';
-        ring.style.height = '36px';
-        ring.style.borderColor = 'rgba(52, 211, 153, 0.4)';
-      });
     });
 
     // Top Scroll Progress Bar
@@ -832,164 +835,208 @@
       });
     });
 
-    // Interactive Career Knowledge Graph (Sankar Style)
-    const graphData = {
+    // WATER RIPPLE EFFECT ENGINE
+    const canvas = document.getElementById('water-canvas');
+    const ctx = canvas.getContext('2d');
+    let ripples = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    window.addEventListener('mousemove', e => {
+      if (Math.random() > 0.65) {
+        ripples.push({
+          x: e.clientX,
+          y: e.clientY,
+          radius: 2,
+          maxRadius: Math.random() * 35 + 25,
+          alpha: 0.35,
+          speed: Math.random() * 1.2 + 0.8
+        });
+      }
+    });
+
+    window.addEventListener('click', e => {
+      for (let i = 0; i < 3; i++) {
+        ripples.push({
+          x: e.clientX,
+          y: e.clientY,
+          radius: 2 + i * 8,
+          maxRadius: 75 + i * 20,
+          alpha: 0.5,
+          speed: 2 + i * 0.5
+        });
+      }
+    });
+
+    function animateWater() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const r = ripples[i];
+        r.radius += r.speed;
+        r.alpha -= 0.008;
+
+        if (r.alpha <= 0 || r.radius >= r.maxRadius) {
+          ripples.splice(i, 1);
+          continue;
+        }
+
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(52, 211, 153, ${r.alpha})`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+      requestAnimationFrame(animateWater);
+    }
+    animateWater();
+
+    // INTERACTIVE MIND MAP ENGINE
+    const mindMapData = {
       ecom: {
-        title: "Node: E-Commerce Architecture",
-        tag: "12,000+ SKUs",
-        content: `
-          <p>Orchestrated end-to-end multi-channel operations across Shopify, Amazon Seller Central, and eBay, managing catalog taxonomy and supply-chain logistics for <strong class="text-white">12,000+ active product SKUs</strong>.</p>
-          <div class="grid grid-cols-2 gap-4 pt-2 font-mono text-xs">
-            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-              <p class="text-slate-500">Primary Tooling</p>
-              <p class="text-brand-400 font-semibold mt-1">Shopify Plus, Amazon SC, Asana</p>
-            </div>
-            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-              <p class="text-slate-500">Demonstrated Metric</p>
-              <p class="text-white font-semibold mt-1">92% Sales Growth Cycle</p>
-            </div>
-          </div>
-        `
+        title: "CLUSTER: E-COMMERCE ARCHITECTURE & OPERATIONS",
+        status: "12,000+ ACTIVE SKUS MANAGED",
+        body: "Orchestrated multi-channel marketplace operations across Shopify Plus, Amazon Seller Central, and eBay, managing catalog taxonomy, fulfillment logistics, and customer lifecycle flows, driving a verified 92% sales expansion.",
+        tags: [
+          { label: "Infrastructure:", val: "Shopify Plus" },
+          { label: "Marketplaces:", val: "Amazon SC & eBay" },
+          { label: "Project Scope:", val: "12,000+ SKUs" }
+        ]
       },
       martech: {
-        title: "Node: Performance MarTech & PPC",
-        tag: "€380,000+ Managed",
-        content: `
-          <p>Managed paid search, sponsored products, and social acquisition funnels across Meta Ads Manager and Amazon PPC for US/UK international accounts, integrating custom conversions and CAPI tracking.</p>
-          <div class="grid grid-cols-2 gap-4 pt-2 font-mono text-xs">
-            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-              <p class="text-slate-500">Primary Tooling</p>
-              <p class="text-brand-400 font-semibold mt-1">Meta Ads, Amazon PPC, GA4</p>
-            </div>
-            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-              <p class="text-slate-500">Demonstrated Metric</p>
-              <p class="text-white font-semibold mt-1">+35% ROI / 76% YoY Acquisition</p>
-            </div>
-          </div>
-        `
+        title: "CLUSTER: PERFORMANCE MARTECH & PAID FUNNELS",
+        status: "€380,000+ BUDGET MANAGED",
+        body: "Directed paid media acquisition across Meta Ads Manager and Amazon PPC for US/UK international consumer accounts. Implemented automated CAPI custom conversions and HubSpot lead nurturing, achieving +35% ROI on paid spend.",
+        tags: [
+          { label: "Paid Media:", val: "Meta & Amazon PPC" },
+          { label: "Automation:", val: "HubSpot Workflows" },
+          { label: "Acquisition Lift:", val: "+76% YoY Growth" }
+        ]
       },
-      data: {
-        title: "Node: Quantitative AI Modeling",
-        tag: "Master Thesis (1.00)",
-        content: `
-          <p>Designed an empirical research framework utilizing Structural Equation Modeling (SmartPLS) to assess how Customer Engagement drives AI Personalization while evaluating the moderating friction of consumer privacy concerns.</p>
-          <div class="grid grid-cols-2 gap-4 pt-2 font-mono text-xs">
-            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-              <p class="text-slate-500">Statistical Methods</p>
-              <p class="text-brand-400 font-semibold mt-1">PLS-SEM, Privacy Calculus Model</p>
-            </div>
-            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-              <p class="text-slate-500">Demonstrated Output</p>
-              <p class="text-white font-semibold mt-1">Summa Cum Laude (Bahria Univ.)</p>
-            </div>
-          </div>
-        `
+      ai: {
+        title: "CLUSTER: QUANTITATIVE AI MODELING (SMARTPLS SEM)",
+        status: "SUMMA CUM LAUDE DISSERTATION",
+        body: "Designed and tested an empirical research model evaluating Customer Engagement (CE), AI-Driven Personalization (AIP), and Privacy Concerns (PC). Established that Engagement strongly fuels Personalization (β = 0.835) and identified the critical negative boundary of Privacy Concerns (β = -0.254).",
+        tags: [
+          { label: "Modeling:", val: "SmartPLS (PLS-SEM)" },
+          { label: "Theory:", val: "Privacy Calculus Model" },
+          { label: "Academic Honor:", val: "Summa Cum Laude (1.00)" }
+        ]
       },
       europe: {
-        title: "Node: European Strategy & Law",
-        tag: "Active Candidate",
-        content: `
-          <p>Evaluating European commercial standards, cross-border digital expansion, and regulatory compliance (GDPR, Digital Services Act) to align automated MarTech tooling with strict EU data governance.</p>
-          <div class="grid grid-cols-2 gap-4 pt-2 font-mono text-xs">
-            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-              <p class="text-slate-500">Academic Institution</p>
-              <p class="text-brand-400 font-semibold mt-1">TH Wildau (Brandenburg/Berlin)</p>
-            </div>
-            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-              <p class="text-slate-500">Degree Focus</p>
-              <p class="text-white font-semibold mt-1">M.Sc. European Business Management</p>
-            </div>
-          </div>
-        `
+        title: "CLUSTER: EUROPEAN COMMERCIAL STRATEGY & COMPLIANCE",
+        status: "TH WILDAU DEGREE CANDIDATE",
+        body: "Advancing knowledge in European cross-border trade, regulatory frameworks (GDPR, Digital Services Act), and data governance, ensuring AI-powered automated personalization systems remain fully compliant with European Union consumer privacy laws.",
+        tags: [
+          { label: "Institution:", val: "TH Wildau (Brandenburg)" },
+          { label: "Degree:", val: "M.Sc. European Business" },
+          { label: "Compliance:", val: "GDPR / EU Data Protection" }
+        ]
       }
     };
 
-    function selectGraphNode(nodeKey) {
-      const data = graphData[nodeKey];
-      document.getElementById('graph-title').innerText = data.title;
-      document.getElementById('graph-tag').innerText = data.tag;
-      document.getElementById('graph-content').innerHTML = data.content;
+    function setMindMap(key) {
+      const data = mindMapData[key];
+      document.getElementById('mm-title').innerText = data.title;
+      document.getElementById('mm-status').innerText = data.status;
+      document.getElementById('mm-body').innerText = data.body;
 
-      ['ecom', 'martech', 'data', 'europe'].forEach(key => {
-        const btn = document.getElementById(`node-${key}`);
-        if (key === nodeKey) {
-          btn.className = "w-full text-left p-4 rounded-xl border border-brand-400 bg-brand-400/10 text-white transition flex items-center justify-between";
+      const tagsContainer = document.getElementById('mm-tags');
+      tagsContainer.innerHTML = data.tags.map(t => `
+        <div class="p-2 rounded bg-slate-950 border border-slate-800">
+          <span class="text-slate-500">${t.label}</span>
+          <p class="text-brand-300 font-semibold">${t.val}</p>
+        </div>
+      `).join('');
+
+      ['ecom', 'martech', 'ai', 'europe'].forEach(k => {
+        const btn = document.getElementById(`mm-${k}`);
+        if (k === key) {
+          btn.className = "p-4 rounded-xl border border-brand-400 bg-brand-400/10 text-white transition text-left font-mono text-xs";
+          btn.querySelector('span').className = "text-brand-400 block mb-1";
         } else {
-          btn.className = "w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-white transition flex items-center justify-between";
+          btn.className = "p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-white transition text-left font-mono text-xs";
+          btn.querySelector('span').className = "text-slate-500 block mb-1";
         }
       });
     }
 
-    // Pure Generative Web Audio Synthesizer (Zero Ads, No External Files)
+    // CALM AMBIENT MUSIC ENGINE (AD-FREE WITH SYNTH CHORD FALLBACK)
+    const audio = document.getElementById('bg-audio');
+    const soundText = document.getElementById('sound-text');
+    const soundBtn = document.getElementById('sound-btn');
+    const soundIcon = document.getElementById('sound-icon');
+    let isPlaying = false;
     let audioCtx = null;
-    let osc1, osc2, osc3, filterNode, gainNode;
-    let isSynthPlaying = false;
+    let osc1, osc2, gainNode;
 
-    function toggleSynthAudio() {
-      const soundBtn = document.getElementById('sound-btn');
-      const soundText = document.getElementById('sound-text');
-      const soundIcon = document.getElementById('sound-icon');
+    function toggleAudio() {
+      if (!isPlaying) {
+        audio.volume = 0.35;
+        audio.play().then(() => {
+          setAudioState(true);
+        }).catch(() => {
+          startWarmSynth();
+        });
+      } else {
+        audio.pause();
+        stopWarmSynth();
+        setAudioState(false);
+      }
+    }
 
-      if (!isSynthPlaying) {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AudioContext();
-
-        // 3-Oscillator Ambient Lo-Fi Pad (D minor / F major chord progression)
-        osc1 = audioCtx.createOscillator(); // Root D3
-        osc2 = audioCtx.createOscillator(); // Fifth A3
-        osc3 = audioCtx.createOscillator(); // Ninth E4
-
-        filterNode = audioCtx.createBiquadFilter();
-        gainNode = audioCtx.createGain();
-
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(146.83, audioCtx.currentTime);
-
-        osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(220.00, audioCtx.currentTime);
-
-        osc3.type = 'sine';
-        osc3.frequency.setValueAtTime(329.63, audioCtx.currentTime);
-
-        // Lowpass filter for warm analog feel
-        filterNode.type = 'lowpass';
-        filterNode.frequency.setValueAtTime(480, audioCtx.currentTime);
-
-        // Gentle fade-in
-        gainNode.gain.setValueAtTime(0.001, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.05, audioCtx.currentTime + 3);
-
-        osc1.connect(filterNode);
-        osc2.connect(filterNode);
-        osc3.connect(filterNode);
-        filterNode.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        osc1.start();
-        osc2.start();
-        osc3.start();
-
-        isSynthPlaying = true;
-        soundText.innerText = 'Sound: On';
+    function setAudioState(active) {
+      isPlaying = active;
+      if (active) {
+        soundText.innerText = 'Music: On';
         soundBtn.classList.add('border-brand-400', 'text-brand-400');
         soundIcon.setAttribute('data-lucide', 'volume-2');
         soundIcon.classList.add('text-brand-400');
-        lucide.createIcons();
       } else {
-        if (gainNode && audioCtx) {
-          gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
-          setTimeout(() => {
-            if (osc1) osc1.stop();
-            if (osc2) osc2.stop();
-            if (osc3) osc3.stop();
-            isSynthPlaying = false;
-          }, 800);
-        }
-        soundText.innerText = 'Sound: Off';
+        soundText.innerText = 'Music: Off';
         soundBtn.classList.remove('border-brand-400', 'text-brand-400');
-        soundIcon.setAttribute('data-lucide', 'volume-x');
+        soundIcon.setAttribute('data-lucide', 'music');
         soundIcon.classList.remove('text-brand-400');
-        lucide.createIcons();
+      }
+      lucide.createIcons();
+    }
+
+    function startWarmSynth() {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioContext();
+      osc1 = audioCtx.createOscillator();
+      osc2 = audioCtx.createOscillator();
+      gainNode = audioCtx.createGain();
+
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(146.83, audioCtx.currentTime); // D3
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(220.00, audioCtx.currentTime); // A3
+
+      gainNode.gain.setValueAtTime(0.001, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.04, audioCtx.currentTime + 2.5);
+
+      osc1.connect(gainNode);
+      osc2.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      osc1.start();
+      osc2.start();
+      setAudioState(true);
+    }
+
+    function stopWarmSynth() {
+      if (gainNode && audioCtx) {
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+        setTimeout(() => {
+          if (osc1) osc1.stop();
+          if (osc2) osc2.stop();
+          isPlaying = false;
+        }, 600);
       }
     }
   </script>
