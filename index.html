@@ -45,10 +45,39 @@
       background-image: 
         radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
         radial-gradient(at 100% 100%, rgba(6, 78, 59, 0.15) 0px, transparent 50%),
-        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
       background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
     }
+    
+    /* Interactive Cursor Glow */
+    #cursor-dot {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      background-color: #34d399;
+      border-radius: 9999px;
+      z-index: 100;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.2s ease;
+    }
+    #cursor-ring {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      border-radius: 9999px;
+      z-index: 99;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+    }
+
     .glass-nav {
       background: rgba(3, 7, 18, 0.88);
       backdrop-filter: blur(16px);
@@ -81,17 +110,17 @@
       background: linear-gradient(to bottom, #10b981 0%, #334155 85%, transparent 100%);
     }
 
-    /* Orbiting Particle around Headshot (Sankar Style) */
+    /* Headshot Orbital Particle System (Sankar Style) */
     .orbit-container {
       position: relative;
     }
     .orbit-ring {
       position: absolute;
-      inset: -18px;
-      border-radius: 2rem;
-      border: 1px dashed rgba(52, 211, 153, 0.25);
+      inset: -20px;
+      border-radius: 2.2rem;
+      border: 1px dashed rgba(52, 211, 153, 0.35);
       pointer-events: none;
-      animation: rotateRing 20s linear infinite;
+      animation: rotateRing 22s linear infinite;
     }
     .orbit-particle {
       position: absolute;
@@ -101,7 +130,7 @@
       height: 12px;
       border-radius: 9999px;
       background-color: #34d399;
-      box-shadow: 0 0 16px #34d399, 0 0 32px #10b981;
+      box-shadow: 0 0 16px #34d399, 0 0 30px #10b981;
       transform: translateX(-50%);
     }
     @keyframes rotateRing {
@@ -109,31 +138,35 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* Flight Path Dash & Airplane Motion */
-    .flight-path {
+    /* Dynamic SVG Flight Path & Moving Plane */
+    .flight-path-line {
       stroke-dasharray: 6 6;
-      animation: dashMove 25s linear infinite;
+      animation: dashMove 28s linear infinite;
     }
     @keyframes dashMove {
-      to { stroke-dashoffset: -500; }
+      to { stroke-dashoffset: -600; }
     }
-    .airplane-marker {
-      offset-path: path("M 820 220 Q 650 140 500 120 T 180 75");
-      animation: flyAirplane 12s ease-in-out infinite alternate;
+    .flight-plane {
+      offset-path: path("M 820 220 Q 640 140 490 120 T 180 75");
+      animation: planeFly 14s ease-in-out infinite alternate;
     }
-    @keyframes flyAirplane {
+    @keyframes planeFly {
       0% { offset-distance: 0%; transform: scale(0.85); }
-      50% { transform: scale(1.1); }
+      50% { transform: scale(1.15); }
       100% { offset-distance: 100%; transform: scale(0.85); }
     }
   </style>
 </head>
 <body class="selection:bg-brand-500/30 selection:text-brand-400 font-sans antialiased overflow-x-hidden">
 
-  <!-- SCROLL PROGRESS INDICATOR -->
-  <div id="scroll-progress" class="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-brand-500 to-brand-300 z-[60] transition-all duration-75" style="width: 0%;"></div>
+  <!-- DYNAMIC INTERACTIVE MOUSE CURSOR -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
 
-  <!-- TOP NAVIGATION BAR -->
+  <!-- SCROLL PROGRESS INDICATOR -->
+  <div id="scroll-progress" class="fixed top-0 left-0 h-[2.5px] bg-gradient-to-r from-brand-500 via-brand-400 to-teal-300 z-[60] transition-all duration-75" style="width: 0%;"></div>
+
+  <!-- CLEAN TOP NAVIGATION BAR -->
   <header class="fixed top-0 inset-x-0 z-50 glass-nav border-b border-slate-800/80">
     <nav class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
       
@@ -143,26 +176,27 @@
           <span class="h-2 w-2 rounded-full bg-brand-400 animate-pulse"></span>
           Baqar Shah
         </a>
-        <span class="hidden lg:inline-flex items-center gap-1.5 rounded-full border border-brand-500/30 bg-brand-950/60 px-3 py-0.5 text-xs font-mono text-brand-400">
+        <span class="hidden xl:inline-flex items-center gap-1.5 rounded-full border border-brand-500/30 bg-brand-950/60 px-3 py-0.5 text-xs font-mono text-brand-400">
           📍 Wildau / Berlin
         </span>
       </div>
 
-      <!-- Clean Single-Line Menu Links -->
-      <div class="hidden md:flex items-center gap-6 text-xs uppercase tracking-wider font-mono text-slate-300">
+      <!-- Clean Single-Word Nav Links -->
+      <div class="hidden md:flex items-center gap-7 text-xs uppercase tracking-wider font-mono text-slate-300">
         <a href="#about" class="hover:text-brand-400 transition">About</a>
         <a href="#flightpath" class="hover:text-brand-400 transition">Trajectory</a>
         <a href="#journey" class="hover:text-brand-400 transition">Experience</a>
         <a href="#knowledge-graph" class="hover:text-brand-400 transition">Knowledge</a>
-        <a href="#projects" class="hover:text-brand-400 transition">Evidence</a>
+        <a href="#projects" class="hover:text-brand-400 transition">Cases</a>
         <a href="#credentials" class="hover:text-brand-400 transition">Proof</a>
       </div>
 
-      <!-- Action Group (Audio + CV) -->
+      <!-- Action Items -->
       <div class="hidden md:flex items-center gap-3">
-        <button id="sound-btn" onclick="toggleAudio()" class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/90 px-3 py-1.5 text-xs font-mono text-slate-300 hover:border-brand-400 hover:text-brand-400 transition">
-          <i data-lucide="volume-x" id="sound-icon" class="w-3.5 h-3.5 text-slate-400"></i>
-          <span id="sound-text">Ambient: Off</span>
+        <!-- Native Web Audio Synthesizer (No Ads) -->
+        <button id="sound-btn" onclick="toggleSynthAudio()" class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/90 px-3.5 py-1.5 text-xs font-mono text-slate-300 hover:border-brand-400 hover:text-brand-400 transition">
+          <i data-lucide="music" id="sound-icon" class="w-3.5 h-3.5 text-slate-400"></i>
+          <span id="sound-text">Sound: Off</span>
         </button>
 
         <a href="cv.pdf" download="Baqar_Shah_CV.pdf" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-400 px-3.5 py-1.5 font-semibold text-slate-950 hover:bg-brand-500 hover:shadow-[0_0_15px_rgba(52,211,153,0.4)] transition text-xs font-mono">
@@ -170,7 +204,7 @@
         </a>
       </div>
 
-      <!-- Mobile Menu Button -->
+      <!-- Mobile Menu Trigger -->
       <button id="menu-btn" class="md:hidden p-2 rounded-lg border border-slate-800 text-slate-300" aria-label="Toggle Menu">
         <i data-lucide="menu" class="w-5 h-5"></i>
       </button>
@@ -182,7 +216,7 @@
       <a href="#flightpath" class="block py-1 hover:text-brand-400">Trajectory</a>
       <a href="#journey" class="block py-1 hover:text-brand-400">Experience</a>
       <a href="#knowledge-graph" class="block py-1 hover:text-brand-400">Knowledge</a>
-      <a href="#projects" class="block py-1 hover:text-brand-400">Evidence</a>
+      <a href="#projects" class="block py-1 hover:text-brand-400">Cases</a>
       <a href="#credentials" class="block py-1 hover:text-brand-400">Proof</a>
       <a href="cv.pdf" download class="block py-1 text-brand-400 font-bold">Download CV (PDF)</a>
       <a href="#impressum" class="block py-1 text-slate-500 text-xs lowercase">impressum</a>
@@ -206,7 +240,7 @@
           </h1>
 
           <p class="text-base sm:text-lg text-slate-400 max-w-xl leading-relaxed">
-            Bridging 4+ years of marketplace scaling with European business compliance, predictive AI personalization modeling, and automated growth funnels.
+            Bridging 4+ years of hands-on marketplace scaling with European business compliance, predictive AI personalization research, and automated growth funnels.
           </p>
 
           <!-- Core Metric Badges -->
@@ -239,11 +273,11 @@
           </div>
         </div>
 
-        <!-- PROFILE FRAME WITH ORBITING PARTICLES -->
+        <!-- PROFILE FRAME WITH PARTICLE ORBIT BALL -->
         <div class="lg:col-span-5 flex justify-center lg:justify-end">
           <div class="orbit-container w-64 sm:w-80 aspect-[4/5] group">
             
-            <!-- Orbiting Ring & Ball Visual -->
+            <!-- Orbiting Particle Satellites (Sankar Style) -->
             <div class="orbit-ring">
               <div class="orbit-particle"></div>
             </div>
@@ -267,25 +301,25 @@
       </div>
     </section>
 
-    <!-- NEW ABOUT SECTION -->
+    <!-- ABOUT SECTION -->
     <section id="about" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80">
       <div class="grid md:grid-cols-12 gap-8 items-center">
         <div class="md:col-span-4">
-          <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Overview</span>
+          <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Executive Summary</span>
           <h2 class="text-3xl font-bold tracking-tight text-white mt-1">Bridging Data &amp; Operations</h2>
         </div>
         <div class="md:col-span-8 space-y-4 text-slate-300 text-sm leading-relaxed">
           <p>
-            I specialize in the intersection of operational e-commerce execution and modern marketing technology. My career began with direct catalog management and digital advertising execution in Pakistan, where I managed multi-channel product rollouts across the US and UK retail markets.
+            I specialize in the synthesis of hands-on e-commerce operations, paid media infrastructure, and predictive marketing algorithms. Having managed catalog taxonomy, multi-channel supply-chain launches, and digital growth campaigns in Pakistan across the US and UK retail spaces, I understand how real operational systems perform under pressure.
           </p>
           <p class="text-slate-400">
-            Today, based in the Berlin-Brandenburg metropolitan region, I am pursuing my Master’s in European Business Management at TH Wildau. My quantitative focus centers on empirical AI-driven personalization and structural equation modeling (SEM), pairing operational experience with European commercial frameworks.
+            Currently based in the Berlin-Brandenburg metropolitan region, I am pursuing my Master’s in European Business Management at TH Wildau. My academic focus unites quantitative research in Structural Equation Modeling (SEM) with the operational rigors of GDPR-compliant European marketing ecosystems.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- INTERACTIVE VECTOR WORLD MAP FLIGHT PATH -->
+    <!-- REALISTIC WORLD MAP & INTERCONTINENTAL FLIGHT PATH -->
     <section id="flightpath" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80">
       <div class="mb-8">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Global Trajectory</span>
@@ -294,20 +328,20 @@
 
       <div class="card-spotlight p-6 sm:p-8 rounded-2xl border border-slate-800 relative overflow-hidden">
         
-        <!-- Scaled Earth Continental Map Projection -->
+        <!-- SVG Vector Earth Projections -->
         <div class="relative w-full overflow-x-auto pb-4">
           <svg viewBox="0 0 1000 320" class="min-w-[750px] w-full text-slate-700" fill="none" xmlns="http://www.w3.org/2000/svg">
             
-            <!-- Continental Polygons: Europe, Middle East, South Asia -->
+            <!-- Continental Projections (Europe, Middle East, Pakistan/South Asia) -->
             <path d="M 80 50 Q 150 40 210 70 T 260 140 T 190 220 T 110 180 Z" fill="rgba(30, 41, 59, 0.45)" stroke="rgba(51, 65, 85, 0.5)" stroke-width="1.2"/>
             <path d="M 320 80 Q 480 40 650 60 T 780 160 T 680 260 T 450 250 T 350 160 Z" fill="rgba(30, 41, 59, 0.45)" stroke="rgba(51, 65, 85, 0.5)" stroke-width="1.2"/>
             <path d="M 720 160 Q 820 160 860 210 T 800 290 T 730 240 Z" fill="rgba(16, 185, 129, 0.12)" stroke="rgba(52, 211, 153, 0.4)" stroke-width="1.2"/>
 
-            <!-- Flight Arc: Jhelum (820, 220) -> Islamabad (750, 190) -> Berlin/Wildau (180, 75) -->
-            <path d="M 820 220 Q 650 140 500 120 T 180 75" stroke="rgba(51, 65, 85, 0.6)" stroke-width="2"/>
-            <path d="M 820 220 Q 650 140 500 120 T 180 75" stroke="#10b981" stroke-width="2.5" class="flight-path"/>
+            <!-- Correct Vector Flight Path: Jhelum (820, 220) -> Islamabad (730, 180) -> Wildau/Berlin (180, 75) -->
+            <path d="M 820 220 Q 640 140 490 120 T 180 75" stroke="rgba(51, 65, 85, 0.6)" stroke-width="2"/>
+            <path d="M 820 220 Q 640 140 490 120 T 180 75" stroke="#10b981" stroke-width="2.5" class="flight-path-line"/>
 
-            <!-- Node 1: Jhelum -->
+            <!-- Node 1: Jhelum, PK -->
             <g transform="translate(820, 220)">
               <circle r="8" fill="#030712" stroke="#10b981" stroke-width="3"/>
               <circle r="3" fill="#10b981"/>
@@ -315,7 +349,7 @@
               <text x="-15" y="40" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="10">B.Com Operations (1.53)</text>
             </g>
 
-            <!-- Node 2: Islamabad -->
+            <!-- Node 2: Islamabad, PK -->
             <g transform="translate(730, 180)">
               <circle r="8" fill="#030712" stroke="#10b981" stroke-width="3"/>
               <circle r="3" fill="#10b981"/>
@@ -323,7 +357,7 @@
               <text x="-35" y="-6" fill="#34d399" font-family="'JetBrains Mono'" font-size="10">MBA Summa Cum Laude (1.00)</text>
             </g>
 
-            <!-- Node 3: Wildau / Berlin -->
+            <!-- Node 3: Wildau / Berlin, DE -->
             <g transform="translate(180, 75)">
               <circle r="12" fill="#030712" stroke="#34d399" stroke-width="3" class="animate-pulse"/>
               <circle r="5" fill="#34d399"/>
@@ -331,15 +365,15 @@
               <text x="-10" y="-6" fill="#34d399" font-family="'JetBrains Mono'" font-size="10">M.Sc. European Business Management</text>
             </g>
 
-            <!-- Dynamic Rotating Plane SVG Icon -->
-            <g class="airplane-marker text-brand-400">
+            <!-- Rotating Supersonic Aircraft Glyph -->
+            <g class="flight-plane text-brand-400">
               <path d="M 0 -12 L 8 8 L 0 4 L -8 8 Z" fill="#34d399" stroke="#064e3b" stroke-width="1.5" transform="rotate(-65)"/>
             </g>
           </svg>
         </div>
 
         <div class="mt-4 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-400">
-          <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-brand-400"></span> Active Node: Technical University of Applied Sciences Wildau</span>
+          <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-brand-400"></span> Current Station: Technical University of Applied Sciences Wildau</span>
           <span>Intercultural Bridge: South Asian Digital Scale ➔ European Strategic Operations</span>
         </div>
       </div>
@@ -410,7 +444,7 @@
           <div class="card-spotlight p-6 rounded-2xl border border-brand-500/40 bg-brand-950/20">
             <div class="flex items-center justify-between">
               <span class="text-xs font-mono text-brand-400 font-semibold uppercase">Apr 2026 – Present · Germany</span>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-brand-400/20 text-brand-400 border border-brand-400/30">Active</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-brand-400/20 text-brand-400 border border-brand-400/30">Active Candidate</span>
             </div>
             <h3 class="text-lg font-bold text-white mt-1">M.Sc. European Business Management · TH Wildau</h3>
             <p class="text-slate-400 text-sm mt-2 leading-relaxed">
@@ -685,7 +719,7 @@
       </div>
     </section>
 
-    <!-- BEYOND THE DESK -->
+    <!-- BEYOND THE DESK: FOCUSED ENGAGING STORY -->
     <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80">
       <div class="card-spotlight p-8 rounded-2xl border border-slate-800/80 relative overflow-hidden">
         <div class="max-w-3xl">
@@ -695,10 +729,10 @@
             The Altitude of Neelum Valley: Managing Ambiguity
           </h3>
           <p class="text-slate-300 text-sm leading-relaxed">
-            I have climbed through the rugged terrain of northern Pakistan's <strong class="text-white">Neelum Valley three distinct times</strong>. In high-altitude travel, conditions change within minutes: sudden temperature drops, unmapped paths, and zero cell reception force you to plan contingencies, trust your team, and stay calm when plans break down.
+            I have climbed through the rugged terrain of northern Pakistan's <strong class="text-white">Neelum Valley three distinct times</strong>. In high-altitude travel, conditions change within minutes: sudden temperature drops, unmapped paths, and zero cell reception force you to plan contingencies, trust your team, and stay calm when plans break down. 
           </p>
           <p class="text-slate-400 text-sm leading-relaxed mt-3">
-            Scaling high-velocity e-commerce operations presents the exact same dynamic: sudden ad platform policy changes, supply bottlenecks, or sudden spikes in customer acquisition cost require structured agility rather than panic. Whether navigating high alpine valleys or orchestrating multichannel campaigns across foreign markets, the guiding principle remains constant: understand the terrain, build reliable systems, and keep moving forward.
+            Scaling high-velocity e-commerce operations presents the exact same dynamic: sudden ad platform policy changes, supply bottlenecks, or unexpected spikes in customer acquisition cost require structured agility rather than panic. Whether navigating high alpine valleys or orchestrating multichannel campaigns across foreign markets, the guiding principle remains constant: understand the terrain, build reliable systems, and keep moving forward.
           </p>
         </div>
       </div>
@@ -732,7 +766,7 @@
     </div>
   </footer>
 
-  <!-- DYNAMIC INTERACTIONS & SYNTH SOUND SCRIPT -->
+  <!-- DYNAMIC INTERACTIONS, CURSOR, GRAPH, & WEB AUDIO SYNTH -->
   <script>
     // Initialize Lucide Icons
     lucide.createIcons();
@@ -743,6 +777,40 @@
     btn.addEventListener('click', () => menu.classList.toggle('hidden'));
     menu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => menu.classList.add('hidden'));
+    });
+
+    // Custom Fluid Cursor Engine
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mouseX = 0, mouseY = 0;
+    let ringX = 0, ringY = 0;
+
+    window.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    });
+
+    function renderCursor() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
+      requestAnimationFrame(renderCursor);
+    }
+    requestAnimationFrame(renderCursor);
+
+    // Expand Cursor Ring on Interactive Elements
+    document.querySelectorAll('a, button, input, .card-spotlight').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        ring.style.width = '54px';
+        ring.style.height = '54px';
+        ring.style.borderColor = 'rgba(52, 211, 153, 0.8)';
+      });
+      el.addEventListener('mouseleave', () => {
+        ring.style.width = '36px';
+        ring.style.height = '36px';
+        ring.style.borderColor = 'rgba(52, 211, 153, 0.4)';
+      });
     });
 
     // Top Scroll Progress Bar
@@ -764,7 +832,7 @@
       });
     });
 
-    // Career Knowledge Graph Interactive Switcher
+    // Interactive Career Knowledge Graph (Sankar Style)
     const graphData = {
       ecom: {
         title: "Node: E-Commerce Architecture",
@@ -828,8 +896,8 @@
               <p class="text-brand-400 font-semibold mt-1">TH Wildau (Brandenburg/Berlin)</p>
             </div>
             <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-              <p class="text-slate-500">Focus Areas</p>
-              <p class="text-white font-semibold mt-1">Data Science, AI &amp; EU Strategy</p>
+              <p class="text-slate-500">Degree Focus</p>
+              <p class="text-white font-semibold mt-1">M.Sc. European Business Management</p>
             </div>
           </div>
         `
@@ -852,56 +920,72 @@
       });
     }
 
-    // Zero-Ad Web Audio API Ambient Synthesizer
+    // Pure Generative Web Audio Synthesizer (Zero Ads, No External Files)
     let audioCtx = null;
-    let osc1, osc2, gainNode;
-    let isPlaying = false;
+    let osc1, osc2, osc3, filterNode, gainNode;
+    let isSynthPlaying = false;
 
-    function toggleAudio() {
+    function toggleSynthAudio() {
       const soundBtn = document.getElementById('sound-btn');
       const soundText = document.getElementById('sound-text');
       const soundIcon = document.getElementById('sound-icon');
 
-      if (!isPlaying) {
+      if (!isSynthPlaying) {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         audioCtx = new AudioContext();
 
-        // Warm ambient lo-fi drone pad (D minor / F major pentatonic)
-        osc1 = audioCtx.createOscillator();
-        osc2 = audioCtx.createOscillator();
+        // 3-Oscillator Ambient Lo-Fi Pad (D minor / F major chord progression)
+        osc1 = audioCtx.createOscillator(); // Root D3
+        osc2 = audioCtx.createOscillator(); // Fifth A3
+        osc3 = audioCtx.createOscillator(); // Ninth E4
+
+        filterNode = audioCtx.createBiquadFilter();
         gainNode = audioCtx.createGain();
 
         osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(146.83, audioCtx.currentTime); // D3
+        osc1.frequency.setValueAtTime(146.83, audioCtx.currentTime);
+
         osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(220.00, audioCtx.currentTime); // A3
+        osc2.frequency.setValueAtTime(220.00, audioCtx.currentTime);
 
+        osc3.type = 'sine';
+        osc3.frequency.setValueAtTime(329.63, audioCtx.currentTime);
+
+        // Lowpass filter for warm analog feel
+        filterNode.type = 'lowpass';
+        filterNode.frequency.setValueAtTime(480, audioCtx.currentTime);
+
+        // Gentle fade-in
         gainNode.gain.setValueAtTime(0.001, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.045, audioCtx.currentTime + 2.5);
+        gainNode.gain.exponentialRampToValueAtTime(0.05, audioCtx.currentTime + 3);
 
-        osc1.connect(gainNode);
-        osc2.connect(gainNode);
+        osc1.connect(filterNode);
+        osc2.connect(filterNode);
+        osc3.connect(filterNode);
+        filterNode.connect(gainNode);
         gainNode.connect(audioCtx.destination);
 
         osc1.start();
         osc2.start();
+        osc3.start();
 
-        isPlaying = true;
-        soundText.innerText = 'Ambient: On';
+        isSynthPlaying = true;
+        soundText.innerText = 'Sound: On';
         soundBtn.classList.add('border-brand-400', 'text-brand-400');
         soundIcon.setAttribute('data-lucide', 'volume-2');
         soundIcon.classList.add('text-brand-400');
         lucide.createIcons();
       } else {
         if (gainNode && audioCtx) {
-          gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+          gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
           setTimeout(() => {
             if (osc1) osc1.stop();
             if (osc2) osc2.stop();
-            isPlaying = false;
-          }, 600);
+            if (osc3) osc3.stop();
+            isSynthPlaying = false;
+          }, 800);
         }
-        soundText.innerText = 'Ambient: Off';
+        soundText.innerText = 'Sound: Off';
         soundBtn.classList.remove('border-brand-400', 'text-brand-400');
         soundIcon.setAttribute('data-lucide', 'volume-x');
         soundIcon.classList.remove('text-brand-400');
