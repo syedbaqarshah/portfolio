@@ -50,9 +50,9 @@
       background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
     }
     .glass-nav {
-      background: rgba(3, 7, 18, 0.85);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: rgba(3, 7, 18, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
     .card-spotlight {
       position: relative;
@@ -80,93 +80,114 @@
       width: 2px;
       background: linear-gradient(to bottom, #10b981 0%, #334155 85%, transparent 100%);
     }
-    .equalizer-bar {
-      animation: bounceBar 1.2s ease-in-out infinite alternate;
+
+    /* Orbiting Particle around Headshot (Sankar Style) */
+    .orbit-container {
+      position: relative;
     }
-    @keyframes bounceBar {
-      0% { height: 4px; }
-      100% { height: 16px; }
+    .orbit-ring {
+      position: absolute;
+      inset: -18px;
+      border-radius: 2rem;
+      border: 1px dashed rgba(52, 211, 153, 0.25);
+      pointer-events: none;
+      animation: rotateRing 20s linear infinite;
     }
-    /* SVG Aircraft Path Following Animation */
+    .orbit-particle {
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      border-radius: 9999px;
+      background-color: #34d399;
+      box-shadow: 0 0 16px #34d399, 0 0 32px #10b981;
+      transform: translateX(-50%);
+    }
+    @keyframes rotateRing {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Flight Path Dash & Airplane Motion */
     .flight-path {
-      stroke-dasharray: 8 6;
-      animation: dashMove 30s linear infinite;
+      stroke-dasharray: 6 6;
+      animation: dashMove 25s linear infinite;
     }
     @keyframes dashMove {
-      to { stroke-dashoffset: -1000; }
+      to { stroke-dashoffset: -500; }
     }
     .airplane-marker {
-      offset-path: path("M 100 240 Q 300 70 540 230 T 960 90");
-      animation: flyAlongPath 14s ease-in-out infinite;
+      offset-path: path("M 820 220 Q 650 140 500 120 T 180 75");
+      animation: flyAirplane 12s ease-in-out infinite alternate;
     }
-    @keyframes flyAlongPath {
-      0% { offset-distance: 0%; transform: scale(0.9); }
-      50% { transform: scale(1.15); }
-      100% { offset-distance: 100%; transform: scale(0.9); }
+    @keyframes flyAirplane {
+      0% { offset-distance: 0%; transform: scale(0.85); }
+      50% { transform: scale(1.1); }
+      100% { offset-distance: 100%; transform: scale(0.85); }
     }
   </style>
 </head>
 <body class="selection:bg-brand-500/30 selection:text-brand-400 font-sans antialiased overflow-x-hidden">
 
-  <!-- TOP NAVIGATION -->
+  <!-- SCROLL PROGRESS INDICATOR -->
+  <div id="scroll-progress" class="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-brand-500 to-brand-300 z-[60] transition-all duration-75" style="width: 0%;"></div>
+
+  <!-- TOP NAVIGATION BAR -->
   <header class="fixed top-0 inset-x-0 z-50 glass-nav border-b border-slate-800/80">
     <nav class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      
+      <!-- Logo + Status -->
       <div class="flex items-center gap-3">
         <a href="#top" class="font-bold tracking-tight text-lg text-white hover:text-brand-400 transition flex items-center gap-2">
-          <span class="h-2.5 w-2.5 rounded-full bg-brand-400 animate-pulse"></span>
+          <span class="h-2 w-2 rounded-full bg-brand-400 animate-pulse"></span>
           Baqar Shah
         </a>
-        <span class="hidden xl:inline-flex items-center gap-1.5 rounded-full border border-brand-500/30 bg-brand-950/60 px-3 py-0.5 text-xs font-mono text-brand-400">
-          📍 Wildau / Berlin · MarTech Specialist
+        <span class="hidden lg:inline-flex items-center gap-1.5 rounded-full border border-brand-500/30 bg-brand-950/60 px-3 py-0.5 text-xs font-mono text-brand-400">
+          📍 Wildau / Berlin
         </span>
       </div>
 
-      <!-- STREAMLINED DESKTOP NAV -->
-      <div class="hidden md:flex items-center gap-6 text-sm text-slate-300 font-medium">
-        <a href="#flightpath" class="hover:text-brand-400 transition">Flight Path</a>
-        <a href="#journey" class="hover:text-brand-400 transition">Career</a>
-        <a href="#projects" class="hover:text-brand-400 transition">Case Studies</a>
-        <a href="#stack" class="hover:text-brand-400 transition">Stack</a>
-        <a href="#credentials" class="hover:text-brand-400 transition">Credentials</a>
+      <!-- Clean Single-Line Menu Links -->
+      <div class="hidden md:flex items-center gap-6 text-xs uppercase tracking-wider font-mono text-slate-300">
+        <a href="#about" class="hover:text-brand-400 transition">About</a>
+        <a href="#flightpath" class="hover:text-brand-400 transition">Trajectory</a>
+        <a href="#journey" class="hover:text-brand-400 transition">Experience</a>
+        <a href="#knowledge-graph" class="hover:text-brand-400 transition">Knowledge</a>
+        <a href="#projects" class="hover:text-brand-400 transition">Evidence</a>
+        <a href="#credentials" class="hover:text-brand-400 transition">Proof</a>
+      </div>
 
-        <!-- NO-AD LOFI AUDIO ENGINE -->
-        <button id="sound-btn" onclick="toggleAudio()" class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/90 px-3 py-1 text-xs font-mono text-slate-300 hover:border-brand-400 hover:text-brand-400 transition">
-          <div id="equalizer" class="flex items-end gap-0.5 h-3.5 w-3.5 hidden">
-            <span class="equalizer-bar w-0.5 bg-brand-400 rounded-full" style="animation-delay: 0.1s"></span>
-            <span class="equalizer-bar w-0.5 bg-brand-400 rounded-full" style="animation-delay: 0.3s"></span>
-            <span class="equalizer-bar w-0.5 bg-brand-400 rounded-full" style="animation-delay: 0.2s"></span>
-          </div>
-          <i data-lucide="music" id="music-static-icon" class="w-3.5 h-3.5 text-slate-400"></i>
+      <!-- Action Group (Audio + CV) -->
+      <div class="hidden md:flex items-center gap-3">
+        <button id="sound-btn" onclick="toggleAudio()" class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/90 px-3 py-1.5 text-xs font-mono text-slate-300 hover:border-brand-400 hover:text-brand-400 transition">
+          <i data-lucide="volume-x" id="sound-icon" class="w-3.5 h-3.5 text-slate-400"></i>
           <span id="sound-text">Ambient: Off</span>
         </button>
 
-        <!-- DOWNLOAD CV DIRECT ACTION -->
-        <a href="cv.pdf" download="Baqar_Shah_CV.pdf" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-400 px-3.5 py-1.5 font-semibold text-slate-950 hover:bg-brand-500 hover:shadow-[0_0_15px_rgba(52,211,153,0.4)] transition text-xs">
+        <a href="cv.pdf" download="Baqar_Shah_CV.pdf" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-400 px-3.5 py-1.5 font-semibold text-slate-950 hover:bg-brand-500 hover:shadow-[0_0_15px_rgba(52,211,153,0.4)] transition text-xs font-mono">
           <i data-lucide="download" class="w-3.5 h-3.5"></i> Download CV
         </a>
       </div>
 
+      <!-- Mobile Menu Button -->
       <button id="menu-btn" class="md:hidden p-2 rounded-lg border border-slate-800 text-slate-300" aria-label="Toggle Menu">
         <i data-lucide="menu" class="w-5 h-5"></i>
       </button>
     </nav>
 
-    <!-- MOBILE MENU -->
-    <div id="mobile-menu" class="hidden md:hidden border-b border-slate-800 bg-slate-950/95 px-6 py-4 space-y-3 text-sm text-slate-300">
-      <a href="#flightpath" class="block py-1 hover:text-brand-400">Flight Path</a>
-      <a href="#journey" class="block py-1 hover:text-brand-400">Career</a>
-      <a href="#projects" class="block py-1 hover:text-brand-400">Case Studies</a>
-      <a href="#stack" class="block py-1 hover:text-brand-400">Stack</a>
-      <a href="#credentials" class="block py-1 hover:text-brand-400">Credentials</a>
-      <a href="cv.pdf" download class="block py-1 text-brand-400 font-semibold">Download CV (PDF)</a>
-      <a href="#impressum" class="block py-1 text-slate-500 text-xs">Impressum</a>
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-b border-slate-800 bg-slate-950/95 px-6 py-4 space-y-3 text-sm text-slate-300 font-mono uppercase">
+      <a href="#about" class="block py-1 hover:text-brand-400">About</a>
+      <a href="#flightpath" class="block py-1 hover:text-brand-400">Trajectory</a>
+      <a href="#journey" class="block py-1 hover:text-brand-400">Experience</a>
+      <a href="#knowledge-graph" class="block py-1 hover:text-brand-400">Knowledge</a>
+      <a href="#projects" class="block py-1 hover:text-brand-400">Evidence</a>
+      <a href="#credentials" class="block py-1 hover:text-brand-400">Proof</a>
+      <a href="cv.pdf" download class="block py-1 text-brand-400 font-bold">Download CV (PDF)</a>
+      <a href="#impressum" class="block py-1 text-slate-500 text-xs lowercase">impressum</a>
     </div>
   </header>
-
-  <!-- CLEAN LO-FI AMBIENT AUDIO -->
-  <audio id="bg-audio" loop preload="none">
-    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
-  </audio>
 
   <main id="top">
     <!-- HERO SECTION -->
@@ -185,7 +206,7 @@
           </h1>
 
           <p class="text-base sm:text-lg text-slate-400 max-w-xl leading-relaxed">
-            Bridging 4+ years of hands-on marketplace scaling with European business compliance, predictive AI personalization research, and automated growth funnels.
+            Bridging 4+ years of marketplace scaling with European business compliance, predictive AI personalization modeling, and automated growth funnels.
           </p>
 
           <!-- Core Metric Badges -->
@@ -218,10 +239,15 @@
           </div>
         </div>
 
-        <!-- PROFILE FRAME WITH ERROR FALLBACK -->
+        <!-- PROFILE FRAME WITH ORBITING PARTICLES -->
         <div class="lg:col-span-5 flex justify-center lg:justify-end">
-          <div class="relative w-64 sm:w-80 aspect-[4/5] group">
-            <div class="absolute -inset-1.5 rounded-3xl bg-gradient-to-tr from-brand-500/30 to-emerald-400/10 blur-xl opacity-75 group-hover:opacity-100 transition duration-500"></div>
+          <div class="orbit-container w-64 sm:w-80 aspect-[4/5] group">
+            
+            <!-- Orbiting Ring & Ball Visual -->
+            <div class="orbit-ring">
+              <div class="orbit-particle"></div>
+            </div>
+
             <div class="relative h-full w-full rounded-2xl border border-slate-800 bg-slate-900 overflow-hidden shadow-2xl">
               <img 
                 src="headshot.jpg" 
@@ -241,7 +267,25 @@
       </div>
     </section>
 
-    <!-- INTERACTIVE FLIGHT PATH VECTOR MAP -->
+    <!-- NEW ABOUT SECTION -->
+    <section id="about" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80">
+      <div class="grid md:grid-cols-12 gap-8 items-center">
+        <div class="md:col-span-4">
+          <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Overview</span>
+          <h2 class="text-3xl font-bold tracking-tight text-white mt-1">Bridging Data &amp; Operations</h2>
+        </div>
+        <div class="md:col-span-8 space-y-4 text-slate-300 text-sm leading-relaxed">
+          <p>
+            I specialize in the intersection of operational e-commerce execution and modern marketing technology. My career began with direct catalog management and digital advertising execution in Pakistan, where I managed multi-channel product rollouts across the US and UK retail markets.
+          </p>
+          <p class="text-slate-400">
+            Today, based in the Berlin-Brandenburg metropolitan region, I am pursuing my Master’s in European Business Management at TH Wildau. My quantitative focus centers on empirical AI-driven personalization and structural equation modeling (SEM), pairing operational experience with European commercial frameworks.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE VECTOR WORLD MAP FLIGHT PATH -->
     <section id="flightpath" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80">
       <div class="mb-8">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Global Trajectory</span>
@@ -250,53 +294,53 @@
 
       <div class="card-spotlight p-6 sm:p-8 rounded-2xl border border-slate-800 relative overflow-hidden">
         
-        <!-- Earth Landmass & Flight Arc Visualization -->
+        <!-- Scaled Earth Continental Map Projection -->
         <div class="relative w-full overflow-x-auto pb-4">
-          <svg viewBox="0 0 1050 320" class="min-w-[700px] w-full text-slate-700" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 1000 320" class="min-w-[750px] w-full text-slate-700" fill="none" xmlns="http://www.w3.org/2000/svg">
             
-            <!-- Simplified Continental Outlines (Europe, Central Asia, South Asia) -->
-            <path d="M 120 70 Q 200 60 260 90 T 320 180 T 260 260 T 140 220 Z" fill="rgba(30, 41, 59, 0.35)" stroke="rgba(51, 65, 85, 0.4)" stroke-width="1"/>
-            <path d="M 400 80 Q 550 50 720 70 T 880 180 T 780 290 T 520 280 T 420 180 Z" fill="rgba(30, 41, 59, 0.35)" stroke="rgba(51, 65, 85, 0.4)" stroke-width="1"/>
-            <path d="M 760 180 Q 840 180 880 230 T 820 300 T 750 250 Z" fill="rgba(16, 185, 129, 0.08)" stroke="rgba(52, 211, 153, 0.3)" stroke-width="1"/>
+            <!-- Continental Polygons: Europe, Middle East, South Asia -->
+            <path d="M 80 50 Q 150 40 210 70 T 260 140 T 190 220 T 110 180 Z" fill="rgba(30, 41, 59, 0.45)" stroke="rgba(51, 65, 85, 0.5)" stroke-width="1.2"/>
+            <path d="M 320 80 Q 480 40 650 60 T 780 160 T 680 260 T 450 250 T 350 160 Z" fill="rgba(30, 41, 59, 0.45)" stroke="rgba(51, 65, 85, 0.5)" stroke-width="1.2"/>
+            <path d="M 720 160 Q 820 160 860 210 T 800 290 T 730 240 Z" fill="rgba(16, 185, 129, 0.12)" stroke="rgba(52, 211, 153, 0.4)" stroke-width="1.2"/>
 
-            <!-- Flight Arc -->
-            <path d="M 100 240 Q 300 70 540 230 T 960 90" stroke="rgba(51, 65, 85, 0.6)" stroke-width="2"/>
-            <path d="M 100 240 Q 300 70 540 230 T 960 90" stroke="#10b981" stroke-width="2.5" class="flight-path"/>
+            <!-- Flight Arc: Jhelum (820, 220) -> Islamabad (750, 190) -> Berlin/Wildau (180, 75) -->
+            <path d="M 820 220 Q 650 140 500 120 T 180 75" stroke="rgba(51, 65, 85, 0.6)" stroke-width="2"/>
+            <path d="M 820 220 Q 650 140 500 120 T 180 75" stroke="#10b981" stroke-width="2.5" class="flight-path"/>
 
             <!-- Node 1: Jhelum -->
-            <g transform="translate(100, 240)">
-              <circle r="9" fill="#030712" stroke="#10b981" stroke-width="3"/>
-              <circle r="3.5" fill="#10b981"/>
-              <text x="-20" y="28" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="13">Jhelum, PK</text>
-              <text x="-20" y="44" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="10.5">B.Com Operations (1.53)</text>
+            <g transform="translate(820, 220)">
+              <circle r="8" fill="#030712" stroke="#10b981" stroke-width="3"/>
+              <circle r="3" fill="#10b981"/>
+              <text x="-15" y="26" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="12">Jhelum, PK</text>
+              <text x="-15" y="40" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="10">B.Com Operations (1.53)</text>
             </g>
 
             <!-- Node 2: Islamabad -->
-            <g transform="translate(540, 230)">
-              <circle r="9" fill="#030712" stroke="#10b981" stroke-width="3"/>
-              <circle r="3.5" fill="#10b981"/>
-              <text x="-40" y="28" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="13">Islamabad, PK</text>
-              <text x="-40" y="44" fill="#34d399" font-family="'JetBrains Mono'" font-size="10.5">MBA Summa Cum Laude (1.00)</text>
+            <g transform="translate(730, 180)">
+              <circle r="8" fill="#030712" stroke="#10b981" stroke-width="3"/>
+              <circle r="3" fill="#10b981"/>
+              <text x="-35" y="-18" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="12">Islamabad, PK</text>
+              <text x="-35" y="-6" fill="#34d399" font-family="'JetBrains Mono'" font-size="10">MBA Summa Cum Laude (1.00)</text>
             </g>
 
             <!-- Node 3: Wildau / Berlin -->
-            <g transform="translate(960, 90)">
+            <g transform="translate(180, 75)">
               <circle r="12" fill="#030712" stroke="#34d399" stroke-width="3" class="animate-pulse"/>
               <circle r="5" fill="#34d399"/>
-              <text x="-90" y="30" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="13">Wildau / Berlin, DE</text>
-              <text x="-90" y="46" fill="#34d399" font-family="'JetBrains Mono'" font-size="10.5">M.Sc. European Business &amp; AI</text>
+              <text x="-10" y="-20" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="13">Wildau / Berlin, DE</text>
+              <text x="-10" y="-6" fill="#34d399" font-family="'JetBrains Mono'" font-size="10">M.Sc. European Business Management</text>
             </g>
 
-            <!-- Airplane SVG Icon Following the Trajectory -->
+            <!-- Dynamic Rotating Plane SVG Icon -->
             <g class="airplane-marker text-brand-400">
-              <path d="M 0 -10 L 6 8 L 0 5 L -6 8 Z" fill="#34d399" stroke="#064e3b" stroke-width="1.5" transform="rotate(45)"/>
+              <path d="M 0 -12 L 8 8 L 0 4 L -8 8 Z" fill="#34d399" stroke="#064e3b" stroke-width="1.5" transform="rotate(-65)"/>
             </g>
           </svg>
         </div>
 
         <div class="mt-4 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-400">
-          <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-brand-400"></span> Active Station: Brandenburg / Berlin Metropolregion</span>
-          <span>Intercultural Bridge: South Asian Digital Scale ➔ European Strategic Frameworks</span>
+          <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-brand-400"></span> Active Node: Technical University of Applied Sciences Wildau</span>
+          <span>Intercultural Bridge: South Asian Digital Scale ➔ European Strategic Operations</span>
         </div>
       </div>
     </section>
@@ -317,11 +361,11 @@
             <span class="text-xs font-mono text-slate-400 font-semibold uppercase">Jul 2019 – Aug 2019 · Meezan Bank Ltd.</span>
             <h3 class="text-lg font-bold text-white mt-1">Operations &amp; Retail Banking Intern</h3>
             <p class="text-slate-400 text-sm mt-2 leading-relaxed">
-              Completed an 8-week rotational internship covering branch cash-flow reconciliation, client compliance verification, and Islamic commercial banking systems. Developed high-accuracy operational discipline handling daily retail transactions and client accounts.
+              Completed an 8-week rotational internship covering branch cash-flow reconciliation, client compliance verification, and commercial banking systems. Developed high-accuracy operational discipline handling daily retail accounts.
             </p>
             <div class="flex flex-wrap gap-2 mt-4">
-              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Operational Compliance</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Transaction Auditing</span>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Compliance</span>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Auditing</span>
             </div>
           </div>
         </div>
@@ -382,6 +426,65 @@
       </div>
     </section>
 
+    <!-- INTERACTIVE CAREER KNOWLEDGE GRAPH (SANKAR KUMAR STYLE) -->
+    <section id="knowledge-graph" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
+      <div class="mb-8">
+        <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">System Map</span>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1">Career Knowledge Graph</h2>
+      </div>
+
+      <div class="grid lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Left: Interactive Node Selector -->
+        <div class="lg:col-span-5 space-y-3 font-mono text-xs">
+          <button onclick="selectGraphNode('ecom')" id="node-ecom" class="w-full text-left p-4 rounded-xl border border-brand-400 bg-brand-400/10 text-white transition flex items-center justify-between">
+            <span class="flex items-center gap-2"><i data-lucide="shopping-cart" class="w-4 h-4 text-brand-400"></i> E-Commerce Architecture</span>
+            <span class="text-brand-400">01</span>
+          </button>
+          
+          <button onclick="selectGraphNode('martech')" id="node-martech" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-white transition flex items-center justify-between">
+            <span class="flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4 text-emerald-400"></i> Performance MarTech &amp; PPC</span>
+            <span class="text-slate-500">02</span>
+          </button>
+
+          <button onclick="selectGraphNode('data')" id="node-data" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-white transition flex items-center justify-between">
+            <span class="flex items-center gap-2"><i data-lucide="cpu" class="w-4 h-4 text-teal-400"></i> Quantitative AI Modeling</span>
+            <span class="text-slate-500">03</span>
+          </button>
+
+          <button onclick="selectGraphNode('europe')" id="node-europe" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-white transition flex items-center justify-between">
+            <span class="flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4 text-cyan-400"></i> European Strategy &amp; Law</span>
+            <span class="text-slate-500">04</span>
+          </button>
+        </div>
+
+        <!-- Right: Dynamic Analysis Viewport -->
+        <div class="lg:col-span-7 card-spotlight p-6 sm:p-8 rounded-2xl border border-slate-800 min-h-[300px]">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-800 text-xs font-mono">
+            <span class="text-brand-400 uppercase tracking-wider" id="graph-title">Node: E-Commerce Architecture</span>
+            <span class="text-slate-500" id="graph-tag">Verified System</span>
+          </div>
+
+          <div class="py-4 space-y-4 text-sm leading-relaxed text-slate-300" id="graph-content">
+            <p>
+              Orchestrated end-to-end multi-channel operations across Shopify, Amazon Seller Central, and eBay, managing catalog taxonomy and supply-chain logistics for <strong class="text-white">12,000+ active product SKUs</strong>.
+            </p>
+            <div class="grid grid-cols-2 gap-4 pt-2 font-mono text-xs">
+              <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+                <p class="text-slate-500">Primary Tooling</p>
+                <p class="text-brand-400 font-semibold mt-1">Shopify Plus, Amazon SC, Asana</p>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+                <p class="text-slate-500">Demonstrated Metric</p>
+                <p class="text-white font-semibold mt-1">92% Sales Growth Cycle</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <!-- OPERATIONAL CASE STUDIES -->
     <section id="projects" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="mb-12">
@@ -405,7 +508,7 @@
             <ul class="mt-4 space-y-2 text-xs font-mono text-slate-300">
               <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span> +35% ROI on Paid Spend</li>
               <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span> +50% Customer Acquisition in 6 Mo.</li>
-              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span> €380k+ Lifetime Budget Managed</li>
+              <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span> €380k+ Cumulative Budget Managed</li>
             </ul>
           </div>
           <div class="pt-6 border-t border-slate-800/80 mt-6 flex flex-wrap gap-1.5">
@@ -466,81 +569,7 @@
       </div>
     </section>
 
-    <!-- KNOWLEDGE GRAPH / TOOLKIT -->
-    <section id="stack" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-        <div>
-          <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Ecosystem Capabilities</span>
-          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1">MarTech Knowledge Graph</h2>
-        </div>
-        
-        <!-- Live Filter Buttons -->
-        <div class="flex flex-wrap gap-2 text-xs font-mono">
-          <button onclick="filterStack('all')" class="stack-btn active px-3 py-1.5 rounded-lg border border-brand-400 bg-brand-400/10 text-brand-400">All Nodes</button>
-          <button onclick="filterStack('growth')" class="stack-btn px-3 py-1.5 rounded-lg border border-slate-800 text-slate-400 hover:text-white">Growth &amp; Commerce</button>
-          <button onclick="filterStack('crm')" class="stack-btn px-3 py-1.5 rounded-lg border border-slate-800 text-slate-400 hover:text-white">CRM &amp; Retention</button>
-          <button onclick="filterStack('ai')" class="stack-btn px-3 py-1.5 rounded-lg border border-slate-800 text-slate-400 hover:text-white">Data &amp; AI</button>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="stack-grid">
-        <!-- Growth -->
-        <div class="stack-item growth card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
-          <i data-lucide="shopping-bag" class="w-5 h-5 text-brand-400"></i>
-          <div><p class="text-sm font-bold text-white">Shopify Plus</p><p class="text-[10px] font-mono text-slate-500">12k+ SKU Architecture</p></div>
-        </div>
-        <div class="stack-item growth card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
-          <i data-lucide="target" class="w-5 h-5 text-brand-400"></i>
-          <div><p class="text-sm font-bold text-white">Meta Ads Manager</p><p class="text-[10px] font-mono text-slate-500">Pixel &amp; CAPI Funnels</p></div>
-        </div>
-        <div class="stack-item growth card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
-          <i data-lucide="video" class="w-5 h-5 text-brand-400"></i>
-          <div><p class="text-sm font-bold text-white">TikTok Ads</p><p class="text-[10px] font-mono text-slate-500">Creative Scaling</p></div>
-        </div>
-        <div class="stack-item growth card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
-          <i data-lucide="search" class="w-5 h-5 text-brand-400"></i>
-          <div><p class="text-sm font-bold text-white">SEO &amp; Content</p><p class="text-[10px] font-mono text-slate-500">Organic Visibility</p></div>
-        </div>
-
-        <!-- CRM -->
-        <div class="stack-item crm card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
-          <i data-lucide="mail-check" class="w-5 h-5 text-emerald-300"></i>
-          <div><p class="text-sm font-bold text-white">Klaviyo</p><p class="text-[10px] font-mono text-slate-500">Lifecycle Flows</p></div>
-        </div>
-        <div class="stack-item crm card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
-          <i data-lucide="database" class="w-5 h-5 text-emerald-300"></i>
-          <div><p class="text-sm font-bold text-white">HubSpot CRM</p><p class="text-[10px] font-mono text-slate-500">Pipeline Tracking</p></div>
-        </div>
-        <div class="stack-item crm card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
-          <i data-lucide="layers" class="w-5 h-5 text-emerald-300"></i>
-          <div><p class="text-sm font-bold text-white">Salesforce</p><p class="text-[10px] font-mono text-slate-500">Enterprise Sync</p></div>
-        </div>
-        <div class="stack-item crm card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
-          <i data-lucide="send" class="w-5 h-5 text-emerald-300"></i>
-          <div><p class="text-sm font-bold text-white">Mailchimp</p><p class="text-[10px] font-mono text-slate-500">Audience Segmentation</p></div>
-        </div>
-
-        <!-- AI & Analytics -->
-        <div class="stack-item ai card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
-          <i data-lucide="activity" class="w-5 h-5 text-teal-400"></i>
-          <div><p class="text-sm font-bold text-white">Google Analytics 4</p><p class="text-[10px] font-mono text-slate-500">Event Exploration</p></div>
-        </div>
-        <div class="stack-item ai card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
-          <i data-lucide="binary" class="w-5 h-5 text-teal-400"></i>
-          <div><p class="text-sm font-bold text-white">Structural Equation (SEM)</p><p class="text-[10px] font-mono text-slate-500">Predictive Path Analysis</p></div>
-        </div>
-        <div class="stack-item ai card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
-          <i data-lucide="bot" class="w-5 h-5 text-teal-400"></i>
-          <div><p class="text-sm font-bold text-white">Applied GenAI APIs</p><p class="text-[10px] font-mono text-slate-500">Claude · Gemini · Copilot</p></div>
-        </div>
-        <div class="stack-item ai card-spotlight p-4 rounded-xl border border-slate-800 flex items-center gap-3">
-          <i data-lucide="table" class="w-5 h-5 text-teal-400"></i>
-          <div><p class="text-sm font-bold text-white">Quantitative Modeling</p><p class="text-[10px] font-mono text-slate-500">Cohort &amp; LTV Analysis</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- EXPANDED LICENSES & CERTIFICATIONS -->
+    <!-- LICENSES & CERTIFICATIONS -->
     <section id="credentials" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="grid lg:grid-cols-12 gap-12">
         
@@ -587,30 +616,6 @@
                 </div>
               </div>
               <span class="text-[10px] font-mono text-slate-400">Jan 2021</span>
-            </div>
-
-            <!-- HEC IoT -->
-            <div class="card-spotlight p-4 rounded-xl border border-slate-800 flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="p-2 rounded-lg bg-slate-800 text-brand-400"><i data-lucide="cpu" class="w-4 h-4"></i></div>
-                <div>
-                  <p class="text-sm font-bold text-white">IoT for Everyone</p>
-                  <p class="text-[11px] font-mono text-slate-400">Higher Education Commission (HEC), Pakistan · Issued Jul 2025</p>
-                </div>
-              </div>
-              <span class="text-[10px] font-mono text-slate-400">HEC Verified</span>
-            </div>
-
-            <!-- Facebook for SMBs -->
-            <div class="card-spotlight p-4 rounded-xl border border-slate-800 flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="p-2 rounded-lg bg-slate-800 text-blue-400"><i data-lucide="share-2" class="w-4 h-4"></i></div>
-                <div>
-                  <p class="text-sm font-bold text-white">Facebook for SMBs</p>
-                  <p class="text-[11px] font-mono text-slate-400">Blueprint Test Prep · Issued Aug 2018</p>
-                </div>
-              </div>
-              <span class="text-[10px] font-mono text-slate-400">Blueprint</span>
             </div>
 
             <!-- Leadership / Community Certifications -->
@@ -680,10 +685,9 @@
       </div>
     </section>
 
-    <!-- BEYOND THE DESK: FOCUSED ENGAGING STORY -->
+    <!-- BEYOND THE DESK -->
     <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80">
       <div class="card-spotlight p-8 rounded-2xl border border-slate-800/80 relative overflow-hidden">
-        <div class="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-brand-950/20 to-transparent pointer-events-none"></div>
         <div class="max-w-3xl">
           <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Perspective &amp; Character</span>
           <h3 class="text-xl font-bold text-white mt-1 mb-4 flex items-center gap-2">
@@ -691,10 +695,10 @@
             The Altitude of Neelum Valley: Managing Ambiguity
           </h3>
           <p class="text-slate-300 text-sm leading-relaxed">
-            I have climbed through the rugged terrain of northern Pakistan's <strong class="text-white">Neelum Valley three distinct times</strong>. In high-altitude travel, conditions change within minutes: sudden temperature drops, unmapped paths, and zero cell reception force you to plan contingencies, trust your team, and stay calm when plans break down. 
+            I have climbed through the rugged terrain of northern Pakistan's <strong class="text-white">Neelum Valley three distinct times</strong>. In high-altitude travel, conditions change within minutes: sudden temperature drops, unmapped paths, and zero cell reception force you to plan contingencies, trust your team, and stay calm when plans break down.
           </p>
           <p class="text-slate-400 text-sm leading-relaxed mt-3">
-            Scaling high-velocity e-commerce operations presents the exact same dynamic: algorithmic shocks on Meta, sudden supply-chain bottlenecks, or shifts in customer acquisition costs require structured agility rather than panic. Whether navigating high alpine valleys or orchestrating multichannel campaigns across foreign markets, the guiding principle remains constant: understand the terrain, build reliable systems, and keep moving forward.
+            Scaling high-velocity e-commerce operations presents the exact same dynamic: sudden ad platform policy changes, supply bottlenecks, or sudden spikes in customer acquisition cost require structured agility rather than panic. Whether navigating high alpine valleys or orchestrating multichannel campaigns across foreign markets, the guiding principle remains constant: understand the terrain, build reliable systems, and keep moving forward.
           </p>
         </div>
       </div>
@@ -710,7 +714,7 @@
           <p class="font-bold text-slate-400 uppercase tracking-widest text-[11px] mb-2 font-mono">Impressum / Legal Disclosure</p>
           <p class="text-slate-400">Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG):</p>
           <p class="mt-2 text-slate-300 font-medium">Syed Muhammad Baqar Ali Shah</p>
-          <p>Schillerallee 1, App. 312</p>
+          <p>Schillerallee 1</p>
           <p>15745 Wildau, Germany</p>
           <p class="mt-2">E-Mail: <a href="mailto:baaqi55@gmail.com" class="text-brand-400 hover:underline">baaqi55@gmail.com</a></p>
         </div>
@@ -728,7 +732,7 @@
     </div>
   </footer>
 
-  <!-- DYNAMIC INTERACTIONS & AUDIO SCRIPT -->
+  <!-- DYNAMIC INTERACTIONS & SYNTH SOUND SCRIPT -->
   <script>
     // Initialize Lucide Icons
     lucide.createIcons();
@@ -739,6 +743,14 @@
     btn.addEventListener('click', () => menu.classList.toggle('hidden'));
     menu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => menu.classList.add('hidden'));
+    });
+
+    // Top Scroll Progress Bar
+    window.addEventListener('scroll', () => {
+      const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('scroll-progress').style.width = scrolled + '%';
     });
 
     // Dynamic Card Spotlight Following Mouse
@@ -752,99 +764,148 @@
       });
     });
 
-    // Stack Filter Engine
-    function filterStack(category) {
-      const items = document.querySelectorAll('.stack-item');
-      const buttons = document.querySelectorAll('.stack-btn');
+    // Career Knowledge Graph Interactive Switcher
+    const graphData = {
+      ecom: {
+        title: "Node: E-Commerce Architecture",
+        tag: "12,000+ SKUs",
+        content: `
+          <p>Orchestrated end-to-end multi-channel operations across Shopify, Amazon Seller Central, and eBay, managing catalog taxonomy and supply-chain logistics for <strong class="text-white">12,000+ active product SKUs</strong>.</p>
+          <div class="grid grid-cols-2 gap-4 pt-2 font-mono text-xs">
+            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+              <p class="text-slate-500">Primary Tooling</p>
+              <p class="text-brand-400 font-semibold mt-1">Shopify Plus, Amazon SC, Asana</p>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+              <p class="text-slate-500">Demonstrated Metric</p>
+              <p class="text-white font-semibold mt-1">92% Sales Growth Cycle</p>
+            </div>
+          </div>
+        `
+      },
+      martech: {
+        title: "Node: Performance MarTech & PPC",
+        tag: "€380,000+ Managed",
+        content: `
+          <p>Managed paid search, sponsored products, and social acquisition funnels across Meta Ads Manager and Amazon PPC for US/UK international accounts, integrating custom conversions and CAPI tracking.</p>
+          <div class="grid grid-cols-2 gap-4 pt-2 font-mono text-xs">
+            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+              <p class="text-slate-500">Primary Tooling</p>
+              <p class="text-brand-400 font-semibold mt-1">Meta Ads, Amazon PPC, GA4</p>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+              <p class="text-slate-500">Demonstrated Metric</p>
+              <p class="text-white font-semibold mt-1">+35% ROI / 76% YoY Acquisition</p>
+            </div>
+          </div>
+        `
+      },
+      data: {
+        title: "Node: Quantitative AI Modeling",
+        tag: "Master Thesis (1.00)",
+        content: `
+          <p>Designed an empirical research framework utilizing Structural Equation Modeling (SmartPLS) to assess how Customer Engagement drives AI Personalization while evaluating the moderating friction of consumer privacy concerns.</p>
+          <div class="grid grid-cols-2 gap-4 pt-2 font-mono text-xs">
+            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+              <p class="text-slate-500">Statistical Methods</p>
+              <p class="text-brand-400 font-semibold mt-1">PLS-SEM, Privacy Calculus Model</p>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+              <p class="text-slate-500">Demonstrated Output</p>
+              <p class="text-white font-semibold mt-1">Summa Cum Laude (Bahria Univ.)</p>
+            </div>
+          </div>
+        `
+      },
+      europe: {
+        title: "Node: European Strategy & Law",
+        tag: "Active Candidate",
+        content: `
+          <p>Evaluating European commercial standards, cross-border digital expansion, and regulatory compliance (GDPR, Digital Services Act) to align automated MarTech tooling with strict EU data governance.</p>
+          <div class="grid grid-cols-2 gap-4 pt-2 font-mono text-xs">
+            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+              <p class="text-slate-500">Academic Institution</p>
+              <p class="text-brand-400 font-semibold mt-1">TH Wildau (Brandenburg/Berlin)</p>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+              <p class="text-slate-500">Focus Areas</p>
+              <p class="text-white font-semibold mt-1">Data Science, AI &amp; EU Strategy</p>
+            </div>
+          </div>
+        `
+      }
+    };
 
-      buttons.forEach(b => {
-        b.classList.remove('border-brand-400', 'bg-brand-400/10', 'text-brand-400');
-        b.classList.add('border-slate-800', 'text-slate-400');
-      });
-      event.target.classList.add('border-brand-400', 'bg-brand-400/10', 'text-brand-400');
-      event.target.classList.remove('border-slate-800', 'text-slate-400');
+    function selectGraphNode(nodeKey) {
+      const data = graphData[nodeKey];
+      document.getElementById('graph-title').innerText = data.title;
+      document.getElementById('graph-tag').innerText = data.tag;
+      document.getElementById('graph-content').innerHTML = data.content;
 
-      items.forEach(item => {
-        if (category === 'all' || item.classList.contains(category)) {
-          item.style.display = 'flex';
+      ['ecom', 'martech', 'data', 'europe'].forEach(key => {
+        const btn = document.getElementById(`node-${key}`);
+        if (key === nodeKey) {
+          btn.className = "w-full text-left p-4 rounded-xl border border-brand-400 bg-brand-400/10 text-white transition flex items-center justify-between";
         } else {
-          item.style.display = 'none';
+          btn.className = "w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-white transition flex items-center justify-between";
         }
       });
     }
 
-    // AD-FREE AMBIENT AUDIO ENGINE WITH WEB AUDIO API FALLBACK
-    const audio = document.getElementById('bg-audio');
-    const soundText = document.getElementById('sound-text');
-    const soundBtn = document.getElementById('sound-btn');
-    const equalizer = document.getElementById('equalizer');
-    const staticIcon = document.getElementById('music-static-icon');
-    let isPlaying = false;
+    // Zero-Ad Web Audio API Ambient Synthesizer
     let audioCtx = null;
     let osc1, osc2, gainNode;
+    let isPlaying = false;
 
     function toggleAudio() {
-      if (!isPlaying) {
-        audio.volume = 0.35;
-        audio.play().then(() => {
-          setAudioState(true);
-        }).catch(() => {
-          // Fallback to warm synth chords if browser blocks CDN stream
-          startSynthFallback();
-        });
-      } else {
-        audio.pause();
-        stopSynthFallback();
-        setAudioState(false);
-      }
-    }
+      const soundBtn = document.getElementById('sound-btn');
+      const soundText = document.getElementById('sound-text');
+      const soundIcon = document.getElementById('sound-icon');
 
-    function setAudioState(active) {
-      isPlaying = active;
-      if (active) {
+      if (!isPlaying) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+
+        // Warm ambient lo-fi drone pad (D minor / F major pentatonic)
+        osc1 = audioCtx.createOscillator();
+        osc2 = audioCtx.createOscillator();
+        gainNode = audioCtx.createGain();
+
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(146.83, audioCtx.currentTime); // D3
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(220.00, audioCtx.currentTime); // A3
+
+        gainNode.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.045, audioCtx.currentTime + 2.5);
+
+        osc1.connect(gainNode);
+        osc2.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        osc1.start();
+        osc2.start();
+
+        isPlaying = true;
         soundText.innerText = 'Ambient: On';
         soundBtn.classList.add('border-brand-400', 'text-brand-400');
-        equalizer.classList.remove('hidden');
-        staticIcon.classList.add('hidden');
+        soundIcon.setAttribute('data-lucide', 'volume-2');
+        soundIcon.classList.add('text-brand-400');
+        lucide.createIcons();
       } else {
+        if (gainNode && audioCtx) {
+          gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+          setTimeout(() => {
+            if (osc1) osc1.stop();
+            if (osc2) osc2.stop();
+            isPlaying = false;
+          }, 600);
+        }
         soundText.innerText = 'Ambient: Off';
         soundBtn.classList.remove('border-brand-400', 'text-brand-400');
-        equalizer.classList.add('hidden');
-        staticIcon.classList.remove('hidden');
-      }
-    }
-
-    function startSynthFallback() {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      audioCtx = new AudioContext();
-      osc1 = audioCtx.createOscillator();
-      osc2 = audioCtx.createOscillator();
-      gainNode = audioCtx.createGain();
-
-      osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(146.83, audioCtx.currentTime); // D3
-      osc2.type = 'triangle';
-      osc2.frequency.setValueAtTime(220.00, audioCtx.currentTime); // A3
-
-      gainNode.gain.setValueAtTime(0.01, audioCtx.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.05, audioCtx.currentTime + 2);
-
-      osc1.connect(gainNode);
-      osc2.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
-
-      osc1.start();
-      osc2.start();
-      setAudioState(true);
-    }
-
-    function stopSynthFallback() {
-      if (gainNode && audioCtx) {
-        gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.5);
-        setTimeout(() => {
-          if (osc1) osc1.stop();
-          if (osc2) osc2.stop();
-        }, 500);
+        soundIcon.setAttribute('data-lucide', 'volume-x');
+        soundIcon.classList.remove('text-brand-400');
+        lucide.createIcons();
       }
     }
   </script>
