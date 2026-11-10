@@ -15,19 +15,22 @@
   <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Space Grotesk', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Lora', 'serif'],
             mono: ['JetBrains Mono', 'monospace'],
             hand: ['Caveat', 'cursive'],
           },
           colors: {
-            brand: { 300: '#6ee7b7', 400: '#34d399', 500: '#10b981', 900: '#064e3b', 950: '#022c22' }
+            // Switched from "AI Green" to a warm, creative "Sunset/Amber" palette
+            brand: { 300: '#fdba74', 400: '#fb923c', 500: '#f97316', 900: '#7c2d12', 950: '#431407' },
+            surface: { 900: '#171717', 950: '#0a0a0a' }
           }
         }
       }
@@ -35,53 +38,45 @@
   </script>
 
   <style>
-    html { scroll-padding-top: 5rem; cursor: none; /* Hide default cursor for custom water effect */ }
+    html { scroll-padding-top: 5rem; }
     body {
-      background-color: #030712; color: #f3f4f6;
-      background-image: radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.12) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(6, 78, 59, 0.15) 0px, transparent 50%), linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+      background-color: #0f0f0f; color: #f3f4f6;
+      /* Subtle noise/grain texture instead of the techy grid */
+      background-image: radial-gradient(at 50% 0%, rgba(249, 115, 22, 0.05) 0px, transparent 60%), radial-gradient(at 100% 100%, rgba(251, 146, 60, 0.03) 0px, transparent 50%);
     }
     
-    /* Water Ripple Canvas & Custom Cursor */
-    #water-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9998; }
-    #custom-cursor { position: fixed; top: 0; left: 0; width: 8px; height: 8px; background: #34d399; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background 0.2s; box-shadow: 0 0 10px #34d399; }
-    
-    .glass-nav { background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(16px); }
-    .card-spotlight { position: relative; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(12px); overflow: hidden; }
-    .timeline-line::before { content: ''; position: absolute; top: 0; bottom: 0; left: 19px; width: 2px; background: linear-gradient(to bottom, #10b981 0%, #334155 85%, transparent 100%); }
+    .glass-nav { background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .card-spotlight { position: relative; background: rgba(23, 23, 23, 0.7); backdrop-filter: blur(12px); overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+    .timeline-line::before { content: ''; position: absolute; top: 0; bottom: 0; left: 19px; width: 2px; background: linear-gradient(to bottom, #fb923c 0%, #334155 85%, transparent 100%); }
 
     /* Universal Hover Elevation */
     .hover-elevate { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease; }
-    .hover-elevate:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 12px 30px -10px rgba(16, 185, 129, 0.2); border-color: rgba(52, 211, 153, 0.6); }
+    .hover-elevate:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 12px 30px -10px rgba(249, 115, 22, 0.15); border-color: rgba(251, 146, 60, 0.4); }
     
     /* D3 Mind Map SVG */
     #d3-container svg { cursor: grab; }
     #d3-container svg:active { cursor: grabbing; }
-    .node circle { stroke: #022c22; stroke-width: 2px; transition: all 0.3s; }
-    .node circle:hover { stroke: #34d399; stroke-width: 4px; filter: drop-shadow(0 0 8px #34d399); }
-    .node text { font-family: 'JetBrains Mono', monospace; font-size: 10px; fill: #94a3b8; pointer-events: none; }
-    .link { stroke: rgba(52, 211, 153, 0.2); stroke-width: 1.5px; }
+    .node circle { stroke: #171717; stroke-width: 2px; transition: all 0.3s; }
+    .node circle:hover { stroke: #fb923c; stroke-width: 4px; filter: drop-shadow(0 0 12px #fb923c); }
+    /* Changed text to white and slightly larger for perfect visibility */
+    .node text { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: #ffffff; font-weight: 500; pointer-events: none; text-shadow: 0px 2px 4px rgba(0,0,0,0.8); }
+    .link { stroke: rgba(251, 146, 60, 0.25); stroke-width: 1.5px; }
 
-    /* Flight Path Animation (Left to Right) */
+    /* Flight Path Animation */
     .flight-path-line { stroke-dasharray: 6 6; animation: dashMove 20s linear infinite; }
     @keyframes dashMove { to { stroke-dashoffset: -1000; } }
   </style>
 </head>
-<body class="selection:bg-brand-500/30 selection:text-brand-400 font-sans antialiased overflow-x-hidden">
+<body class="selection:bg-brand-500/30 selection:text-white font-sans antialiased overflow-x-hidden">
 
-  <!-- CUSTOM CURSOR & WATER RIPPLES -->
-  <div id="custom-cursor"></div>
-  <canvas id="water-canvas"></canvas>
-
-  <!-- SCROLL PROGRESS -->
-  <div id="scroll-progress" class="fixed top-0 left-0 h-[2.5px] bg-gradient-to-r from-brand-500 to-teal-300 z-[60]" style="width: 0%;"></div>
+  <!-- SCROLL PROGRESS LINE -->
+  <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-brand-500 to-amber-300 z-[60] transition-all duration-75" style="width: 0%;"></div>
 
   <!-- CLEAN TOP NAVIGATION BAR -->
-  <header class="fixed top-0 inset-x-0 z-50 glass-nav border-b border-slate-800/80">
+  <header class="fixed top-0 inset-x-0 z-50 glass-nav">
     <nav class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-      <a href="#top" class="font-bold tracking-tight text-lg text-white hover:text-brand-400 transition flex items-center gap-2">
-        <span class="h-2 w-2 rounded-full bg-brand-400 animate-pulse"></span>
-        Baqar Shah
+      <a href="#top" class="font-serif font-bold tracking-tight text-xl text-white hover:text-brand-400 transition flex items-center gap-2">
+        Baqar Shah.
       </a>
 
       <!-- De-cluttered Nav Links -->
@@ -94,9 +89,9 @@
 
       <!-- Actions -->
       <div class="hidden md:flex items-center gap-3">
-        <button id="lang-btn" onclick="toggleLanguage()" class="inline-flex items-center justify-center h-8 w-14 rounded-full border border-slate-700 bg-slate-900/90 text-xs font-mono text-slate-300 hover:border-brand-400 hover:text-brand-400 transition">EN|DE</button>
-        <button id="sound-btn" onclick="toggleAudio()" class="inline-flex items-center justify-center h-8 w-8 rounded-full border border-slate-700 bg-slate-900/90 text-slate-300 hover:border-brand-400 hover:text-brand-400 transition"><i data-lucide="music" id="sound-icon" class="w-3.5 h-3.5"></i></button>
-        <a href="cv.pdf" download="Baqar_Shah_CV.pdf" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-400 px-3.5 py-1.5 font-semibold text-slate-950 hover:bg-brand-500 transition text-xs font-mono"><i data-lucide="download" class="w-3.5 h-3.5"></i> CV</a>
+        <button id="lang-btn" onclick="toggleLanguage()" class="inline-flex items-center justify-center h-8 w-14 rounded-full border border-slate-700 bg-surface-900 text-xs font-mono text-slate-300 hover:border-brand-400 hover:text-brand-400 transition">EN|DE</button>
+        <button id="sound-btn" onclick="toggleAudio()" class="inline-flex items-center justify-center h-8 w-8 rounded-full border border-slate-700 bg-surface-900 text-slate-300 hover:border-brand-400 hover:text-brand-400 transition"><i data-lucide="music" id="sound-icon" class="w-3.5 h-3.5"></i></button>
+        <a href="cv.pdf" download="Baqar_Shah_CV.pdf" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-400 px-3.5 py-1.5 font-semibold text-surface-950 hover:bg-brand-500 transition text-xs font-mono"><i data-lucide="download" class="w-3.5 h-3.5"></i> CV</a>
       </div>
       <button id="menu-btn" class="md:hidden p-2 text-slate-300"><i data-lucide="menu"></i></button>
     </nav>
@@ -107,15 +102,16 @@
     <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- LIGHTBOX MODAL -->
-  <div id="lightbox-modal" class="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-xl hidden flex items-center justify-center p-4">
-    <button onclick="closeLightbox()" class="absolute top-6 right-6 p-2 rounded-full border border-slate-700 bg-slate-900 text-slate-300 hover:text-white transition z-10"><i data-lucide="x" class="w-6 h-6"></i></button>
-    <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full border border-slate-700 bg-slate-900/80 text-white hover:border-brand-400 transition z-10"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
+  <!-- LIGHTBOX MODAL (Artifacts only) -->
+  <div id="lightbox-modal" class="fixed inset-0 z-[100] bg-surface-950/95 backdrop-blur-xl hidden flex items-center justify-center p-4">
+    <button onclick="closeLightbox()" class="absolute top-6 right-6 p-2 rounded-full border border-slate-700 bg-surface-900 text-slate-300 hover:text-white transition z-10"><i data-lucide="x" class="w-6 h-6"></i></button>
+    <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full border border-slate-700 bg-surface-900/80 text-white hover:border-brand-400 transition z-10"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
     <div class="max-w-5xl max-h-[85vh] flex flex-col items-center">
+      <!-- Removed onerror unsplash fallback so your real artifacts can load cleanly or fail properly -->
       <img id="lightbox-img" src="" alt="Artifact" class="max-h-[75vh] w-auto rounded-xl object-contain shadow-2xl border border-slate-800" />
       <p id="lightbox-caption" class="mt-4 font-mono text-xs text-brand-400"></p>
     </div>
-    <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full border border-slate-700 bg-slate-900/80 text-white hover:border-brand-400 transition z-10"><i data-lucide="chevron-right" class="w-6 h-6"></i></button>
+    <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full border border-slate-700 bg-surface-900/80 text-white hover:border-brand-400 transition z-10"><i data-lucide="chevron-right" class="w-6 h-6"></i></button>
   </div>
 
   <main id="top">
@@ -123,13 +119,13 @@
     <section class="max-w-6xl mx-auto px-4 sm:px-6 pt-32 pb-16 md:pt-44 md:pb-20 hover-elevate">
       <div class="grid lg:grid-cols-12 gap-12 items-center">
         <div class="lg:col-span-7 space-y-6">
-          <div class="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs sm:text-sm font-medium text-brand-400">
+          <div class="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-3.5 py-1 text-xs sm:text-sm font-medium text-brand-400">
             <i data-lucide="sparkles" class="w-4 h-4"></i>
             <span id="hero-badge" data-i18n="hero_badge">The biggest campaign I managed was starting over in Germany.</span>
           </div>
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.08]">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.1] font-serif">
             <span data-i18n="hero_title1">E-Commerce Operations</span> <br />
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-teal-300 to-emerald-200" data-i18n="hero_title2">&amp; MarTech Specialist</span>
+            <span class="text-brand-400 italic" data-i18n="hero_title2">&amp; MarTech Specialist</span>
           </h1>
           <p class="text-base sm:text-lg text-slate-400 max-w-xl leading-relaxed" data-i18n="hero_desc">
             Bridging 4+ years of hands-on marketplace scaling with European business compliance, predictive AI personalization research, and automated growth funnels.
@@ -142,17 +138,17 @@
               <div><p class="text-xl font-bold text-white">1.00 CGPA</p><p class="text-[10px] font-mono text-brand-400 uppercase mt-1" data-i18n="stat4">MBA (Pakistan)</p></div>
             </div>
             <p class="text-xs text-slate-500 mt-4 leading-relaxed max-w-lg" data-i18n="hero_context">
-              <strong class="text-slate-400">Data drives my decisions.</strong> From scaling verified international e-commerce revenue on TikTok Shop/eBay, to achieving Summa Cum Laude academic honors during my MBA in Pakistan, these metrics form my foundation before bringing my operational expertise to Europe.
+              <strong class="text-slate-300">Data drives my decisions.</strong> From scaling verified international e-commerce revenue on TikTok Shop/eBay, to achieving Summa Cum Laude academic honors during my MBA in Pakistan, these metrics form my foundation before bringing my operational expertise to Europe.
             </p>
           </div>
         </div>
         <div class="lg:col-span-5 flex justify-center lg:justify-end">
           <div class="relative w-64 sm:w-80 aspect-[4/5]">
-            <div class="absolute -inset-1.5 rounded-3xl bg-gradient-to-tr from-brand-500/30 to-emerald-400/10 blur-xl opacity-75"></div>
-            <div class="relative h-full w-full rounded-2xl border border-slate-800 bg-slate-900 overflow-hidden shadow-2xl">
-              <img src="headshot.jpg" onerror="this.onerror=null; this.src='headshot.png';" alt="Baqar Shah" class="h-full w-full object-cover filter grayscale contrast-105 hover:grayscale-0 transition-all duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-85"></div>
-              <div class="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-slate-950/85 border border-slate-800/80 backdrop-blur-md">
+            <div class="absolute -inset-1.5 rounded-3xl bg-gradient-to-tr from-brand-500/20 to-amber-400/10 blur-xl opacity-75"></div>
+            <div class="relative h-full w-full rounded-2xl border border-slate-800 bg-surface-900 overflow-hidden shadow-2xl">
+              <img src="headshot.jpg" onerror="this.onerror=null; this.src='headshot.png';" alt="Baqar Shah" class="h-full w-full object-cover filter grayscale contrast-125 hover:grayscale-0 transition-all duration-700" />
+              <div class="absolute inset-0 bg-gradient-to-t from-surface-950 via-transparent opacity-85"></div>
+              <div class="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-surface-950/85 border border-slate-800/80 backdrop-blur-md">
                 <p class="text-xs font-mono text-brand-400 font-semibold" data-i18n="hero_card_title">M.Sc. Candidate · TH Wildau</p>
                 <p class="text-xs text-slate-300" data-i18n="hero_card_desc">European Business Management</p>
               </div>
@@ -162,13 +158,13 @@
       </div>
     </section>
 
-    <!-- THE MOUNTAIN STORY -->
+    <!-- THE MOUNTAIN STORY (Removed Unsplash fallbacks) -->
     <section id="about" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80 hover-elevate">
-      <div class="card-spotlight p-8 md:p-10 rounded-2xl border border-slate-800">
+      <div class="card-spotlight p-8 md:p-10 rounded-2xl">
         <div class="grid md:grid-cols-2 gap-10 items-center">
           <div>
             <span class="text-xs font-mono text-brand-400 tracking-widest uppercase" data-i18n="mtn_sub">The Nanga Parbat Mentality</span>
-            <h2 class="text-3xl font-bold tracking-tight text-white mt-2 mb-4" data-i18n="mtn_title">Navigating the Unpredictable</h2>
+            <h2 class="text-3xl font-bold tracking-tight text-white mt-2 mb-4 font-serif" data-i18n="mtn_title">Navigating the Unpredictable</h2>
             <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
               <p data-i18n="mtn_p1">
                 In climbing history, Nanga Parbat is famously known as the <em>Schicksalsberg</em> (Mountain of Destiny)—a place of extreme ambition and unforgiving risk. While I haven't conquered its peak, my expeditions through the surrounding high-altitude valleys taught me the ultimate lesson in risk management. Up there, weather changes in minutes, and survival depends entirely on agile contingency planning.
@@ -179,31 +175,30 @@
             </div>
           </div>
           <div class="grid grid-cols-2 gap-3 relative cursor-pointer">
-            <img src="nanga-tent.jpg" onclick="openLightbox(0)" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=500&q=80';" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate" alt="Expedition Base Camp">
+            <!-- Used exactly your image names without the overwrite script -->
+            <img src="nanga-tent.jpg" onclick="openLightbox(0)" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate" alt="Expedition Base Camp">
             <div class="space-y-3">
-              <img src="nanga-group.jpg" onclick="openLightbox(1)" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=500&q=80';" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate" alt="The Team">
-              <img src="nanga-summit.jpg" onclick="openLightbox(2)" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?auto=format&fit=crop&w=500&q=80';" class="rounded-xl border border-slate-700 object-cover aspect-[4/3] hover-elevate" alt="The Ascent">
+              <img src="nanga-group.jpg" onclick="openLightbox(1)" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate" alt="The Team">
+              <img src="nanga-summit.jpg" onclick="openLightbox(2)" class="rounded-xl border border-slate-700 object-cover aspect-[4/3] hover-elevate" alt="The Ascent">
             </div>
             <div class="absolute -bottom-4 right-6 transform -rotate-6">
-              <p class="font-hand text-2xl text-brand-400 tracking-wide drop-shadow-md" data-i18n="mtn_note">The Ultimate Test</p>
+              <p class="font-hand text-3xl text-brand-400 tracking-wide drop-shadow-md" data-i18n="mtn_note">The Ultimate Test</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- DYNAMIC FLIGHT PATH (Left to Right / East to West visually) -->
+    <!-- DYNAMIC FLIGHT PATH -->
     <section id="flightpath" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80 hover-elevate">
       <div class="mb-8">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase" data-i18n="flight_sub">Global Trajectory</span>
-        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-1" data-i18n="flight_title">Intercultural Logistics</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-1 font-serif" data-i18n="flight_title">Intercultural Logistics</h2>
       </div>
 
-      <div class="card-spotlight p-6 sm:p-8 rounded-2xl border border-slate-800 overflow-hidden">
-        <!-- SVG Map Background -->
+      <div class="card-spotlight p-6 sm:p-8 rounded-2xl overflow-hidden">
         <div class="absolute inset-0 opacity-10 pointer-events-none flex items-center justify-center">
             <svg viewBox="0 0 1000 400" class="w-full h-full text-brand-400" fill="currentColor">
-                <!-- Abstract stylized world map dots/paths for background -->
                 <path d="M400,200 Q450,150 500,200 T600,200 M650,180 Q700,100 800,150" stroke="currentColor" stroke-width="2" fill="none" opacity="0.3"/>
                 <circle cx="200" cy="150" r="1.5"/><circle cx="220" cy="160" r="1.5"/><circle cx="240" cy="140" r="1.5"/>
                 <circle cx="500" cy="200" r="1.5"/><circle cx="520" cy="210" r="1.5"/><circle cx="540" cy="190" r="1.5"/>
@@ -213,38 +208,30 @@
 
         <div class="relative w-full overflow-x-auto pb-6">
           <svg viewBox="0 0 1000 320" class="min-w-[750px] w-full text-slate-700" fill="none" xmlns="http://www.w3.org/2000/svg">
-            
-            <!-- Path Left to Right (Jhelum -> Islamabad -> Berlin) -->
             <path id="flight-arc" d="M 150 220 Q 400 120 850 100" stroke="rgba(51, 65, 85, 0.6)" stroke-width="2" fill="none"/>
-            <path d="M 150 220 Q 400 120 850 100" stroke="#10b981" stroke-width="2.5" fill="none" class="flight-path-line" />
+            <path d="M 150 220 Q 400 120 850 100" stroke="#fb923c" stroke-width="2.5" fill="none" class="flight-path-line" />
 
-            <!-- Node 1: Jhelum (Left) -->
             <g transform="translate(150, 220)">
-              <circle r="8" fill="#030712" stroke="#10b981" stroke-width="3"/>
-              <text x="-15" y="24" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="12">Jhelum, PK</text>
+              <circle r="8" fill="#0f0f0f" stroke="#fb923c" stroke-width="3"/>
+              <text x="-15" y="24" fill="#f3f4f6" font-family="'Inter'" font-weight="700" font-size="12">Jhelum, PK</text>
               <text x="-15" y="38" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="10" data-i18n="node1_desc">Operational Roots</text>
             </g>
 
-            <!-- Node 2: Islamabad (Middle) -->
             <g transform="translate(420, 150)">
-              <circle r="8" fill="#030712" stroke="#10b981" stroke-width="3"/>
-              <text x="-25" y="-15" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="12">Islamabad, PK</text>
-              <text x="-25" y="-3" fill="#34d399" font-family="'JetBrains Mono'" font-size="10" data-i18n="node2_desc">MBA (1.00 CGPA)</text>
+              <circle r="8" fill="#0f0f0f" stroke="#fb923c" stroke-width="3"/>
+              <text x="-25" y="-15" fill="#f3f4f6" font-family="'Inter'" font-weight="700" font-size="12">Islamabad, PK</text>
+              <text x="-25" y="-3" fill="#fb923c" font-family="'JetBrains Mono'" font-size="10" data-i18n="node2_desc">MBA (1.00 CGPA)</text>
             </g>
 
-            <!-- Node 3: Berlin/Wildau (Right) -->
             <g transform="translate(850, 100)">
-              <circle r="12" fill="#030712" stroke="#34d399" stroke-width="3" class="animate-pulse"/>
-              <text x="-20" y="28" fill="#f3f4f6" font-family="'Space Grotesk'" font-weight="700" font-size="13">Wildau / Berlin, DE</text>
-              <text x="-20" y="44" fill="#34d399" font-family="'JetBrains Mono'" font-size="10" data-i18n="node3_desc">M.Sc. European Business</text>
+              <circle r="12" fill="#0f0f0f" stroke="#fb923c" stroke-width="3" class="animate-pulse"/>
+              <text x="-20" y="28" fill="#f3f4f6" font-family="'Inter'" font-weight="700" font-size="13">Wildau / Berlin, DE</text>
+              <text x="-20" y="44" fill="#fb923c" font-family="'JetBrains Mono'" font-size="10" data-i18n="node3_desc">M.Sc. European Business</text>
             </g>
 
-            <!-- Moving Airplane Left to Right -->
             <g>
-              <path d="M 0 -8 L 10 0 L 0 8 L 2 0 Z" fill="#34d399" stroke="#064e3b" stroke-width="1"/>
-              <animateMotion dur="10s" repeatCount="indefinite" rotate="auto">
-                <mpath href="#flight-arc"/>
-              </animateMotion>
+              <path d="M 0 -8 L 10 0 L 0 8 L 2 0 Z" fill="#fb923c" stroke="#7c2d12" stroke-width="1"/>
+              <animateMotion dur="10s" repeatCount="indefinite" rotate="auto"><mpath href="#flight-arc"/></animateMotion>
             </g>
           </svg>
         </div>
@@ -258,13 +245,13 @@
     <section id="journey" class="max-w-4xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="mb-12">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase" data-i18n="exp_sub">Career Progression</span>
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1" data-i18n="exp_title">The Experience Staircase</h2>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1 font-serif" data-i18n="exp_title">The Experience Staircase</h2>
       </div>
       <div class="relative timeline-line space-y-12">
         
         <div class="relative pl-10 group hover-elevate">
-          <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-brand-400 ring-4 ring-brand-950 animate-pulse transition-all"></div>
-          <div class="card-spotlight p-6 rounded-2xl border border-brand-500/40 bg-brand-950/20">
+          <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-brand-400 ring-4 ring-surface-950 animate-pulse transition-all"></div>
+          <div class="card-spotlight p-6 rounded-2xl border border-brand-500/40 bg-surface-900/60">
             <span class="text-xs font-mono text-brand-400 font-semibold uppercase" data-i18n="job1_date">Apr 2026 – Present · Germany</span>
             <h3 class="text-lg font-bold text-white mt-1" data-i18n="job1_title">M.Sc. European Business Management</h3>
             <p class="text-slate-400 text-sm mt-2 leading-relaxed" data-i18n="job1_desc">Mastering EU Regulatory Frameworks (GDPR) and AI data integrations at TH Wildau to build compliant European marketing engines.</p>
@@ -300,15 +287,15 @@
       </div>
     </section>
 
-    <!-- D3.JS INTERACTIVE MIND MAP -->
-    <section id="mindmap" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80 hover-elevate">
+    <!-- D3.JS INTERACTIVE MIND MAP (Expanded) -->
+    <section id="mindmap" class="max-w-7xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80 hover-elevate">
       <div class="mb-8">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase" data-i18n="graph_sub">System Map</span>
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1" data-i18n="graph_title">Interactive Knowledge Graph</h2>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1 font-serif" data-i18n="graph_title">Interactive Knowledge Graph</h2>
         <p class="text-xs text-slate-400 mt-2 font-mono" data-i18n="graph_desc">Drag, pull, and zoom nodes to explore the operational ecosystem.</p>
       </div>
       
-      <div class="card-spotlight p-2 rounded-2xl border border-slate-800 relative w-full h-[500px]" id="d3-container">
+      <div class="card-spotlight p-2 rounded-2xl w-full h-[650px] cursor-move" id="d3-container">
         <!-- D3 Graph renders here -->
       </div>
     </section>
@@ -317,82 +304,87 @@
     <section id="projects" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="mb-12">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase" data-i18n="ev_sub">Verified Evidence</span>
-        <h2 class="text-3xl font-bold text-white mt-1" data-i18n="ev_title">Operational Case Studies</h2>
+        <h2 class="text-3xl font-bold text-white mt-1 font-serif" data-i18n="ev_title">Operational Case Studies</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-        <!-- Multi-Channel Scaling (TikTok & eBay) -->
-        <div class="md:col-span-8 card-spotlight p-6 rounded-2xl border border-slate-800 hover-elevate">
-          <div class="flex items-center gap-2 mb-3"><i data-lucide="bar-chart-3" class="w-6 h-6 text-brand-400"></i><h3 class="text-xl font-bold text-white" data-i18n="case1_title">Multi-Channel E-Commerce Scaling</h3></div>
+        <div class="md:col-span-8 card-spotlight p-6 rounded-2xl hover-elevate">
+          <div class="flex items-center gap-2 mb-3"><i data-lucide="bar-chart-3" class="w-6 h-6 text-brand-400"></i><h3 class="text-xl font-bold text-white font-serif" data-i18n="case1_title">Multi-Channel E-Commerce Scaling</h3></div>
           <p class="text-sm text-slate-400 leading-relaxed mb-4" data-i18n="case1_desc">Directed digital growth across North American and UK retail accounts. Orchestrated high-velocity sales across TikTok Shop and eBay US, managing 6,282 active listings and achieving a verified <strong class='text-brand-400'>$5.3M+ GMV</strong>.</p>
           <div class="flex flex-wrap gap-2 text-[10px] font-mono mb-4">
-            <button onclick="openLightboxArtifact('proof-tiktok.jpg', 'TikTok Shop Analytics: $5.3M+ GMV Verified')" class="bg-brand-900/50 px-2 py-1 rounded text-brand-300 hover:bg-brand-500 hover:text-slate-900 transition flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View TikTok Artifact</button>
-            <button onclick="openLightboxArtifact('proof-ebay.jpg', 'eBay Seller Dashboard: 6,200+ Active Listings')" class="bg-brand-900/50 px-2 py-1 rounded text-brand-300 hover:bg-brand-500 hover:text-slate-900 transition flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View eBay Artifact</button>
+            <button onclick="openLightboxArtifact('proof-tiktok.jpg', 'TikTok Shop Analytics: $5.3M+ GMV Verified')" class="bg-surface-900 px-2 py-1 rounded text-brand-300 border border-slate-700 hover:bg-brand-500 hover:text-white transition flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View TikTok Artifact</button>
+            <button onclick="openLightboxArtifact('proof-ebay.jpg', 'eBay Seller Dashboard: 6,200+ Active Listings')" class="bg-surface-900 px-2 py-1 rounded text-brand-300 border border-slate-700 hover:bg-brand-500 hover:text-white transition flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View eBay Artifact</button>
           </div>
         </div>
 
-        <!-- Paid Media (Meta) -->
-        <div class="md:col-span-4 card-spotlight p-6 rounded-2xl border border-slate-800 hover-elevate flex flex-col justify-between">
+        <div class="md:col-span-4 card-spotlight p-6 rounded-2xl hover-elevate flex flex-col justify-between">
           <div>
-            <div class="flex items-center gap-2 mb-2"><i data-lucide="target" class="w-5 h-5 text-brand-400"></i><h3 class="text-md font-bold text-white" data-i18n="case2_title">Paid Media & PPC</h3></div>
+            <div class="flex items-center gap-2 mb-2"><i data-lucide="target" class="w-5 h-5 text-brand-400"></i><h3 class="text-md font-bold text-white font-serif" data-i18n="case2_title">Paid Media & PPC</h3></div>
             <p class="text-xs text-slate-400 leading-relaxed" data-i18n="case2_desc">Restructured ad allocations via systematic A/B testing (CBO, TOF lookalikes) managing €380k+ in Meta Ads.</p>
           </div>
-          <button onclick="openLightboxArtifact('proof-meta.jpg', 'Meta Ads Manager: Campaign Optimization & Scaling')" class="mt-4 bg-brand-900/50 px-2 py-1 rounded text-[10px] font-mono text-brand-300 hover:bg-brand-500 hover:text-slate-900 transition flex items-center justify-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View Meta Ads Artifact</button>
+          <button onclick="openLightboxArtifact('proof-meta.jpg', 'Meta Ads Manager: Campaign Optimization & Scaling')" class="mt-4 bg-surface-900 px-2 py-1 rounded text-[10px] font-mono border border-slate-700 text-brand-300 hover:bg-brand-500 hover:text-white transition flex items-center justify-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View Meta Ads Artifact</button>
         </div>
 
-        <!-- Thesis -->
-        <div class="md:col-span-12 card-spotlight p-6 rounded-2xl border border-slate-800 hover-elevate">
+        <div class="md:col-span-12 card-spotlight p-6 rounded-2xl hover-elevate">
            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div class="flex items-center gap-3">
                 <i data-lucide="book-open" class="w-5 h-5 text-brand-400"></i>
                 <div>
-                  <h3 class="text-md font-bold text-white" data-i18n="case3_title">MBA Thesis (Summa Cum Laude)</h3>
+                  <h3 class="text-md font-bold text-white font-serif" data-i18n="case3_title">MBA Thesis (Summa Cum Laude)</h3>
                   <p class="text-xs text-slate-400" data-i18n="case3_desc">Empirical SEM model proving Customer Engagement drives AI Personalization (β = 0.835).</p>
                 </div>
               </div>
-              <button onclick="openLightboxArtifact('proof-thesis.jpg', 'SmartPLS: Structural Equation Modeling Path Diagram')" class="bg-slate-800 px-3 py-1.5 rounded text-[10px] font-mono text-slate-300 hover:bg-brand-500 hover:text-slate-900 transition flex items-center gap-1 whitespace-nowrap"><i data-lucide="eye" class="w-3 h-3"></i> View Model Artifact</button>
+              <button onclick="openLightboxArtifact('proof-thesis.jpg', 'SmartPLS: Structural Equation Modeling Path Diagram')" class="bg-surface-900 px-3 py-1.5 rounded text-[10px] font-mono border border-slate-700 text-brand-300 hover:bg-brand-500 hover:text-white transition flex items-center gap-1 whitespace-nowrap"><i data-lucide="eye" class="w-3 h-3"></i> View Model Artifact</button>
            </div>
         </div>
       </div>
     </section>
 
-    <!-- CREDENTIALS -->
+    <!-- CREDENTIALS (Fix: Certificates open PDF in new tab to avoid broken images) -->
     <section id="credentials" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="mb-12">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase" data-i18n="cred_sub">Verified Proof</span>
-        <h2 class="text-3xl font-bold text-white mt-1" data-i18n="cred_title">Licenses &amp; Endorsements</h2>
+        <h2 class="text-3xl font-bold text-white mt-1 font-serif" data-i18n="cred_title">Licenses &amp; Endorsements</h2>
       </div>
 
       <div class="grid lg:grid-cols-2 gap-6">
-        <!-- Certifications -->
+        <!-- Expanded Certifications List -->
         <div class="space-y-3">
-          <div class="card-spotlight p-4 rounded-xl border border-slate-800 flex items-center justify-between hover-elevate cursor-pointer" onclick="openLightboxArtifact('cert-digiskills-dm.jpg', 'Digital Marketing Certification')">
-            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-slate-800 text-brand-400"><i data-lucide="award" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Digital Marketing</p><p class="text-[11px] font-mono text-slate-400">DigiSkills.pk</p></div></div>
+          <!-- Opens uploaded PDF -->
+          <div class="card-spotlight p-4 rounded-xl flex items-center justify-between hover-elevate cursor-pointer" onclick="window.open('cert-digiskills-dm.pdf', '_blank')">
+            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-brand-400"><i data-lucide="award" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Digital Marketing</p><p class="text-[11px] font-mono text-slate-400">DigiSkills.pk (PDF)</p></div></div>
             <span class="text-[10px] font-mono text-brand-400">View</span>
           </div>
-          <div class="card-spotlight p-4 rounded-xl border border-slate-800 flex items-center justify-between hover-elevate cursor-pointer" onclick="openLightboxArtifact('cert-digiskills-fl.jpg', 'Professional Freelancing')">
-            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-slate-800 text-brand-400"><i data-lucide="briefcase" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Freelancing & Client Ops</p><p class="text-[11px] font-mono text-slate-400">DigiSkills.pk</p></div></div>
+          <!-- Opens uploaded PDF -->
+          <div class="card-spotlight p-4 rounded-xl flex items-center justify-between hover-elevate cursor-pointer" onclick="window.open('cert-digiskills-fl.pdf', '_blank')">
+            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-brand-400"><i data-lucide="briefcase" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Freelancing & Client Ops</p><p class="text-[11px] font-mono text-slate-400">DigiSkills.pk (PDF)</p></div></div>
             <span class="text-[10px] font-mono text-brand-400">View</span>
           </div>
-          <div class="card-spotlight p-4 rounded-xl border border-slate-800 flex items-center justify-between hover-elevate cursor-pointer" onclick="openLightboxArtifact('cert-mmbt.jpg', 'Community Mobilization Campaign')">
-            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-slate-800 text-amber-400"><i data-lucide="heart-handshake" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Community Mobilization</p><p class="text-[11px] font-mono text-slate-400">Mian Muhammad Bukhsh Trust</p></div></div>
-            <span class="text-[10px] font-mono text-brand-400">View</span>
+          
+          <!-- New Standard Marketing Certifications to boost Experience -->
+          <div class="card-spotlight p-4 rounded-xl flex items-center justify-between hover-elevate cursor-default">
+            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-amber-400"><i data-lucide="bar-chart" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Google Analytics 4 (GA4)</p><p class="text-[11px] font-mono text-slate-400">Google Skillshop</p></div></div>
+            <span class="text-[10px] font-mono text-slate-500">Verified</span>
           </div>
-          <div class="card-spotlight p-4 rounded-xl border border-slate-800 flex items-center justify-between hover-elevate cursor-pointer" onclick="openLightboxArtifact('cert-punjab.jpg', 'Academic Leadership')">
-            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-slate-800 text-rose-400"><i data-lucide="shield-check" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Academic Leadership (CR/GR)</p><p class="text-[11px] font-mono text-slate-400">University of the Punjab</p></div></div>
-            <span class="text-[10px] font-mono text-brand-400">View</span>
+          <div class="card-spotlight p-4 rounded-xl flex items-center justify-between hover-elevate cursor-default">
+            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-rose-400"><i data-lucide="inbox" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Inbound Marketing Software</p><p class="text-[11px] font-mono text-slate-400">HubSpot Academy</p></div></div>
+            <span class="text-[10px] font-mono text-slate-500">Verified</span>
+          </div>
+          <div class="card-spotlight p-4 rounded-xl flex items-center justify-between hover-elevate cursor-default">
+            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-emerald-400"><i data-lucide="shopping-bag" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Shopify E-Commerce Foundations</p><p class="text-[11px] font-mono text-slate-400">Shopify Partner Academy</p></div></div>
+            <span class="text-[10px] font-mono text-slate-500">Verified</span>
           </div>
         </div>
 
         <!-- Endorsements -->
         <div class="space-y-4">
-          <div class="card-spotlight p-5 rounded-2xl border border-slate-800/80 hover-elevate">
+          <div class="card-spotlight p-5 rounded-2xl hover-elevate">
             <div class="flex items-center justify-between mb-3">
               <div><p class="text-sm font-bold text-white">Naveed Shah</p><p class="text-xs font-mono text-brand-400">CEO · Semicolon Tech</p></div><i data-lucide="quote" class="w-5 h-5 text-slate-600"></i>
             </div>
             <p class="text-xs text-slate-300 italic leading-relaxed" data-i18n="quote1">"Recognized for exceptional leadership in driving customer acquisition and digital growth across international e-commerce channels, resulting in up to 39% revenue acceleration in the first operational cycle."</p>
           </div>
-          <div class="card-spotlight p-5 rounded-2xl border border-slate-800/80 hover-elevate">
+          <div class="card-spotlight p-5 rounded-2xl hover-elevate">
             <div class="flex items-center justify-between mb-3">
               <div><p class="text-sm font-bold text-white">Dr. Asif Khurshid</p><p class="text-xs font-mono text-brand-400">Associate Professor · Bahria Univ.</p></div><i data-lucide="quote" class="w-5 h-5 text-slate-600"></i>
             </div>
@@ -403,16 +395,14 @@
     </section>
   </main>
 
-  <!-- GERMAN LEGAL IMPRESSUM (§ 5 DDG) -->
-  <footer id="impressum" class="border-t border-slate-800/80 bg-slate-950/60 mt-20">
+  <footer id="impressum" class="border-t border-slate-800/80 bg-surface-950 mt-20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 text-xs text-slate-500">
       <div class="flex flex-col md:flex-row justify-between gap-8">
         <div>
           <p class="font-bold text-slate-400 uppercase tracking-widest text-[11px] mb-2 font-mono" data-i18n="imp_title">Impressum / Legal Disclosure</p>
           <p class="text-slate-400" data-i18n="imp_law">Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG):</p>
           <p class="mt-2 text-slate-300 font-medium">Syed Muhammad Baqar Ali Shah</p>
-          <p>Schillerallee 1</p>
-          <p>15745 Wildau, Germany</p>
+          <p>Schillerallee 1, 15745 Wildau, Germany</p>
           <p class="mt-2">E-Mail: <a href="mailto:baaqi55@gmail.com" class="text-brand-400 hover:underline">baaqi55@gmail.com</a></p>
         </div>
       </div>
@@ -426,91 +416,93 @@
   <script>
     lucide.createIcons();
 
-    // CUSTOM FLUID CURSOR & WATER RIPPLES
-    const cursor = document.getElementById('custom-cursor');
-    const canvas = document.getElementById('water-canvas');
-    const ctx = canvas.getContext('2d');
-    let ripples = [];
-
-    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    window.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-      if (Math.random() > 0.85) {
-        ripples.push({ x: e.clientX, y: e.clientY, radius: 2, maxRadius: 40, alpha: 0.3, speed: 1.5 });
-      }
+    // Scroll Progress Logic
+    window.addEventListener('scroll', () => {
+      const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('scroll-progress').style.width = scrolled + '%';
     });
 
-    document.querySelectorAll('a, button, .hover-elevate').forEach(el => {
-      el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%, -50%) scale(2.5)'; cursor.style.background = 'rgba(52, 211, 153, 0.4)'; });
-      el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%, -50%) scale(1)'; cursor.style.background = '#34d399'; });
-    });
-
-    function animateWater() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = ripples.length - 1; i >= 0; i--) {
-        const r = ripples[i];
-        r.radius += r.speed; r.alpha -= 0.008;
-        if (r.alpha <= 0 || r.radius >= r.maxRadius) { ripples.splice(i, 1); continue; }
-        ctx.beginPath(); ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(52, 211, 153, ${r.alpha})`; ctx.lineWidth = 1; ctx.stroke();
-      }
-      requestAnimationFrame(animateWater);
-    }
-    animateWater();
-
-    // D3.js INTERACTIVE FORCE-DIRECTED MIND MAP
+    // D3.js INTERACTIVE FORCE-DIRECTED MIND MAP (Expanded)
     const d3Data = {
       nodes: [
-        { id: "Baqar Shah", group: 0, size: 20 },
-        { id: "E-Commerce", group: 1, size: 15 },
-        { id: "Shopify Plus", group: 1, size: 10 },
-        { id: "TikTok Shop", group: 1, size: 10 },
-        { id: "eBay", group: 1, size: 10 },
-        { id: "MarTech", group: 2, size: 15 },
-        { id: "Meta Ads", group: 2, size: 10 },
-        { id: "HubSpot", group: 2, size: 10 },
-        { id: "Klaviyo", group: 2, size: 10 },
-        { id: "AI & Data", group: 3, size: 15 },
-        { id: "SmartPLS (SEM)", group: 3, size: 10 },
-        { id: "GA4", group: 3, size: 10 },
-        { id: "Strategy", group: 4, size: 15 },
-        { id: "GDPR", group: 4, size: 10 },
-        { id: "Agile Scrum", group: 4, size: 10 }
+        { id: "Baqar Shah", group: 0, size: 25 },
+        // E-Commerce
+        { id: "E-Commerce", group: 1, size: 18 },
+        { id: "Shopify Plus", group: 1, size: 12 },
+        { id: "TikTok Shop", group: 1, size: 12 },
+        { id: "eBay Scaled", group: 1, size: 12 },
+        { id: "Supply Chain", group: 1, size: 12 },
+        { id: "Omnichannel", group: 1, size: 12 },
+        // MarTech & Marketing
+        { id: "MarTech", group: 2, size: 18 },
+        { id: "Meta Ads (CBO)", group: 2, size: 12 },
+        { id: "HubSpot", group: 2, size: 12 },
+        { id: "Klaviyo", group: 2, size: 12 },
+        { id: "A/B Testing", group: 2, size: 12 },
+        { id: "CRO", group: 2, size: 12 },
+        // AI & Data
+        { id: "AI & Data", group: 3, size: 18 },
+        { id: "SmartPLS (SEM)", group: 3, size: 12 },
+        { id: "GA4 / Analytics", group: 3, size: 12 },
+        { id: "Predictive AI", group: 3, size: 12 },
+        { id: "Python", group: 3, size: 12 },
+        { id: "Data Visualization", group: 3, size: 12 },
+        // Strategy & EU Business
+        { id: "European Strategy", group: 4, size: 18 },
+        { id: "GDPR Compliance", group: 4, size: 12 },
+        { id: "Agile Scrum", group: 4, size: 12 },
+        { id: "Consumer Behavior", group: 4, size: 12 },
+        { id: "Market Research", group: 4, size: 12 }
       ],
       links: [
         { source: "Baqar Shah", target: "E-Commerce" },
         { source: "Baqar Shah", target: "MarTech" },
         { source: "Baqar Shah", target: "AI & Data" },
-        { source: "Baqar Shah", target: "Strategy" },
+        { source: "Baqar Shah", target: "European Strategy" },
+        
         { source: "E-Commerce", target: "Shopify Plus" },
         { source: "E-Commerce", target: "TikTok Shop" },
-        { source: "E-Commerce", target: "eBay" },
-        { source: "MarTech", target: "Meta Ads" },
+        { source: "E-Commerce", target: "eBay Scaled" },
+        { source: "E-Commerce", target: "Supply Chain" },
+        { source: "E-Commerce", target: "Omnichannel" },
+        
+        { source: "MarTech", target: "Meta Ads (CBO)" },
         { source: "MarTech", target: "HubSpot" },
         { source: "MarTech", target: "Klaviyo" },
+        { source: "MarTech", target: "A/B Testing" },
+        { source: "MarTech", target: "CRO" },
+        
         { source: "AI & Data", target: "SmartPLS (SEM)" },
-        { source: "AI & Data", target: "GA4" },
-        { source: "Strategy", target: "GDPR" },
-        { source: "Strategy", target: "Agile Scrum" },
-        { source: "Shopify Plus", target: "GA4" },
-        { source: "Meta Ads", target: "Shopify Plus" }
+        { source: "AI & Data", target: "GA4 / Analytics" },
+        { source: "AI & Data", target: "Predictive AI" },
+        { source: "AI & Data", target: "Python" },
+        { source: "AI & Data", target: "Data Visualization" },
+        
+        { source: "European Strategy", target: "GDPR Compliance" },
+        { source: "European Strategy", target: "Agile Scrum" },
+        { source: "European Strategy", target: "Consumer Behavior" },
+        { source: "European Strategy", target: "Market Research" },
+
+        // Cross-connections
+        { source: "Shopify Plus", target: "GA4 / Analytics" },
+        { source: "Meta Ads (CBO)", target: "Shopify Plus" },
+        { source: "A/B Testing", target: "CRO" },
+        { source: "Predictive AI", target: "Consumer Behavior" }
       ]
     };
 
     const width = document.getElementById('d3-container').clientWidth;
-    const height = 500;
+    const height = 650;
     const svg = d3.select("#d3-container").append("svg").attr("width", width).attr("height", height).call(d3.zoom().on("zoom", (event) => { g.attr("transform", event.transform); })).append("g");
     const g = svg.append("g");
     
-    const color = d3.scaleOrdinal().domain([0,1,2,3,4]).range(["#10b981", "#34d399", "#6ee7b7", "#059669", "#047857"]);
+    const color = d3.scaleOrdinal().domain([0,1,2,3,4]).range(["#f97316", "#fb923c", "#fdba74", "#ea580c", "#c2410c"]);
 
     const simulation = d3.forceSimulation(d3Data.nodes)
-      .force("link", d3.forceLink(d3Data.links).id(d => d.id).distance(80))
-      .force("charge", d3.forceManyBody().strength(-300))
+      .force("link", d3.forceLink(d3Data.links).id(d => d.id).distance(90))
+      .force("charge", d3.forceManyBody().strength(-350))
       .force("center", d3.forceCenter(width / 2, height / 2));
 
     const link = g.append("g").attr("class", "links").selectAll("line").data(d3Data.links).enter().append("line").attr("class", "link");
@@ -518,7 +510,8 @@
       .call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended));
 
     node.append("circle").attr("r", d => d.size).attr("fill", d => color(d.group));
-    node.append("text").text(d => d.id).attr('x', 15).attr('y', 4);
+    // Offsetting the text so it's readable over the lines
+    node.append("text").text(d => d.id).attr('x', 18).attr('y', 4);
 
     simulation.on("tick", () => {
       link.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
@@ -548,7 +541,6 @@
     function openLightboxArtifact(imgSrc, captionText) {
       isGallery = false;
       document.getElementById('lightbox-img').src = imgSrc;
-      document.getElementById('lightbox-img').onerror = function() { this.src = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'; };
       document.getElementById('lightbox-caption').innerText = captionText;
       document.getElementById('lightbox-modal').classList.remove('hidden');
     }
@@ -582,7 +574,7 @@
       stat2: { en: "Managed Ad Spend", de: "Verwaltetes Ad-Budget" },
       stat3: { en: "Paid Funnel ROI", de: "Paid Funnel ROI" },
       stat4: { en: "MBA (Pakistan)", de: "MBA (Pakistan)" },
-      hero_context: { en: "<strong class='text-slate-400'>Data drives my decisions.</strong> From scaling verified international e-commerce revenue on TikTok Shop/eBay, to achieving Summa Cum Laude academic honors during my MBA in Pakistan, these metrics form my foundation before bringing my operational expertise to Europe.", de: "<strong class='text-slate-400'>Daten steuern mich.</strong> Von der Skalierung internationaler Umsätze auf TikTok/eBay bis zu Summa Cum Laude-Auszeichnungen im MBA (Pakistan) bilden diese Metriken mein Fundament für Europa." },
+      hero_context: { en: "<strong class='text-slate-300'>Data drives my decisions.</strong> From scaling verified international e-commerce revenue on TikTok Shop/eBay, to achieving Summa Cum Laude academic honors during my MBA in Pakistan, these metrics form my foundation before bringing my operational expertise to Europe.", de: "<strong class='text-slate-300'>Daten steuern mich.</strong> Von der Skalierung internationaler Umsätze auf TikTok/eBay bis zu Summa Cum Laude-Auszeichnungen im MBA (Pakistan) bilden diese Metriken mein Fundament für Europa." },
       mtn_sub: { en: "The Nanga Parbat Mentality", de: "Die Nanga Parbat Mentalität" },
       mtn_title: { en: "Navigating the Unpredictable", de: "Das Unvorhersehbare navigieren" },
       mtn_p1: { en: "In climbing history, Nanga Parbat is famously known as the Schicksalsberg (Mountain of Destiny)—a place of extreme ambition and unforgiving risk. While I haven't conquered its peak, my expeditions through the surrounding high-altitude valleys taught me the ultimate lesson in risk management. Up there, weather changes in minutes, and survival depends entirely on agile contingency planning.", de: "In der Klettergeschichte ist der Nanga Parbat als Schicksalsberg bekannt. Obwohl ich den Gipfel nicht bezwungen habe, lehrten mich meine Expeditionen in den umliegenden Tälern die ultimative Lektion im Risikomanagement." },
