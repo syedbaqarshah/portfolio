@@ -4,25 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Baqar Shah – E-Commerce Operations & MarTech Specialist</title>
-  <meta name="description" content="Portfolio of Baqar Shah: E-Commerce Operations, MarTech Infrastructure, and Growth Specialist. TH Wildau." />
-  <meta name="keywords" content="E-Commerce, MarTech, Digital Marketing, Shopify, Meta Ads, TikTok Shop, AI Personalization, SmartPLS, TH Wildau, Operations Manager" />
+  <meta name="description" content="Portfolio of Baqar Shah: E-Commerce Operations, MarTech Infrastructure, and AI Personalization Specialist based in Wildau / Berlin." />
 
-  <!-- Tailwind, Lucide Icons, and D3.js for Mind Map -->
+  <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- D3.js for Mind Map -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
 
   <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Caveat:wght@500;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
+            sans: ['Space Grotesk', 'sans-serif'],
             serif: ['Lora', 'serif'],
             mono: ['JetBrains Mono', 'monospace'],
             hand: ['Caveat', 'cursive'],
@@ -43,6 +43,17 @@
       background-image: radial-gradient(at 50% 0%, rgba(249, 115, 22, 0.05) 0px, transparent 60%), radial-gradient(at 100% 100%, rgba(251, 146, 60, 0.03) 0px, transparent 50%);
     }
     
+    /* Interactive Canvas for Water Effect */
+    #water-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 40;
+    }
+
     .glass-nav { background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.05); }
     .card-spotlight { position: relative; background: rgba(23, 23, 23, 0.7); backdrop-filter: blur(12px); overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
     .timeline-line::before { content: ''; position: absolute; top: 0; bottom: 0; left: 19px; width: 2px; background: linear-gradient(to bottom, #fb923c 0%, #334155 85%, transparent 100%); }
@@ -58,112 +69,200 @@
     .node circle:hover { stroke: #fb923c; stroke-width: 4px; filter: drop-shadow(0 0 12px #fb923c); }
     .link { stroke: rgba(251, 146, 60, 0.25); stroke-width: 1.5px; }
 
-    /* Flight Path Animation */
-    .flight-path-line { stroke-dasharray: 6 6; animation: dashMove 20s linear infinite; }
-    @keyframes dashMove { to { stroke-dashoffset: -1000; } }
-
-    /* Moving Character Animation on Scroll Line */
-    .climber-icon {
+    /* Moving Stickman Hiker on Scroll Line */
+    .hiker-icon {
       position: absolute;
-      right: -12px;
-      top: -10px;
-      font-size: 1.25rem;
-      transform: scaleX(-1); /* Faces right */
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      right: -15px;
+      top: -24px;
+      width: 32px;
+      height: 32px;
+      fill: #f97316;
+      filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.8));
+    }
+
+    /* Headshot Orbital Particle System (Sankar Style) */
+    .orbit-container { position: relative; }
+    .orbit-ring {
+      position: absolute;
+      inset: -20px;
+      border-radius: 2.2rem;
+      border: 1px dashed rgba(251, 146, 60, 0.35);
+      pointer-events: none;
+      animation: rotateRing 22s linear infinite;
+    }
+    .orbit-particle {
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      border-radius: 9999px;
+      background-color: #fb923c;
+      box-shadow: 0 0 16px #fb923c, 0 0 30px #f97316;
+      transform: translateX(-50%);
+    }
+    @keyframes rotateRing {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Dynamic SVG Flight Path & Moving Plane (Pakistan -> Germany) */
+    .flight-path-line { stroke-dasharray: 6 6; animation: dashMove 28s linear infinite; }
+    @keyframes dashMove { to { stroke-dashoffset: -600; } }
+    .flight-plane {
+      offset-path: path("M 780 240 Q 620 150 460 130 T 220 85");
+      animation: planeFlyForward 12s ease-in-out infinite;
+    }
+    @keyframes planeFlyForward {
+      0% { offset-distance: 0%; transform: scale(0.85); }
+      50% { transform: scale(1.15); }
+      100% { offset-distance: 100%; transform: scale(0.85); }
     }
   </style>
 </head>
 <body class="selection:bg-brand-500/30 selection:text-white font-sans antialiased overflow-x-hidden">
 
-  <!-- SCROLL PROGRESS LINE WITH CLIMBER -->
-  <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-brand-500 to-amber-300 z-[60] transition-all duration-75" style="width: 0%;">
-    <div class="climber-icon">🧗</div>
+  <!-- AUDIO INTERACTION TOAST -->
+  <div id="audio-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-surface-900 border border-brand-500/50 rounded-full px-6 py-2 shadow-[0_0_15px_rgba(251,146,60,0.3)] animate-bounce cursor-pointer flex items-center gap-3">
+    <span class="relative flex h-3 w-3">
+      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+      <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-500"></span>
+    </span>
+    <p class="text-sm font-mono text-brand-300">Click anywhere to enter</p>
   </div>
 
-  <!-- CLEAN TOP NAVIGATION BAR -->
+  <!-- WATER RIPPLE CANVAS OVERLAY -->
+  <canvas id="water-canvas"></canvas>
+
+  <!-- SCROLL PROGRESS INDICATOR WITH CUSTOM STICKMAN HIKER SVG -->
+  <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-brand-500 to-amber-300 z-[60] transition-all duration-75" style="width: 0%;">
+    <!-- SVG Stickman Hiker -->
+    <svg class="hiker-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="4" r="2" />
+      <path d="M12 6v6l-3 5M12 12l3 5M9 7l3 2 3-2" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M16 6v14" stroke="#f97316" stroke-width="1.5" stroke-linecap="round"/>
+      <rect x="8" y="6" width="4" height="5" rx="1" fill="#f97316"/>
+    </svg>
+  </div>
+
+  <!-- TOP NAVIGATION BAR -->
   <header class="fixed top-0 inset-x-0 z-50 glass-nav">
     <nav class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-      <a href="#top" class="font-serif font-bold tracking-tight text-xl text-white hover:text-brand-400 transition flex items-center gap-2">
-        Baqar Shah.
-      </a>
+      
+      <div class="flex items-center gap-3">
+        <a href="#top" class="font-bold tracking-tight text-xl text-white font-serif hover:text-brand-400 transition flex items-center gap-2">
+          Baqar Shah.
+        </a>
+      </div>
 
-      <!-- De-cluttered Nav Links -->
-      <div class="hidden md:flex items-center gap-8 text-xs uppercase tracking-widest font-mono text-slate-300">
+      <!-- Clean Single-Word Nav Links -->
+      <div class="hidden md:flex items-center gap-7 text-xs uppercase tracking-wider font-mono text-slate-300">
         <a href="#about" class="hover:text-brand-400 transition" data-i18n="nav_story">Story</a>
         <a href="#flightpath" class="hover:text-brand-400 transition" data-i18n="nav_trajectory">Trajectory</a>
         <a href="#journey" class="hover:text-brand-400 transition" data-i18n="nav_experience">Experience</a>
         <a href="#projects" class="hover:text-brand-400 transition" data-i18n="nav_evidence">Evidence</a>
+        <button onclick="toggleLanguage()" class="hover:text-brand-400 transition font-bold" id="lang-btn">EN|DE</button>
       </div>
 
-      <!-- Actions -->
+      <!-- Action Items -->
       <div class="hidden md:flex items-center gap-3">
-        <button id="lang-btn" onclick="toggleLanguage()" class="inline-flex items-center justify-center h-8 w-14 rounded-full border border-slate-700 bg-surface-900 text-xs font-mono text-slate-300 hover:border-brand-400 hover:text-brand-400 transition">EN|DE</button>
-        <button id="sound-btn" onclick="toggleAudio()" class="inline-flex items-center justify-center h-8 w-8 rounded-full border border-slate-700 bg-surface-900 text-slate-300 hover:border-brand-400 hover:text-brand-400 transition"><i data-lucide="music" id="sound-icon" class="w-3.5 h-3.5"></i></button>
-        <a href="cv.pdf" download="Baqar_Shah_CV.pdf" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-400 px-3.5 py-1.5 font-semibold text-surface-950 hover:bg-brand-500 transition text-xs font-mono"><i data-lucide="download" class="w-3.5 h-3.5"></i> CV</a>
+        <button id="sound-btn" onclick="toggleAudio(event)" class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-surface-900 px-3.5 py-1.5 text-xs font-mono text-slate-300 hover:border-brand-400 hover:text-brand-400 transition">
+          <i data-lucide="music" id="sound-icon" class="w-3.5 h-3.5 text-slate-400"></i>
+        </button>
+
+        <a href="cv.pdf" download="Baqar_Shah_CV.pdf" class="inline-flex items-center gap-1.5 rounded-lg bg-brand-400 px-3.5 py-1.5 font-semibold text-surface-950 hover:bg-brand-500 hover:shadow-[0_0_15px_rgba(251,146,60,0.4)] transition text-xs font-mono">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i> CV
+        </a>
       </div>
-      <button id="menu-btn" class="md:hidden p-2 text-slate-300"><i data-lucide="menu"></i></button>
+
+      <!-- Mobile Menu Trigger -->
+      <button id="menu-btn" class="md:hidden p-2 rounded-lg border border-slate-800 text-slate-300" aria-label="Toggle Menu">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
     </nav>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-b border-slate-800 bg-surface-950 px-6 py-4 space-y-3 text-sm text-slate-300 font-mono uppercase">
+      <a href="#about" class="block py-1 hover:text-brand-400">Story</a>
+      <a href="#flightpath" class="block py-1 hover:text-brand-400">Trajectory</a>
+      <a href="#journey" class="block py-1 hover:text-brand-400">Experience</a>
+      <a href="#projects" class="block py-1 hover:text-brand-400">Evidence</a>
+      <a href="cv.pdf" download class="block py-1 text-brand-400 font-bold">Download CV (PDF)</a>
+    </div>
   </header>
 
-  <!-- BACKGROUND AUDIO -->
-  <!-- Autoplay added. JS handles browser blocks seamlessly -->
-  <audio id="bg-audio" loop autoplay preload="auto">
+  <!-- AMBIENT STREAM (Ad-Free Relaxing Lo-Fi Stream) -->
+  <audio id="bg-audio" loop preload="auto">
     <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- LIGHTBOX MODAL -->
+  <!-- LIGHTBOX MODAL (Images + Artifacts) -->
   <div id="lightbox-modal" class="fixed inset-0 z-[100] bg-surface-950/95 backdrop-blur-xl hidden flex items-center justify-center p-4">
     <button onclick="closeLightbox()" class="absolute top-6 right-6 p-2 rounded-full border border-slate-700 bg-surface-900 text-slate-300 hover:text-white transition z-10"><i data-lucide="x" class="w-6 h-6"></i></button>
-    <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full border border-slate-700 bg-surface-900/80 text-white hover:border-brand-400 transition z-10"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
+    <button onclick="prevSlide()" id="lb-prev" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full border border-slate-700 bg-surface-900/80 text-white hover:border-brand-400 transition z-10"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
     <div class="max-w-5xl max-h-[85vh] flex flex-col items-center">
       <img id="lightbox-img" src="" alt="Artifact" class="max-h-[75vh] w-auto rounded-xl object-contain shadow-2xl border border-slate-800" />
       <p id="lightbox-caption" class="mt-4 font-mono text-xs text-brand-400"></p>
     </div>
-    <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full border border-slate-700 bg-surface-900/80 text-white hover:border-brand-400 transition z-10"><i data-lucide="chevron-right" class="w-6 h-6"></i></button>
+    <button onclick="nextSlide()" id="lb-next" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full border border-slate-700 bg-surface-900/80 text-white hover:border-brand-400 transition z-10"><i data-lucide="chevron-right" class="w-6 h-6"></i></button>
   </div>
 
   <main id="top">
     <!-- HERO SECTION -->
     <section class="max-w-6xl mx-auto px-4 sm:px-6 pt-32 pb-16 md:pt-44 md:pb-20 hover-elevate">
       <div class="grid lg:grid-cols-12 gap-12 items-center">
+        
         <div class="lg:col-span-7 space-y-6">
           <div class="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-3.5 py-1 text-xs sm:text-sm font-medium text-brand-400">
             <i data-lucide="sparkles" class="w-4 h-4"></i>
-            <span id="hero-badge" data-i18n="hero_badge">The biggest campaign I managed was starting over in Germany.</span>
+            <span data-i18n="hero_badge">The biggest campaign I managed was starting over in Germany.</span>
           </div>
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.1] font-serif">
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.08] font-serif">
             <span data-i18n="hero_title1">E-Commerce Operations</span> <br />
             <span class="text-brand-400 italic" data-i18n="hero_title2">&amp; MarTech Specialist</span>
           </h1>
+
           <p class="text-base sm:text-lg text-slate-400 max-w-xl leading-relaxed" data-i18n="hero_desc">
             Bridging 4+ years of hands-on marketplace scaling with European business compliance, predictive AI personalization research, and automated growth funnels.
           </p>
-          <div class="pt-4 pb-2">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-slate-800/80 pt-6">
-              <div><p class="text-xl font-bold text-brand-400">$5.3M+</p><p class="text-[10px] font-mono text-slate-500 uppercase mt-1" data-i18n="stat1">Multi-Channel GMV</p></div>
-              <div><p class="text-xl font-bold text-white">€380K+</p><p class="text-[10px] font-mono text-slate-500 uppercase mt-1" data-i18n="stat2">Managed Ad Spend</p></div>
-              <div><p class="text-xl font-bold text-brand-400">+35%</p><p class="text-[10px] font-mono text-slate-500 uppercase mt-1" data-i18n="stat3">Paid Funnel ROI</p></div>
-              <div><p class="text-xl font-bold text-white">1.00 CGPA</p><p class="text-[10px] font-mono text-brand-400 uppercase mt-1" data-i18n="stat4">MBA (Pakistan)</p></div>
+
+          <div class="grid grid-cols-4 gap-2 py-3 max-w-xl border-t border-slate-800/80 font-mono mt-6">
+            <div>
+              <p class="text-lg sm:text-xl font-bold text-brand-400">+92%</p>
+              <p class="text-[10px] text-slate-500 uppercase" data-i18n="stat1">Sales Scale</p>
             </div>
-            <p class="text-xs text-slate-500 mt-4 leading-relaxed max-w-lg" data-i18n="hero_context">
-              <strong class="text-slate-300">Data drives my decisions.</strong> From scaling verified international e-commerce revenue on TikTok Shop/eBay, to achieving Summa Cum Laude academic honors during my MBA in Pakistan, these metrics form my foundation before bringing my operational expertise to Europe.
-            </p>
+            <div>
+              <p class="text-lg sm:text-xl font-bold text-white">€380K+</p>
+              <p class="text-[10px] text-slate-500 uppercase" data-i18n="stat2">Ad Spend</p>
+            </div>
+            <div>
+              <p class="text-lg sm:text-xl font-bold text-brand-400">12k+</p>
+              <p class="text-[10px] text-slate-500 uppercase" data-i18n="stat3">Active SKUs</p>
+            </div>
+            <div>
+              <p class="text-lg sm:text-xl font-bold text-white">1.00</p>
+              <p class="text-[10px] text-brand-400 uppercase font-bold" data-i18n="stat4">MBA Pakistan</p>
+            </div>
           </div>
+          <p class="text-xs text-slate-500 max-w-xl leading-relaxed mt-2" data-i18n="hero_subtext">
+            *Metrics reflect verified operational scale across independent retail catalogs. The 1.00 CGPA (Summa Cum Laude) was achieved during my MBA in Pakistan, setting the academic foundation for my ongoing M.Sc. in Germany.
+          </p>
         </div>
-        
-        <!-- HEADSHOT WITH SANKAR ORBITING RING EFFECT -->
+
+        <!-- PROFILE FRAME WITH PARTICLE ORBIT BALL -->
         <div class="lg:col-span-5 flex justify-center lg:justify-end">
-          <div class="relative w-64 sm:w-80 aspect-[4/5]">
-            <!-- Orbiting Ring Animation -->
-            <div class="absolute -inset-4 rounded-3xl border border-brand-500/20 animate-[spin_12s_linear_infinite] z-0">
-              <div class="absolute top-0 left-1/2 w-3 h-3 bg-brand-400 rounded-full shadow-[0_0_12px_#fb923c] -translate-x-1/2 -translate-y-1/2"></div>
+          <div class="orbit-container w-64 sm:w-80 aspect-[4/5] group">
+            <div class="orbit-ring">
+              <div class="orbit-particle"></div>
             </div>
-            
-            <div class="absolute -inset-1.5 rounded-3xl bg-gradient-to-tr from-brand-500/20 to-amber-400/10 blur-xl opacity-75 z-10"></div>
-            <div class="relative h-full w-full rounded-2xl border border-slate-800 bg-surface-900 overflow-hidden shadow-2xl z-20 group">
-              <!-- Color restores on hover -->
-              <img src="headshot.jpg" alt="Baqar Shah" class="h-full w-full object-cover filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-surface-950 via-transparent opacity-85"></div>
+            <div class="relative h-full w-full rounded-2xl border border-slate-800 bg-surface-900 overflow-hidden shadow-2xl z-20">
+              <img 
+                src="headshot.jpg" 
+                alt="Baqar Shah" 
+                class="h-full w-full object-cover object-center filter grayscale contrast-105 group-hover:grayscale-0 transition-all duration-700" 
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-surface-950 via-transparent to-transparent opacity-85"></div>
               <div class="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-surface-950/85 border border-slate-800/80 backdrop-blur-md">
                 <p class="text-xs font-mono text-brand-400 font-semibold" data-i18n="hero_card_title">M.Sc. Candidate · TH Wildau</p>
                 <p class="text-xs text-slate-300" data-i18n="hero_card_desc">European Business Management</p>
@@ -171,16 +270,17 @@
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
-    <!-- THE MOUNTAIN STORY (Images fixed and paths verified) -->
+    <!-- THE NANGA PARBAT MENTALITY -->
     <section id="about" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80 hover-elevate">
       <div class="card-spotlight p-8 md:p-10 rounded-2xl">
         <div class="grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <span class="text-xs font-mono text-brand-400 tracking-widest uppercase" data-i18n="mtn_sub">The Nanga Parbat Mentality</span>
-            <h2 class="text-3xl font-bold tracking-tight text-white mt-2 mb-4 font-serif" data-i18n="mtn_title">Navigating the Unpredictable</h2>
+            <span class="text-xs font-mono text-brand-400 tracking-widest uppercase" data-i18n="mtn_sub">Perspective & Character</span>
+            <h2 class="text-3xl font-bold tracking-tight text-white mt-2 mb-4 font-serif" data-i18n="mtn_title">The Mountain of Destiny</h2>
             <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
               <p data-i18n="mtn_p1">
                 In climbing history, Nanga Parbat is famously known as the <em>Schicksalsberg</em> (Mountain of Destiny)—a place of extreme ambition and unforgiving risk. While I haven't conquered its peak, my expeditions through the surrounding high-altitude valleys taught me the ultimate lesson in risk management. Up there, weather changes in minutes, and survival depends entirely on agile contingency planning.
@@ -190,11 +290,11 @@
               </p>
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-3 relative cursor-pointer">
-            <img src="nanga-tent.jpg" onclick="openLightbox(0)" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate" alt="Expedition Base Camp">
+          <div class="grid grid-cols-2 gap-3 relative">
+            <img src="nanga-tent.jpg" onclick="openLightboxGallery(0, nangaImages)" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate cursor-pointer" alt="Base Camp">
             <div class="space-y-3">
-              <img src="nanga-group.jpg" onclick="openLightbox(1)" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate" alt="The Team">
-              <img src="nanga-summit.jpg" onclick="openLightbox(2)" class="rounded-xl border border-slate-700 object-cover aspect-[4/3] hover-elevate" alt="The Ascent">
+              <img src="nanga-group.jpg" onclick="openLightboxGallery(1, nangaImages)" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate cursor-pointer" alt="The Team">
+              <img src="nanga-summit.jpg" onclick="openLightboxGallery(2, nangaImages)" class="rounded-xl border border-slate-700 object-cover aspect-[4/3] hover-elevate cursor-pointer" alt="The Ascent">
             </div>
             <div class="absolute -bottom-4 right-6 transform -rotate-6">
               <p class="font-hand text-3xl text-brand-400 tracking-wide drop-shadow-md" data-i18n="mtn_note">The Ultimate Test</p>
@@ -204,99 +304,105 @@
       </div>
     </section>
 
-    <!-- DYNAMIC FLIGHT PATH -->
+    <!-- FLIGHT PATH (PAKISTAN -> GERMANY) -->
     <section id="flightpath" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80 hover-elevate">
       <div class="mb-8">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase" data-i18n="flight_sub">Global Trajectory</span>
-        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-1 font-serif" data-i18n="flight_title">Intercultural Logistics</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-1 font-serif" data-i18n="flight_title">Intercontinental Flight Path</h2>
       </div>
 
-      <div class="card-spotlight p-6 sm:p-8 rounded-2xl overflow-hidden">
-        <div class="absolute inset-0 opacity-10 pointer-events-none flex items-center justify-center">
-            <svg viewBox="0 0 1000 400" class="w-full h-full text-brand-400" fill="currentColor">
-                <path d="M400,200 Q450,150 500,200 T600,200 M650,180 Q700,100 800,150" stroke="currentColor" stroke-width="2" fill="none" opacity="0.3"/>
-                <circle cx="200" cy="150" r="1.5"/><circle cx="220" cy="160" r="1.5"/><circle cx="240" cy="140" r="1.5"/>
-                <circle cx="500" cy="200" r="1.5"/><circle cx="520" cy="210" r="1.5"/><circle cx="540" cy="190" r="1.5"/>
-                <circle cx="800" cy="180" r="1.5"/><circle cx="820" cy="190" r="1.5"/><circle cx="840" cy="170" r="1.5"/>
-            </svg>
-        </div>
-
-        <div class="relative w-full overflow-x-auto pb-6">
+      <div class="card-spotlight p-6 sm:p-8 rounded-2xl border border-slate-800 relative overflow-hidden">
+        <div class="relative w-full overflow-x-auto pb-4">
           <svg viewBox="0 0 1000 320" class="min-w-[750px] w-full text-slate-700" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path id="flight-arc" d="M 150 220 Q 400 120 850 100" stroke="rgba(51, 65, 85, 0.6)" stroke-width="2" fill="none"/>
-            <path d="M 150 220 Q 400 120 850 100" stroke="#fb923c" stroke-width="2.5" fill="none" class="flight-path-line" />
+            <!-- Continental Projections -->
+            <path d="M 120 40 Q 220 30 280 80 T 310 160 T 210 240 T 110 180 Z" fill="rgba(30, 41, 59, 0.45)" stroke="rgba(51, 65, 85, 0.5)" stroke-width="1.2"/>
+            <path d="M 360 80 Q 520 40 680 60 T 800 160 T 700 270 T 470 260 T 370 170 Z" fill="rgba(30, 41, 59, 0.45)" stroke="rgba(51, 65, 85, 0.5)" stroke-width="1.2"/>
+            
+            <!-- Arc: Jhelum(780,240) -> Islamabad(720,190) -> Germany(220,85) -->
+            <path d="M 780 240 Q 620 150 460 130 T 220 85" stroke="rgba(51, 65, 85, 0.6)" stroke-width="2"/>
+            <path d="M 780 240 Q 620 150 460 130 T 220 85" stroke="#fb923c" stroke-width="2.5" class="flight-path-line"/>
 
-            <g transform="translate(150, 220)">
+            <g transform="translate(780, 240)">
               <circle r="8" fill="#0f0f0f" stroke="#fb923c" stroke-width="3"/>
               <text x="-15" y="24" fill="#f3f4f6" font-family="'Inter'" font-weight="700" font-size="12">Jhelum, PK</text>
-              <text x="-15" y="38" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="10" data-i18n="node1_desc">Operational Roots</text>
+              <text x="-15" y="38" fill="#94a3b8" font-family="'JetBrains Mono'" font-size="10" data-i18n="node1_desc">B.Com Operations</text>
             </g>
 
-            <g transform="translate(420, 150)">
+            <g transform="translate(720, 190)">
               <circle r="8" fill="#0f0f0f" stroke="#fb923c" stroke-width="3"/>
-              <text x="-25" y="-15" fill="#f3f4f6" font-family="'Inter'" font-weight="700" font-size="12">Islamabad, PK</text>
-              <text x="-25" y="-3" fill="#fb923c" font-family="'JetBrains Mono'" font-size="10" data-i18n="node2_desc">MBA (1.00 CGPA)</text>
+              <text x="-35" y="-18" fill="#f3f4f6" font-family="'Inter'" font-weight="700" font-size="12">Islamabad, PK</text>
+              <text x="-35" y="-6" fill="#fb923c" font-family="'JetBrains Mono'" font-size="10" data-i18n="node2_desc">MBA Summa Cum Laude</text>
             </g>
 
-            <g transform="translate(850, 100)">
+            <g transform="translate(220, 85)">
               <circle r="12" fill="#0f0f0f" stroke="#fb923c" stroke-width="3" class="animate-pulse"/>
-              <text x="-20" y="28" fill="#f3f4f6" font-family="'Inter'" font-weight="700" font-size="13">Wildau / Berlin, DE</text>
-              <text x="-20" y="44" fill="#fb923c" font-family="'JetBrains Mono'" font-size="10" data-i18n="node3_desc">M.Sc. European Business</text>
+              <text x="-10" y="-20" fill="#f3f4f6" font-family="'Inter'" font-weight="700" font-size="13">Wildau / Berlin, DE</text>
+              <text x="-10" y="-6" fill="#fb923c" font-family="'JetBrains Mono'" font-size="10" data-i18n="node3_desc">M.Sc. European Business Management</text>
             </g>
 
-            <g>
-              <path d="M 0 -8 L 10 0 L 0 8 L 2 0 Z" fill="#fb923c" stroke="#7c2d12" stroke-width="1"/>
-              <animateMotion dur="10s" repeatCount="indefinite" rotate="auto"><mpath href="#flight-arc"/></animateMotion>
+            <!-- Airplane pointing toward Europe -->
+            <g class="flight-plane text-brand-400">
+              <path d="M 0 -12 L 8 8 L 0 4 L -8 8 Z" fill="#fb923c" stroke="#7c2d12" stroke-width="1.5" transform="rotate(-115)"/>
             </g>
           </svg>
-        </div>
-        <div class="mt-2 pt-4 border-t border-slate-800/80 text-xs font-mono text-slate-400 leading-relaxed">
-          <p class="text-slate-300" data-i18n="flight_desc"><strong>The Route to Scale:</strong> Moving from foundational operations in Jhelum, mastering business administration at the highest level in Islamabad, to applying cross-border digital strategies in the Berlin Metropolitan Region.</p>
         </div>
       </div>
     </section>
 
-    <!-- INTERACTIVE EXPERIENCE STAIRCASE -->
+    <!-- EXPERIENCE STAIRCASE (Latest to Oldest) -->
     <section id="journey" class="max-w-4xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="mb-12">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase" data-i18n="exp_sub">Career Progression</span>
         <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1 font-serif" data-i18n="exp_title">The Experience Staircase</h2>
       </div>
+
       <div class="relative timeline-line space-y-12">
         
-        <div class="relative pl-10 group hover-elevate">
-          <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-brand-400 ring-4 ring-surface-950 animate-pulse transition-all"></div>
+        <!-- TH Wildau (Latest) -->
+        <div class="relative pl-10 group hover-elevate hover:translate-x-2 transition-transform">
+          <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-brand-400 ring-4 ring-surface-950 animate-pulse"></div>
           <div class="card-spotlight p-6 rounded-2xl border border-brand-500/40 bg-surface-900/60">
             <span class="text-xs font-mono text-brand-400 font-semibold uppercase" data-i18n="job1_date">Apr 2026 – Present · Germany</span>
-            <h3 class="text-lg font-bold text-white mt-1" data-i18n="job1_title">M.Sc. European Business Management</h3>
-            <p class="text-slate-400 text-sm mt-2 leading-relaxed" data-i18n="job1_desc">Mastering EU Regulatory Frameworks (GDPR) and AI data integrations at TH Wildau to build compliant European marketing engines.</p>
+            <h3 class="text-lg font-bold text-white mt-1" data-i18n="job1_title">M.Sc. European Business Management · TH Wildau</h3>
+            <p class="text-slate-400 text-sm mt-2 leading-relaxed" data-i18n="job1_desc">
+              Advancing technical expertise in Data Science and Artificial Intelligence, International Marketing Strategy, and EU Regulatory Frameworks (GDPR/DSA), building high-converting, compliant automated personalization engines.
+            </p>
           </div>
         </div>
 
-        <div class="relative pl-10 group hover-elevate">
+        <!-- Semicolon Growth Marketing -->
+        <div class="relative pl-10 group hover-elevate hover:translate-x-2 transition-transform">
           <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-slate-800 border-2 border-brand-400 group-hover:scale-150 group-hover:bg-brand-400 transition-all"></div>
           <div class="card-spotlight p-6 rounded-2xl border border-slate-800/80">
             <span class="text-xs font-mono text-brand-400 font-semibold uppercase" data-i18n="job2_date">Jul 2023 – Mar 2026 · Semicolon Tech</span>
             <h3 class="text-lg font-bold text-white mt-1" data-i18n="job2_title">Growth Marketing Manager</h3>
-            <p class="text-slate-400 text-sm mt-2 leading-relaxed" data-i18n="job2_desc">Directed US/UK digital growth. Managed €380,000+ in ad spend across Meta & Amazon. Scaled acquisition by 76% YoY.</p>
+            <p class="text-slate-400 text-sm mt-2 leading-relaxed" data-i18n="job2_desc">
+              Directed international digital growth across North American and British retail accounts. Managed over €380,000+ in cumulative ad spend across Meta Ads and Amazon Sponsored Products. Elevated conversion rates by 25% and scaled acquisition by 76% YoY.
+            </p>
           </div>
         </div>
 
-        <div class="relative pl-10 group hover-elevate">
+        <!-- Semicolon E-Com PM -->
+        <div class="relative pl-10 group hover-elevate hover:translate-x-2 transition-transform">
           <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-slate-800 border-2 border-brand-400 group-hover:scale-150 group-hover:bg-brand-400 transition-all"></div>
           <div class="card-spotlight p-6 rounded-2xl border border-slate-800/80">
             <span class="text-xs font-mono text-brand-400 font-semibold uppercase" data-i18n="job3_date">Aug 2020 – Jun 2023 · Semicolon Tech</span>
             <h3 class="text-lg font-bold text-white mt-1" data-i18n="job3_title">E-Commerce Project Manager</h3>
-            <p class="text-slate-400 text-sm mt-2 leading-relaxed" data-i18n="job3_desc">Managed catalog operations and storefront launches across Shopify, Amazon, and eBay, orchestrating over 12,000+ SKUs. Drove 92% sales expansion.</p>
+            <p class="text-slate-400 text-sm mt-2 leading-relaxed" data-i18n="job3_desc">
+              Managed catalog operations and storefront launches across Shopify, Amazon, and eBay, orchestrating over 12,000+ SKUs. Streamlined multi-channel product rollouts and drove 92% sales expansion through cohort segmentation.
+            </p>
           </div>
         </div>
 
-        <div class="relative pl-10 group hover-elevate">
+        <!-- Meezan Bank (Oldest) -->
+        <div class="relative pl-10 group hover-elevate hover:translate-x-2 transition-transform">
           <div class="absolute left-3.5 top-1.5 h-3.5 w-3.5 rounded-full bg-slate-800 border-2 border-slate-600 group-hover:scale-150 group-hover:bg-brand-400 transition-all"></div>
           <div class="card-spotlight p-6 rounded-2xl border border-slate-800/80">
             <span class="text-xs font-mono text-slate-400 font-semibold uppercase" data-i18n="job4_date">Jul 2019 – Aug 2019 · Meezan Bank Ltd.</span>
-            <h3 class="text-lg font-bold text-white mt-1" data-i18n="job4_title">Operations &amp; Retail Banking Intern</h3>
-            <p class="text-slate-400 text-sm mt-2 leading-relaxed" data-i18n="job4_desc">Mastered financial compliance, transaction auditing, and operational rigor before transitioning into digital retail.</p>
+            <h3 class="text-lg font-bold text-white mt-1" data-i18n="job4_title">Operations & Retail Banking Intern</h3>
+            <p class="text-slate-400 text-sm mt-2 leading-relaxed" data-i18n="job4_desc">
+              Completed an 8-week rotational internship covering branch cash-flow reconciliation, client compliance verification, and commercial banking systems, building a rigorous operational foundation.
+            </p>
           </div>
         </div>
       </div>
@@ -310,25 +416,28 @@
         <p class="text-xs text-slate-400 mt-2 font-mono" data-i18n="graph_desc">Drag, pull, and zoom nodes to explore the operational ecosystem.</p>
       </div>
       
-      <div class="card-spotlight p-2 rounded-2xl w-full h-[650px] cursor-move" id="d3-container">
-        <!-- D3 Graph renders here -->
-      </div>
+      <div class="card-spotlight p-2 rounded-2xl w-full h-[650px] cursor-move" id="d3-container"></div>
     </section>
 
-    <!-- CASE STUDIES & EVIDENCE -->
+    <!-- OPERATIONAL CASE STUDIES & ARTIFACTS -->
     <section id="projects" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="mb-12">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase" data-i18n="ev_sub">Verified Evidence</span>
-        <h2 class="text-3xl font-bold text-white mt-1 font-serif" data-i18n="ev_title">Operational Case Studies</h2>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1 font-serif" data-i18n="ev_title">Operational Case Studies</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-        <div class="md:col-span-8 card-spotlight p-6 rounded-2xl hover-elevate">
-          <div class="flex items-center gap-2 mb-3"><i data-lucide="bar-chart-3" class="w-6 h-6 text-brand-400"></i><h3 class="text-xl font-bold text-white font-serif" data-i18n="case1_title">Multi-Channel E-Commerce Scaling</h3></div>
-          <p class="text-sm text-slate-400 leading-relaxed mb-4" data-i18n="case1_desc">Directed digital growth across North American and UK retail accounts. Orchestrated high-velocity sales across TikTok Shop and eBay US, managing 6,282 active listings and achieving a verified <strong class='text-brand-400'>$5.3M+ GMV</strong>.</p>
-          <div class="flex flex-wrap gap-2 text-[10px] font-mono mb-4">
-            <button onclick="openLightboxArtifact('proof-tiktok.jpg', 'TikTok Shop Analytics: $5.3M+ GMV Verified')" class="bg-surface-900 px-2 py-1 rounded text-brand-300 border border-slate-700 hover:bg-brand-500 hover:text-white transition flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View TikTok Artifact</button>
-            <button onclick="openLightboxArtifact('proof-ebay.jpg', 'eBay Seller Dashboard: 6,200+ Active Listings')" class="bg-surface-900 px-2 py-1 rounded text-brand-300 border border-slate-700 hover:bg-brand-500 hover:text-white transition flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View eBay Artifact</button>
+        
+        <div class="md:col-span-8 card-spotlight p-6 rounded-2xl hover-elevate flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-3"><i data-lucide="bar-chart-3" class="w-6 h-6 text-brand-400"></i><h3 class="text-xl font-bold text-white font-serif" data-i18n="case1_title">Multi-Channel Scaling</h3></div>
+            <p class="text-sm text-slate-400 leading-relaxed mb-4" data-i18n="case1_desc">
+              Directed digital growth across North American and UK retail accounts. Orchestrated high-velocity sales across TikTok Shop and eBay US, managing massive catalogs and achieving a verified <strong class='text-brand-400'>$5.3M+ GMV</strong>.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2 text-[10px] font-mono mt-4">
+            <button onclick="openLightboxArtifact('proof-tiktok.jpg', 'TikTok Shop Analytics: $5.3M+ GMV Verified')" class="bg-surface-900 px-2 py-1.5 rounded text-brand-300 border border-slate-700 hover:bg-brand-500 hover:text-white transition flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View TikTok $5.3M GMV</button>
+            <button onclick="openLightboxArtifact('proof-ebay.jpg', 'eBay Seller Dashboard: 6,200+ Active Listings')" class="bg-surface-900 px-2 py-1.5 rounded text-brand-300 border border-slate-700 hover:bg-brand-500 hover:text-white transition flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View eBay 6k+ Listings</button>
           </div>
         </div>
 
@@ -337,20 +446,48 @@
             <div class="flex items-center gap-2 mb-2"><i data-lucide="target" class="w-5 h-5 text-brand-400"></i><h3 class="text-md font-bold text-white font-serif" data-i18n="case2_title">Paid Media & PPC</h3></div>
             <p class="text-xs text-slate-400 leading-relaxed" data-i18n="case2_desc">Restructured ad allocations via systematic A/B testing (CBO, TOF lookalikes) managing €380k+ in Meta Ads.</p>
           </div>
-          <button onclick="openLightboxArtifact('proof-meta.jpg', 'Meta Ads Manager: Campaign Optimization & Scaling')" class="mt-4 bg-surface-900 px-2 py-1 rounded text-[10px] font-mono border border-slate-700 text-brand-300 hover:bg-brand-500 hover:text-white transition flex items-center justify-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View Meta Ads Artifact</button>
+          <button onclick="openLightboxArtifact('proof-meta.jpg', 'Meta Ads Manager: Campaign Optimization & Scaling')" class="mt-4 bg-surface-900 px-2 py-1.5 rounded text-[10px] font-mono border border-slate-700 text-brand-300 hover:bg-brand-500 hover:text-white transition flex items-center justify-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View Meta Ads Artifact</button>
         </div>
 
-        <div class="md:col-span-12 card-spotlight p-6 rounded-2xl hover-elevate">
+        <div class="md:col-span-12 card-spotlight p-6 rounded-2xl hover-elevate border-brand-500/30">
            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div class="flex items-center gap-3">
-                <i data-lucide="book-open" class="w-5 h-5 text-brand-400"></i>
+                <i data-lucide="cpu" class="w-5 h-5 text-brand-400"></i>
                 <div>
-                  <h3 class="text-md font-bold text-white font-serif" data-i18n="case3_title">MBA Thesis (Summa Cum Laude)</h3>
-                  <p class="text-xs text-slate-400" data-i18n="case3_desc">Empirical SEM model proving Customer Engagement drives AI Personalization (β = 0.835).</p>
+                  <h3 class="text-md font-bold text-white font-serif" data-i18n="case3_title">MBA Thesis: SEM Path Model (SmartPLS)</h3>
+                  <p class="text-xs text-slate-400" data-i18n="case3_desc">Empirical SEM model proving Customer Engagement drives AI Personalization (β = 0.835) and Purchase Intention.</p>
                 </div>
               </div>
-              <button onclick="openLightboxArtifact('proof-thesis.jpg', 'SmartPLS: Structural Equation Modeling Path Diagram')" class="bg-surface-900 px-3 py-1.5 rounded text-[10px] font-mono border border-slate-700 text-brand-300 hover:bg-brand-500 hover:text-white transition flex items-center gap-1 whitespace-nowrap"><i data-lucide="eye" class="w-3 h-3"></i> View Model Artifact</button>
+              <button onclick="openLightboxArtifact('proof-thesis.jpg', 'SmartPLS: Structural Equation Modeling Path Diagram')" class="bg-surface-900 px-3 py-2 rounded text-[10px] font-mono border border-slate-700 text-brand-300 hover:bg-brand-500 hover:text-white transition flex items-center gap-1 whitespace-nowrap"><i data-lucide="eye" class="w-3 h-3"></i> View SmartPLS Artifact</button>
            </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- NEELUM VALLEY 5-IMAGE GALLERY -->
+    <section id="gallery" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
+      <div class="mb-8">
+        <span class="text-xs font-mono text-brand-400 tracking-widest uppercase">Visual Proof & Expeditions</span>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mt-1 font-serif">Neelum Valley Expeditions</h2>
+      </div>
+
+      <!-- EXACT FILENAMES FROM GITHUB REPO (Case Sensitive) -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="md:col-span-2 md:row-span-2 relative rounded-2xl overflow-hidden border border-slate-800 aspect-[4/3] md:aspect-auto group cursor-pointer" onclick="openLightboxGallery(0, neelumImages)">
+          <img src="neelam1.JPG" alt="Neelum Valley Trek" class="w-full h-full object-cover filter grayscale contrast-105 group-hover:grayscale-0 transition duration-500 hover-elevate" />
+        </div>
+        <div class="relative rounded-2xl overflow-hidden border border-slate-800 aspect-[4/3] group cursor-pointer" onclick="openLightboxGallery(1, neelumImages)">
+          <img src="neelam2.jpg" alt="Neelum Valley 2" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500 hover-elevate" />
+        </div>
+        <div class="relative rounded-2xl overflow-hidden border border-slate-800 aspect-[4/3] group cursor-pointer" onclick="openLightboxGallery(2, neelumImages)">
+          <img src="neelam3.JPG" alt="Neelum Valley 3" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500 hover-elevate" />
+        </div>
+        <div class="relative rounded-2xl overflow-hidden border border-slate-800 aspect-[4/3] group cursor-pointer" onclick="openLightboxGallery(3, neelumImages)">
+          <img src="neelam4.jpg" alt="Neelum Valley 4" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500 hover-elevate" />
+        </div>
+        <div class="relative rounded-2xl overflow-hidden border border-slate-800 aspect-[4/3] group cursor-pointer" onclick="openLightboxGallery(4, neelumImages)">
+          <img src="neelam5.JPG" alt="Neelum Valley 5" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500 hover-elevate" />
         </div>
       </div>
     </section>
@@ -365,24 +502,16 @@
       <div class="grid lg:grid-cols-2 gap-6">
         <div class="space-y-3">
           <div class="card-spotlight p-4 rounded-xl flex items-center justify-between hover-elevate cursor-pointer" onclick="window.open('cert-digiskills-dm.pdf', '_blank')">
-            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-brand-400"><i data-lucide="award" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Digital Marketing</p><p class="text-[11px] font-mono text-slate-400">DigiSkills.pk (PDF)</p></div></div>
-            <span class="text-[10px] font-mono text-brand-400">View</span>
+            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-brand-400"><i data-lucide="award" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Digital Marketing</p><p class="text-[11px] font-mono text-slate-400">DigiSkills.pk</p></div></div>
+            <span class="text-[10px] font-mono text-brand-400">View PDF</span>
           </div>
           <div class="card-spotlight p-4 rounded-xl flex items-center justify-between hover-elevate cursor-pointer" onclick="window.open('cert-digiskills-fl.pdf', '_blank')">
-            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-brand-400"><i data-lucide="briefcase" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Freelancing & Client Ops</p><p class="text-[11px] font-mono text-slate-400">DigiSkills.pk (PDF)</p></div></div>
-            <span class="text-[10px] font-mono text-brand-400">View</span>
+            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-brand-400"><i data-lucide="briefcase" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Freelancing & Client Ops</p><p class="text-[11px] font-mono text-slate-400">DigiSkills.pk</p></div></div>
+            <span class="text-[10px] font-mono text-brand-400">View PDF</span>
           </div>
           
           <div class="card-spotlight p-4 rounded-xl flex items-center justify-between hover-elevate cursor-default">
             <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-amber-400"><i data-lucide="bar-chart" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Google Analytics 4 (GA4)</p><p class="text-[11px] font-mono text-slate-400">Google Skillshop</p></div></div>
-            <span class="text-[10px] font-mono text-slate-500">Verified</span>
-          </div>
-          <div class="card-spotlight p-4 rounded-xl flex items-center justify-between hover-elevate cursor-default">
-            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-rose-400"><i data-lucide="inbox" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Inbound Marketing Software</p><p class="text-[11px] font-mono text-slate-400">HubSpot Academy</p></div></div>
-            <span class="text-[10px] font-mono text-slate-500">Verified</span>
-          </div>
-          <div class="card-spotlight p-4 rounded-xl flex items-center justify-between hover-elevate cursor-default">
-            <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-emerald-400"><i data-lucide="shopping-bag" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Shopify E-Commerce Foundations</p><p class="text-[11px] font-mono text-slate-400">Shopify Partner Academy</p></div></div>
             <span class="text-[10px] font-mono text-slate-500">Verified</span>
           </div>
         </div>
@@ -405,7 +534,7 @@
     </section>
   </main>
 
-  <footer id="impressum" class="border-t border-slate-800/80 bg-surface-950 mt-20">
+  <footer id="impressum" class="border-t border-slate-800/80 bg-surface-950 mt-20 hover-elevate">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 text-xs text-slate-500">
       <div class="flex flex-col md:flex-row justify-between gap-8">
         <div>
@@ -426,7 +555,7 @@
   <script>
     lucide.createIcons();
 
-    // Scroll Progress Logic with Climber Icon
+    // Scroll Progress & Hiker
     window.addEventListener('scroll', () => {
       const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -434,7 +563,7 @@
       document.getElementById('scroll-progress').style.width = scrolled + '%';
     });
 
-    // D3.js INTERACTIVE FORCE-DIRECTED MIND MAP (Expanded)
+    // D3.js INTERACTIVE MIND MAP
     const d3Data = {
       nodes: [
         { id: "Baqar Shah", group: 0, size: 25 },
@@ -443,24 +572,17 @@
         { id: "TikTok Shop", group: 1, size: 12 },
         { id: "eBay Scaled", group: 1, size: 12 },
         { id: "Supply Chain", group: 1, size: 12 },
-        { id: "Omnichannel", group: 1, size: 12 },
         { id: "MarTech", group: 2, size: 18 },
         { id: "Meta Ads (CBO)", group: 2, size: 12 },
         { id: "HubSpot", group: 2, size: 12 },
-        { id: "Klaviyo", group: 2, size: 12 },
         { id: "A/B Testing", group: 2, size: 12 },
-        { id: "CRO", group: 2, size: 12 },
         { id: "AI & Data", group: 3, size: 18 },
         { id: "SmartPLS (SEM)", group: 3, size: 12 },
         { id: "GA4 / Analytics", group: 3, size: 12 },
         { id: "Predictive AI", group: 3, size: 12 },
-        { id: "Python", group: 3, size: 12 },
-        { id: "Data Visualization", group: 3, size: 12 },
         { id: "European Strategy", group: 4, size: 18 },
         { id: "GDPR Compliance", group: 4, size: 12 },
-        { id: "Agile Scrum", group: 4, size: 12 },
-        { id: "Consumer Behavior", group: 4, size: 12 },
-        { id: "Market Research", group: 4, size: 12 }
+        { id: "Agile Scrum", group: 4, size: 12 }
       ],
       links: [
         { source: "Baqar Shah", target: "E-Commerce" },
@@ -471,25 +593,16 @@
         { source: "E-Commerce", target: "TikTok Shop" },
         { source: "E-Commerce", target: "eBay Scaled" },
         { source: "E-Commerce", target: "Supply Chain" },
-        { source: "E-Commerce", target: "Omnichannel" },
         { source: "MarTech", target: "Meta Ads (CBO)" },
         { source: "MarTech", target: "HubSpot" },
-        { source: "MarTech", target: "Klaviyo" },
         { source: "MarTech", target: "A/B Testing" },
-        { source: "MarTech", target: "CRO" },
         { source: "AI & Data", target: "SmartPLS (SEM)" },
         { source: "AI & Data", target: "GA4 / Analytics" },
         { source: "AI & Data", target: "Predictive AI" },
-        { source: "AI & Data", target: "Python" },
-        { source: "AI & Data", target: "Data Visualization" },
         { source: "European Strategy", target: "GDPR Compliance" },
         { source: "European Strategy", target: "Agile Scrum" },
-        { source: "European Strategy", target: "Consumer Behavior" },
-        { source: "European Strategy", target: "Market Research" },
         { source: "Shopify Plus", target: "GA4 / Analytics" },
-        { source: "Meta Ads (CBO)", target: "Shopify Plus" },
-        { source: "A/B Testing", target: "CRO" },
-        { source: "Predictive AI", target: "Consumer Behavior" }
+        { source: "Meta Ads (CBO)", target: "Shopify Plus" }
       ]
     };
 
@@ -510,8 +623,8 @@
       .call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended));
 
     node.append("circle").attr("r", d => d.size).attr("fill", d => color(d.group));
-    // Updated text color to bright white so it is highly visible on the black background
-    node.append("text").text(d => d.id).attr('x', 18).attr('y', 4).attr('fill', '#ffffff').style('font-weight', '600').style('text-shadow', '0px 2px 4px rgba(0,0,0,0.8)');
+    // Text is explicitely bright white
+    node.append("text").text(d => d.id).attr('x', 18).attr('y', 4).attr('fill', '#ffffff').style('font-weight', '600').style('text-shadow', '0px 2px 4px rgba(0,0,0,0.9)');
 
     simulation.on("tick", () => {
       link.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
@@ -522,35 +635,76 @@
     function dragged(event, d) { d.fx = event.x; d.fy = event.y; }
     function dragended(event, d) { if (!event.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; }
 
+    // WATER RIPPLE EFFECT
+    const canvas = document.getElementById('water-canvas');
+    const ctx = canvas.getContext('2d');
+    let ripples = [];
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    window.addEventListener('mousemove', e => {
+      if (Math.random() > 0.7) {
+        ripples.push({ x: e.clientX, y: e.clientY, radius: 2, maxRadius: Math.random() * 30 + 20, alpha: 0.35, speed: Math.random() * 1.5 + 0.5 });
+      }
+    });
+    function animateWater() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const r = ripples[i];
+        r.radius += r.speed; r.alpha -= 0.01;
+        if (r.alpha <= 0 || r.radius >= r.maxRadius) { ripples.splice(i, 1); continue; }
+        ctx.beginPath(); ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(251, 146, 60, ${r.alpha})`; ctx.lineWidth = 1.5; ctx.stroke();
+      }
+      requestAnimationFrame(animateWater);
+    }
+    animateWater();
+
     // LIGHTBOX / SLIDER LOGIC
     const nangaImages = [
       { src: "nanga-tent.jpg", caption: "The Strategy: Mapping the terrain and minimizing risk." },
       { src: "nanga-group.jpg", caption: "The Team: Cross-functional collaboration under pressure." },
       { src: "nanga-summit.jpg", caption: "The Ascent: Scaling peaks and e-commerce revenue." }
     ];
+    // Exact casing for Neelum Images
+    const neelumImages = [
+      { src: "neelam1.JPG", caption: "Neelum Valley Mountain Pass" },
+      { src: "neelam2.jpg", caption: "Expedition II" },
+      { src: "neelam3.JPG", caption: "River Basin" },
+      { src: "neelam4.jpg", caption: "Altitude Contingency" },
+      { src: "neelam5.JPG", caption: "The Ascent" }
+    ];
+
+    let currentGallery = [];
     let currentSlide = 0;
     let isGallery = false;
 
-    function openLightbox(index) {
+    function openLightboxGallery(index, galleryArray) {
       isGallery = true;
+      currentGallery = galleryArray;
       currentSlide = index;
+      document.getElementById('lb-prev').style.display = 'block';
+      document.getElementById('lb-next').style.display = 'block';
       updateLightbox();
       document.getElementById('lightbox-modal').classList.remove('hidden');
     }
 
     function openLightboxArtifact(imgSrc, captionText) {
       isGallery = false;
+      document.getElementById('lb-prev').style.display = 'none';
+      document.getElementById('lb-next').style.display = 'none';
       document.getElementById('lightbox-img').src = imgSrc;
       document.getElementById('lightbox-caption').innerText = captionText;
       document.getElementById('lightbox-modal').classList.remove('hidden');
     }
 
     function closeLightbox() { document.getElementById('lightbox-modal').classList.add('hidden'); }
-    function nextSlide() { if(isGallery){ currentSlide = (currentSlide + 1) % nangaImages.length; updateLightbox(); } }
-    function prevSlide() { if(isGallery){ currentSlide = (currentSlide - 1 + nangaImages.length) % nangaImages.length; updateLightbox(); } }
+    function nextSlide() { if(isGallery){ currentSlide = (currentSlide + 1) % currentGallery.length; updateLightbox(); } }
+    function prevSlide() { if(isGallery){ currentSlide = (currentSlide - 1 + currentGallery.length) % currentGallery.length; updateLightbox(); } }
     function updateLightbox() {
-      document.getElementById('lightbox-img').src = nangaImages[currentSlide].src;
-      document.getElementById('lightbox-caption').innerText = nangaImages[currentSlide].caption;
+      document.getElementById('lightbox-img').src = currentGallery[currentSlide].src;
+      document.getElementById('lightbox-caption').innerText = currentGallery[currentSlide].caption;
     }
 
     window.addEventListener('keydown', e => {
@@ -560,61 +714,60 @@
       if (e.key === 'ArrowLeft') prevSlide();
     });
 
-    // FULL SITE TRANSLATION DICTIONARY
+    // TRANSLATION DICTIONARY
     const dict = {
       nav_story: { en: "Story", de: "Geschichte" },
       nav_trajectory: { en: "Trajectory", de: "Verlauf" },
       nav_experience: { en: "Experience", de: "Erfahrung" },
       nav_evidence: { en: "Evidence", de: "Beweise" },
-      hero_badge: { en: "The biggest campaign I managed was starting over in Germany.", de: "Die größte Kampagne, die ich leitete, war der Neuanfang in Deutschland." },
+      hero_badge: { en: "The biggest campaign I managed was starting over in Germany.", de: "Die größte Kampagne war der Neuanfang in Deutschland." },
       hero_title1: { en: "E-Commerce Operations", de: "E-Commerce Operations" },
       hero_title2: { en: "& MarTech Specialist", de: "& MarTech Spezialist" },
       hero_desc: { en: "Bridging 4+ years of hands-on marketplace scaling with European business compliance, predictive AI personalization research, and automated growth funnels.", de: "Verbindung von 4+ Jahren Marktplatz-Skalierung mit europäischer Compliance und KI-Forschung." },
-      stat1: { en: "Multi-Channel GMV", de: "Multi-Channel GMV" },
-      stat2: { en: "Managed Ad Spend", de: "Verwaltetes Ad-Budget" },
-      stat3: { en: "Paid Funnel ROI", de: "Paid Funnel ROI" },
-      stat4: { en: "MBA (Pakistan)", de: "MBA (Pakistan)" },
-      hero_context: { en: "<strong class='text-slate-300'>Data drives my decisions.</strong> From scaling verified international e-commerce revenue on TikTok Shop/eBay, to achieving Summa Cum Laude academic honors during my MBA in Pakistan, these metrics form my foundation before bringing my operational expertise to Europe.", de: "<strong class='text-slate-300'>Daten steuern mich.</strong> Von der Skalierung internationaler Umsätze auf TikTok/eBay bis zu Summa Cum Laude-Auszeichnungen im MBA (Pakistan) bilden diese Metriken mein Fundament für Europa." },
-      mtn_sub: { en: "The Nanga Parbat Mentality", de: "Die Nanga Parbat Mentalität" },
-      mtn_title: { en: "Navigating the Unpredictable", de: "Das Unvorhersehbare navigieren" },
-      mtn_p1: { en: "In climbing history, Nanga Parbat is famously known as the Schicksalsberg (Mountain of Destiny)—a place of extreme ambition and unforgiving risk. While I haven't conquered its peak, my expeditions through the surrounding high-altitude valleys taught me the ultimate lesson in risk management. Up there, weather changes in minutes, and survival depends entirely on agile contingency planning.", de: "In der Klettergeschichte ist der Nanga Parbat als Schicksalsberg bekannt. Obwohl ich den Gipfel nicht bezwungen habe, lehrten mich meine Expeditionen in den umliegenden Tälern die ultimative Lektion im Risikomanagement." },
-      mtn_p2: { en: "Scaling high-velocity e-commerce operations presents the exact same dynamic. When ad algorithms crash, supply chains break, or acquisition costs spike, panic isn't an option. You trust your data, adapt the system, and keep climbing. I bring this exact resilience to European marketing operations.", de: "Die Skalierung von E-Commerce-Operationen bietet genau die gleiche Dynamik. Wenn Algorithmen abstürzen oder Lieferketten brechen, ist Panik keine Option. Man vertraut den Daten und klettert weiter." },
+      stat1: { en: "Sales Scale", de: "Umsatzwachstum" },
+      stat2: { en: "Ad Spend", de: "Ad-Budget" },
+      stat3: { en: "Active SKUs", de: "Aktive SKUs" },
+      stat4: { en: "MBA Pakistan", de: "MBA Pakistan" },
+      hero_subtext: { en: "*Metrics reflect verified operational scale across independent retail catalogs. The 1.00 CGPA (Summa Cum Laude) was achieved during my MBA in Pakistan...", de: "*Die Metriken spiegeln die verifizierte operative Skalierung wider. Der 1.00 CGPA (Summa Cum Laude) wurde im MBA in Pakistan erreicht..." },
+      mtn_sub: { en: "Perspective & Character", de: "Perspektive & Charakter" },
+      mtn_title: { en: "The Mountain of Destiny", de: "Der Schicksalsberg" },
+      mtn_p1: { en: "In climbing history, Nanga Parbat is famously known as the Schicksalsberg...", de: "In der Klettergeschichte ist der Nanga Parbat als Schicksalsberg bekannt..." },
+      mtn_p2: { en: "Scaling high-velocity e-commerce operations presents the exact same dynamic...", de: "Die Skalierung von E-Commerce-Operationen bietet die gleiche Dynamik..." },
       mtn_note: { en: "The Ultimate Test", de: "Der ultimative Test" },
       flight_sub: { en: "Global Trajectory", de: "Globale Flugbahn" },
-      flight_title: { en: "Intercultural Logistics", de: "Interkulturelle Logistik" },
-      node1_desc: { en: "Operational Roots", de: "Operative Wurzeln" },
-      node2_desc: { en: "MBA (1.00 CGPA)", de: "MBA (1,00 CGPA)" },
-      node3_desc: { en: "M.Sc. European Business", de: "M.Sc. European Business" },
-      flight_desc: { en: "<strong>The Route to Scale:</strong> Moving from foundational operations in Jhelum, mastering business administration at the highest level in Islamabad, to applying cross-border digital strategies in the Berlin Metropolitan Region.", de: "<strong>Der Weg zur Skalierung:</strong> Von den operativen Grundlagen in Jhelum, über das MBA-Studium in Islamabad, bis hin zu digitalen Strategien in Berlin." },
+      flight_title: { en: "Intercontinental Flight Path", de: "Interkontinentale Flugroute" },
+      node1_desc: { en: "B.Com Operations", de: "B.Com Operations" },
+      node2_desc: { en: "MBA Summa Cum Laude", de: "MBA Summa Cum Laude" },
+      node3_desc: { en: "M.Sc. European Business Management", de: "M.Sc. European Business" },
       exp_sub: { en: "Career Progression", de: "Karriereverlauf" },
       exp_title: { en: "The Experience Staircase", de: "Die Erfahrungstreppe" },
       job1_date: { en: "Apr 2026 – Present · Germany", de: "Apr 2026 – Heute · Deutschland" },
-      job1_title: { en: "M.Sc. European Business Management", de: "M.Sc. European Business Management" },
-      job1_desc: { en: "Mastering EU Regulatory Frameworks (GDPR) and AI data integrations at TH Wildau to build compliant European marketing engines.", de: "Beherrschung von EU-Regulierungsrahmen (DSGVO) und KI-Datenintegration an der TH Wildau." },
+      job1_title: { en: "M.Sc. European Business Management · TH Wildau", de: "M.Sc. European Business · TH Wildau" },
+      job1_desc: { en: "Advancing technical expertise in Data Science and Artificial Intelligence...", de: "Vertiefung der technischen Expertise in Data Science und KI..." },
       job2_date: { en: "Jul 2023 – Mar 2026 · Semicolon Tech", de: "Jul 2023 – Mär 2026 · Semicolon Tech" },
       job2_title: { en: "Growth Marketing Manager", de: "Growth Marketing Manager" },
-      job2_desc: { en: "Directed US/UK digital growth. Managed €380,000+ in ad spend across Meta & Amazon. Scaled acquisition by 76% YoY.", de: "Leitete das digitale Wachstum in US/UK. Verwaltete €380.000+ Ad-Spend auf Meta & Amazon." },
+      job2_desc: { en: "Directed international digital growth across North American and British retail accounts...", de: "Leitete internationales digitales Wachstum in Nordamerika und UK..." },
       job3_date: { en: "Aug 2020 – Jun 2023 · Semicolon Tech", de: "Aug 2020 – Jun 2023 · Semicolon Tech" },
       job3_title: { en: "E-Commerce Project Manager", de: "E-Commerce Projektmanager" },
-      job3_desc: { en: "Managed catalog operations and storefront launches across Shopify, Amazon, and eBay, orchestrating over 12,000+ SKUs. Drove 92% sales expansion.", de: "Verwaltete Katalogoperationen über Shopify, Amazon und eBay (12.000+ SKUs). Erzielte 92% Umsatzwachstum." },
+      job3_desc: { en: "Managed catalog operations and storefront launches across Shopify, Amazon, and eBay...", de: "Leitete Katalogoperationen über Shopify, Amazon und eBay..." },
       job4_date: { en: "Jul 2019 – Aug 2019 · Meezan Bank Ltd.", de: "Jul 2019 – Aug 2019 · Meezan Bank" },
       job4_title: { en: "Operations & Retail Banking Intern", de: "Praktikant im Retail Banking" },
-      job4_desc: { en: "Mastered financial compliance, transaction auditing, and operational rigor before transitioning into digital retail.", de: "Meisterte finanzielle Compliance und Transaktionsprüfung vor dem Wechsel in den digitalen Handel." },
+      job4_desc: { en: "Completed an 8-week rotational internship covering branch cash-flow reconciliation...", de: "Absolvierte ein 8-wöchiges Praktikum in der Filial-Kassenabstimmung..." },
       graph_sub: { en: "System Map", de: "Systemkarte" },
       graph_title: { en: "Interactive Knowledge Graph", de: "Interaktiver Wissensgraph" },
       graph_desc: { en: "Drag, pull, and zoom nodes to explore the operational ecosystem.", de: "Ziehen und zoomen Sie Knotenpunkte, um das Ökosystem zu erkunden." },
       ev_sub: { en: "Verified Evidence", de: "Verifizierte Beweise" },
       ev_title: { en: "Operational Case Studies", de: "Operative Fallstudien" },
-      case1_title: { en: "Multi-Channel E-Commerce Scaling", de: "Multi-Channel E-Commerce Skalierung" },
-      case1_desc: { en: "Directed digital growth across North American and UK retail accounts. Orchestrated high-velocity sales across TikTok Shop and eBay US, managing 6,282 active listings and achieving a verified <strong class='text-brand-400'>$5.3M+ GMV</strong>.", de: "Steuerte digitales Wachstum. Leitete Verkäufe über TikTok Shop und eBay US ($5,3 Mio. GMV)." },
+      case1_title: { en: "Multi-Channel Scaling", de: "Multi-Channel Skalierung" },
+      case1_desc: { en: "Directed digital growth across North American and UK retail accounts...", de: "Steuerte digitales Wachstum in nordamerikanischen und britischen Accounts..." },
       case2_title: { en: "Paid Media & PPC", de: "Paid Media & PPC" },
       case2_desc: { en: "Restructured ad allocations via systematic A/B testing (CBO, TOF lookalikes) managing €380k+ in Meta Ads.", de: "Umstrukturierte Anzeigenverteilung durch A/B-Tests für €380k+ in Meta Ads." },
-      case3_title: { en: "MBA Thesis (Summa Cum Laude)", de: "MBA Thesis (Summa Cum Laude)" },
-      case3_desc: { en: "Empirical SEM model proving Customer Engagement drives AI Personalization (β = 0.835).", de: "Empirisches SEM-Modell, das beweist, dass Customer Engagement KI-Personalisierung antreibt." },
+      case3_title: { en: "MBA Thesis: SEM Path Model (SmartPLS)", de: "MBA Thesis: SEM Pfadmodell (SmartPLS)" },
+      case3_desc: { en: "Empirical SEM model proving Customer Engagement drives AI Personalization (β = 0.835) and Purchase Intention.", de: "Empirisches SEM-Modell, das beweist, dass Customer Engagement KI-Personalisierung antreibt." },
       cred_sub: { en: "Verified Proof", de: "Geprüfter Nachweis" },
       cred_title: { en: "Licenses & Endorsements", de: "Lizenzen & Empfehlungen" },
-      quote1: { en: "\"Recognized for exceptional leadership in driving customer acquisition and digital growth across international e-commerce channels, resulting in up to 39% revenue acceleration in the first operational cycle.\"", de: "\"Anerkannt für außergewöhnliche Führung bei der Kundengewinnung und dem digitalen Wachstum...\"" },
-      quote2: { en: "\"Praised for sustained leadership, academic excellence leading to Summa Cum Laude honors (CGPA 4.00), and innovative empirical research on AI-driven personalization in digital marketplaces.\"", de: "\"Gelobt für anhaltende Führung und akademische Exzellenz (Summa Cum Laude)...\"" },
+      quote1: { en: "\"Recognized for exceptional leadership in driving customer acquisition...\"", de: "\"Anerkannt für außergewöhnliche Führung bei der Kundengewinnung...\"" },
+      quote2: { en: "\"Praised for sustained leadership, academic excellence leading to Summa Cum Laude honors...\"", de: "\"Gelobt für anhaltende Führung und akademische Exzellenz (Summa Cum Laude)...\"" },
       imp_title: { en: "Impressum / Legal Disclosure", de: "Impressum / Rechtliche Hinweise" },
       imp_law: { en: "Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG):", de: "Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG):" },
       hero_card_title: { en: "M.Sc. Candidate · TH Wildau", de: "M.Sc. Kandidat · TH Wildau" },
@@ -625,8 +778,8 @@
     function toggleLanguage() {
       isGerman = !isGerman;
       document.getElementById('lang-btn').innerText = isGerman ? "DE|EN" : "EN|DE";
-      if(isGerman) document.getElementById('lang-btn').classList.add('border-brand-400', 'text-brand-400');
-      else document.getElementById('lang-btn').classList.remove('border-brand-400', 'text-brand-400');
+      if(isGerman) document.getElementById('lang-btn').classList.add('text-brand-400');
+      else document.getElementById('lang-btn').classList.remove('text-brand-400');
       
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
@@ -634,48 +787,42 @@
       });
     }
 
-    // AUTOPLAY AUDIO LOGIC (Handled gracefully for modern browsers)
+    // AUTOPLAY AUDIO TOAST HANDLER (Modern Browsers Block Audio Without Interaction)
     const audio = document.getElementById('bg-audio');
+    const audioToast = document.getElementById('audio-toast');
     let isPlaying = false;
     
-    // Attempt to play on script load
-    audio.volume = 0.35;
-    const playPromise = audio.play();
-    
-    if (playPromise !== undefined) {
-      playPromise.then(_ => {
-        isPlaying = true;
-        document.getElementById('sound-icon').setAttribute('data-lucide', 'volume-2');
-        lucide.createIcons();
-      }).catch(error => {
-        // Autoplay blocked by browser. Wait for first user interaction (click/touch anywhere)
-        const startAudio = () => {
-          if (!isPlaying) {
-            audio.play();
-            isPlaying = true;
-            document.getElementById('sound-icon').setAttribute('data-lucide', 'volume-2');
-            lucide.createIcons();
-          }
-          document.body.removeEventListener('click', startAudio);
-          document.body.removeEventListener('touchstart', startAudio);
-        };
-        document.body.addEventListener('click', startAudio);
-        document.body.addEventListener('touchstart', startAudio);
-      });
-    }
+    // When ANY interaction happens, fade out toast and start music
+    const startAudioInteraction = () => {
+      if (!isPlaying) {
+        audio.volume = 0.35;
+        audio.play().then(() => {
+          isPlaying = true;
+          document.getElementById('sound-icon').setAttribute('data-lucide', 'volume-2');
+          lucide.createIcons();
+          audioToast.style.opacity = '0';
+          setTimeout(() => audioToast.remove(), 500);
+        }).catch(err => console.log("Audio still blocked"));
+      }
+      document.body.removeEventListener('click', startAudioInteraction);
+      document.body.removeEventListener('keydown', startAudioInteraction);
+    };
+    document.body.addEventListener('click', startAudioInteraction);
+    document.body.addEventListener('keydown', startAudioInteraction);
 
-    function toggleAudio() {
+    function toggleAudio(e) {
+      e.stopPropagation(); // prevent toast logic from overriding manual toggle
       if (!isPlaying) {
         audio.volume = 0.35; audio.play();
         isPlaying = true; 
         document.getElementById('sound-icon').setAttribute('data-lucide', 'volume-2'); 
-        lucide.createIcons();
       } else {
         audio.pause(); 
         isPlaying = false; 
         document.getElementById('sound-icon').setAttribute('data-lucide', 'music'); 
-        lucide.createIcons();
       }
+      lucide.createIcons();
+      if(audioToast) { audioToast.style.opacity = '0'; setTimeout(() => audioToast.remove(), 500); }
     }
   </script>
 </body>
