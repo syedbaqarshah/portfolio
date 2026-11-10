@@ -179,10 +179,10 @@
             </div>
           </div>
           <div class="grid grid-cols-2 gap-3 relative cursor-pointer">
-            <img src="nanga-tent.jpg" onclick="openLightbox(0)" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate" alt="Expedition Base Camp">
+            <img src="nanga-tent.jpg" onclick="openLightbox(0)" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=500&q=80';" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate" alt="Expedition Base Camp">
             <div class="space-y-3">
-              <img src="nanga-group.jpg" onclick="openLightbox(1)" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate" alt="The Team">
-              <img src="nanga-summit.jpg" onclick="openLightbox(2)" class="rounded-xl border border-slate-700 object-cover aspect-[4/3] hover-elevate" alt="The Ascent">
+              <img src="nanga-group.jpg" onclick="openLightbox(1)" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=500&q=80';" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate" alt="The Team">
+              <img src="nanga-summit.jpg" onclick="openLightbox(2)" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?auto=format&fit=crop&w=500&q=80';" class="rounded-xl border border-slate-700 object-cover aspect-[4/3] hover-elevate" alt="The Ascent">
             </div>
             <div class="absolute -bottom-4 right-6 transform -rotate-6">
               <p class="font-hand text-2xl text-brand-400 tracking-wide drop-shadow-md" data-i18n="mtn_note">The Ultimate Test</p>
@@ -324,7 +324,7 @@
         <!-- Multi-Channel Scaling (TikTok & eBay) -->
         <div class="md:col-span-8 card-spotlight p-6 rounded-2xl border border-slate-800 hover-elevate">
           <div class="flex items-center gap-2 mb-3"><i data-lucide="bar-chart-3" class="w-6 h-6 text-brand-400"></i><h3 class="text-xl font-bold text-white" data-i18n="case1_title">Multi-Channel E-Commerce Scaling</h3></div>
-          <p class="text-sm text-slate-400 leading-relaxed mb-4" data-i18n="case1_desc">Directed digital growth across North American and UK retail accounts. Orchestrated high-velocity sales across TikTok Shop and eBay US, managing 6,282 active listings and achieving a verified <strong class="text-brand-400">$5.3M+ GMV</strong>.</p>
+          <p class="text-sm text-slate-400 leading-relaxed mb-4" data-i18n="case1_desc">Directed digital growth across North American and UK retail accounts. Orchestrated high-velocity sales across TikTok Shop and eBay US, managing 6,282 active listings and achieving a verified <strong class='text-brand-400'>$5.3M+ GMV</strong>.</p>
           <div class="flex flex-wrap gap-2 text-[10px] font-mono mb-4">
             <button onclick="openLightboxArtifact('proof-tiktok.jpg', 'TikTok Shop Analytics: $5.3M+ GMV Verified')" class="bg-brand-900/50 px-2 py-1 rounded text-brand-300 hover:bg-brand-500 hover:text-slate-900 transition flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View TikTok Artifact</button>
             <button onclick="openLightboxArtifact('proof-ebay.jpg', 'eBay Seller Dashboard: 6,200+ Active Listings')" class="bg-brand-900/50 px-2 py-1 rounded text-brand-300 hover:bg-brand-500 hover:text-slate-900 transition flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i> View eBay Artifact</button>
@@ -624,7 +624,9 @@
       quote1: { en: "\"Recognized for exceptional leadership in driving customer acquisition and digital growth across international e-commerce channels, resulting in up to 39% revenue acceleration in the first operational cycle.\"", de: "\"Anerkannt für außergewöhnliche Führung bei der Kundengewinnung und dem digitalen Wachstum...\"" },
       quote2: { en: "\"Praised for sustained leadership, academic excellence leading to Summa Cum Laude honors (CGPA 4.00), and innovative empirical research on AI-driven personalization in digital marketplaces.\"", de: "\"Gelobt für anhaltende Führung und akademische Exzellenz (Summa Cum Laude)...\"" },
       imp_title: { en: "Impressum / Legal Disclosure", de: "Impressum / Rechtliche Hinweise" },
-      imp_law: { en: "Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG):", de: "Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG):" }
+      imp_law: { en: "Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG):", de: "Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG):" },
+      hero_card_title: { en: "M.Sc. Candidate · TH Wildau", de: "M.Sc. Kandidat · TH Wildau" },
+      hero_card_desc: { en: "European Business Management", de: "European Business Management" }
     };
 
     let isGerman = false;
