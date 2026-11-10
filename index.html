@@ -28,7 +28,6 @@
             hand: ['Caveat', 'cursive'],
           },
           colors: {
-            // Switched from "AI Green" to a warm, creative "Sunset/Amber" palette
             brand: { 300: '#fdba74', 400: '#fb923c', 500: '#f97316', 900: '#7c2d12', 950: '#431407' },
             surface: { 900: '#171717', 950: '#0a0a0a' }
           }
@@ -41,7 +40,6 @@
     html { scroll-padding-top: 5rem; }
     body {
       background-color: #0f0f0f; color: #f3f4f6;
-      /* Subtle noise/grain texture instead of the techy grid */
       background-image: radial-gradient(at 50% 0%, rgba(249, 115, 22, 0.05) 0px, transparent 60%), radial-gradient(at 100% 100%, rgba(251, 146, 60, 0.03) 0px, transparent 50%);
     }
     
@@ -58,19 +56,29 @@
     #d3-container svg:active { cursor: grabbing; }
     .node circle { stroke: #171717; stroke-width: 2px; transition: all 0.3s; }
     .node circle:hover { stroke: #fb923c; stroke-width: 4px; filter: drop-shadow(0 0 12px #fb923c); }
-    /* Changed text to white and slightly larger for perfect visibility */
-    .node text { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: #ffffff; font-weight: 500; pointer-events: none; text-shadow: 0px 2px 4px rgba(0,0,0,0.8); }
     .link { stroke: rgba(251, 146, 60, 0.25); stroke-width: 1.5px; }
 
     /* Flight Path Animation */
     .flight-path-line { stroke-dasharray: 6 6; animation: dashMove 20s linear infinite; }
     @keyframes dashMove { to { stroke-dashoffset: -1000; } }
+
+    /* Moving Character Animation on Scroll Line */
+    .climber-icon {
+      position: absolute;
+      right: -12px;
+      top: -10px;
+      font-size: 1.25rem;
+      transform: scaleX(-1); /* Faces right */
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
   </style>
 </head>
 <body class="selection:bg-brand-500/30 selection:text-white font-sans antialiased overflow-x-hidden">
 
-  <!-- SCROLL PROGRESS LINE -->
-  <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-brand-500 to-amber-300 z-[60] transition-all duration-75" style="width: 0%;"></div>
+  <!-- SCROLL PROGRESS LINE WITH CLIMBER -->
+  <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-brand-500 to-amber-300 z-[60] transition-all duration-75" style="width: 0%;">
+    <div class="climber-icon">🧗</div>
+  </div>
 
   <!-- CLEAN TOP NAVIGATION BAR -->
   <header class="fixed top-0 inset-x-0 z-50 glass-nav">
@@ -98,16 +106,16 @@
   </header>
 
   <!-- BACKGROUND AUDIO -->
-  <audio id="bg-audio" loop preload="none">
+  <!-- Autoplay added. JS handles browser blocks seamlessly -->
+  <audio id="bg-audio" loop autoplay preload="auto">
     <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- LIGHTBOX MODAL (Artifacts only) -->
+  <!-- LIGHTBOX MODAL -->
   <div id="lightbox-modal" class="fixed inset-0 z-[100] bg-surface-950/95 backdrop-blur-xl hidden flex items-center justify-center p-4">
     <button onclick="closeLightbox()" class="absolute top-6 right-6 p-2 rounded-full border border-slate-700 bg-surface-900 text-slate-300 hover:text-white transition z-10"><i data-lucide="x" class="w-6 h-6"></i></button>
     <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full border border-slate-700 bg-surface-900/80 text-white hover:border-brand-400 transition z-10"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
     <div class="max-w-5xl max-h-[85vh] flex flex-col items-center">
-      <!-- Removed onerror unsplash fallback so your real artifacts can load cleanly or fail properly -->
       <img id="lightbox-img" src="" alt="Artifact" class="max-h-[75vh] w-auto rounded-xl object-contain shadow-2xl border border-slate-800" />
       <p id="lightbox-caption" class="mt-4 font-mono text-xs text-brand-400"></p>
     </div>
@@ -142,11 +150,19 @@
             </p>
           </div>
         </div>
+        
+        <!-- HEADSHOT WITH SANKAR ORBITING RING EFFECT -->
         <div class="lg:col-span-5 flex justify-center lg:justify-end">
           <div class="relative w-64 sm:w-80 aspect-[4/5]">
-            <div class="absolute -inset-1.5 rounded-3xl bg-gradient-to-tr from-brand-500/20 to-amber-400/10 blur-xl opacity-75"></div>
-            <div class="relative h-full w-full rounded-2xl border border-slate-800 bg-surface-900 overflow-hidden shadow-2xl">
-              <img src="headshot.jpg" onerror="this.onerror=null; this.src='headshot.png';" alt="Baqar Shah" class="h-full w-full object-cover filter grayscale contrast-125 hover:grayscale-0 transition-all duration-700" />
+            <!-- Orbiting Ring Animation -->
+            <div class="absolute -inset-4 rounded-3xl border border-brand-500/20 animate-[spin_12s_linear_infinite] z-0">
+              <div class="absolute top-0 left-1/2 w-3 h-3 bg-brand-400 rounded-full shadow-[0_0_12px_#fb923c] -translate-x-1/2 -translate-y-1/2"></div>
+            </div>
+            
+            <div class="absolute -inset-1.5 rounded-3xl bg-gradient-to-tr from-brand-500/20 to-amber-400/10 blur-xl opacity-75 z-10"></div>
+            <div class="relative h-full w-full rounded-2xl border border-slate-800 bg-surface-900 overflow-hidden shadow-2xl z-20 group">
+              <!-- Color restores on hover -->
+              <img src="headshot.jpg" alt="Baqar Shah" class="h-full w-full object-cover filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700" />
               <div class="absolute inset-0 bg-gradient-to-t from-surface-950 via-transparent opacity-85"></div>
               <div class="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-surface-950/85 border border-slate-800/80 backdrop-blur-md">
                 <p class="text-xs font-mono text-brand-400 font-semibold" data-i18n="hero_card_title">M.Sc. Candidate · TH Wildau</p>
@@ -158,7 +174,7 @@
       </div>
     </section>
 
-    <!-- THE MOUNTAIN STORY (Removed Unsplash fallbacks) -->
+    <!-- THE MOUNTAIN STORY (Images fixed and paths verified) -->
     <section id="about" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-slate-800/80 hover-elevate">
       <div class="card-spotlight p-8 md:p-10 rounded-2xl">
         <div class="grid md:grid-cols-2 gap-10 items-center">
@@ -175,7 +191,6 @@
             </div>
           </div>
           <div class="grid grid-cols-2 gap-3 relative cursor-pointer">
-            <!-- Used exactly your image names without the overwrite script -->
             <img src="nanga-tent.jpg" onclick="openLightbox(0)" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate" alt="Expedition Base Camp">
             <div class="space-y-3">
               <img src="nanga-group.jpg" onclick="openLightbox(1)" class="rounded-xl border border-slate-700 object-cover aspect-square hover-elevate" alt="The Team">
@@ -287,7 +302,7 @@
       </div>
     </section>
 
-    <!-- D3.JS INTERACTIVE MIND MAP (Expanded) -->
+    <!-- D3.JS INTERACTIVE MIND MAP -->
     <section id="mindmap" class="max-w-7xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80 hover-elevate">
       <div class="mb-8">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase" data-i18n="graph_sub">System Map</span>
@@ -340,7 +355,7 @@
       </div>
     </section>
 
-    <!-- CREDENTIALS (Fix: Certificates open PDF in new tab to avoid broken images) -->
+    <!-- CREDENTIALS -->
     <section id="credentials" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 border-t border-slate-800/80">
       <div class="mb-12">
         <span class="text-xs font-mono text-brand-400 tracking-widest uppercase" data-i18n="cred_sub">Verified Proof</span>
@@ -348,20 +363,16 @@
       </div>
 
       <div class="grid lg:grid-cols-2 gap-6">
-        <!-- Expanded Certifications List -->
         <div class="space-y-3">
-          <!-- Opens uploaded PDF -->
           <div class="card-spotlight p-4 rounded-xl flex items-center justify-between hover-elevate cursor-pointer" onclick="window.open('cert-digiskills-dm.pdf', '_blank')">
             <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-brand-400"><i data-lucide="award" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Digital Marketing</p><p class="text-[11px] font-mono text-slate-400">DigiSkills.pk (PDF)</p></div></div>
             <span class="text-[10px] font-mono text-brand-400">View</span>
           </div>
-          <!-- Opens uploaded PDF -->
           <div class="card-spotlight p-4 rounded-xl flex items-center justify-between hover-elevate cursor-pointer" onclick="window.open('cert-digiskills-fl.pdf', '_blank')">
             <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-brand-400"><i data-lucide="briefcase" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Freelancing & Client Ops</p><p class="text-[11px] font-mono text-slate-400">DigiSkills.pk (PDF)</p></div></div>
             <span class="text-[10px] font-mono text-brand-400">View</span>
           </div>
           
-          <!-- New Standard Marketing Certifications to boost Experience -->
           <div class="card-spotlight p-4 rounded-xl flex items-center justify-between hover-elevate cursor-default">
             <div class="flex items-center gap-3"><div class="p-2 rounded-lg bg-surface-900 text-amber-400"><i data-lucide="bar-chart" class="w-4 h-4"></i></div><div><p class="text-sm font-bold text-white">Google Analytics 4 (GA4)</p><p class="text-[11px] font-mono text-slate-400">Google Skillshop</p></div></div>
             <span class="text-[10px] font-mono text-slate-500">Verified</span>
@@ -376,7 +387,6 @@
           </div>
         </div>
 
-        <!-- Endorsements -->
         <div class="space-y-4">
           <div class="card-spotlight p-5 rounded-2xl hover-elevate">
             <div class="flex items-center justify-between mb-3">
@@ -416,7 +426,7 @@
   <script>
     lucide.createIcons();
 
-    // Scroll Progress Logic
+    // Scroll Progress Logic with Climber Icon
     window.addEventListener('scroll', () => {
       const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -428,28 +438,24 @@
     const d3Data = {
       nodes: [
         { id: "Baqar Shah", group: 0, size: 25 },
-        // E-Commerce
         { id: "E-Commerce", group: 1, size: 18 },
         { id: "Shopify Plus", group: 1, size: 12 },
         { id: "TikTok Shop", group: 1, size: 12 },
         { id: "eBay Scaled", group: 1, size: 12 },
         { id: "Supply Chain", group: 1, size: 12 },
         { id: "Omnichannel", group: 1, size: 12 },
-        // MarTech & Marketing
         { id: "MarTech", group: 2, size: 18 },
         { id: "Meta Ads (CBO)", group: 2, size: 12 },
         { id: "HubSpot", group: 2, size: 12 },
         { id: "Klaviyo", group: 2, size: 12 },
         { id: "A/B Testing", group: 2, size: 12 },
         { id: "CRO", group: 2, size: 12 },
-        // AI & Data
         { id: "AI & Data", group: 3, size: 18 },
         { id: "SmartPLS (SEM)", group: 3, size: 12 },
         { id: "GA4 / Analytics", group: 3, size: 12 },
         { id: "Predictive AI", group: 3, size: 12 },
         { id: "Python", group: 3, size: 12 },
         { id: "Data Visualization", group: 3, size: 12 },
-        // Strategy & EU Business
         { id: "European Strategy", group: 4, size: 18 },
         { id: "GDPR Compliance", group: 4, size: 12 },
         { id: "Agile Scrum", group: 4, size: 12 },
@@ -461,31 +467,25 @@
         { source: "Baqar Shah", target: "MarTech" },
         { source: "Baqar Shah", target: "AI & Data" },
         { source: "Baqar Shah", target: "European Strategy" },
-        
         { source: "E-Commerce", target: "Shopify Plus" },
         { source: "E-Commerce", target: "TikTok Shop" },
         { source: "E-Commerce", target: "eBay Scaled" },
         { source: "E-Commerce", target: "Supply Chain" },
         { source: "E-Commerce", target: "Omnichannel" },
-        
         { source: "MarTech", target: "Meta Ads (CBO)" },
         { source: "MarTech", target: "HubSpot" },
         { source: "MarTech", target: "Klaviyo" },
         { source: "MarTech", target: "A/B Testing" },
         { source: "MarTech", target: "CRO" },
-        
         { source: "AI & Data", target: "SmartPLS (SEM)" },
         { source: "AI & Data", target: "GA4 / Analytics" },
         { source: "AI & Data", target: "Predictive AI" },
         { source: "AI & Data", target: "Python" },
         { source: "AI & Data", target: "Data Visualization" },
-        
         { source: "European Strategy", target: "GDPR Compliance" },
         { source: "European Strategy", target: "Agile Scrum" },
         { source: "European Strategy", target: "Consumer Behavior" },
         { source: "European Strategy", target: "Market Research" },
-
-        // Cross-connections
         { source: "Shopify Plus", target: "GA4 / Analytics" },
         { source: "Meta Ads (CBO)", target: "Shopify Plus" },
         { source: "A/B Testing", target: "CRO" },
@@ -510,8 +510,8 @@
       .call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended));
 
     node.append("circle").attr("r", d => d.size).attr("fill", d => color(d.group));
-    // Offsetting the text so it's readable over the lines
-    node.append("text").text(d => d.id).attr('x', 18).attr('y', 4);
+    // Updated text color to bright white so it is highly visible on the black background
+    node.append("text").text(d => d.id).attr('x', 18).attr('y', 4).attr('fill', '#ffffff').style('font-weight', '600').style('text-shadow', '0px 2px 4px rgba(0,0,0,0.8)');
 
     simulation.on("tick", () => {
       link.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
@@ -634,14 +634,47 @@
       });
     }
 
-    // AUDIO LOGIC
+    // AUTOPLAY AUDIO LOGIC (Handled gracefully for modern browsers)
     const audio = document.getElementById('bg-audio');
     let isPlaying = false;
+    
+    // Attempt to play on script load
+    audio.volume = 0.35;
+    const playPromise = audio.play();
+    
+    if (playPromise !== undefined) {
+      playPromise.then(_ => {
+        isPlaying = true;
+        document.getElementById('sound-icon').setAttribute('data-lucide', 'volume-2');
+        lucide.createIcons();
+      }).catch(error => {
+        // Autoplay blocked by browser. Wait for first user interaction (click/touch anywhere)
+        const startAudio = () => {
+          if (!isPlaying) {
+            audio.play();
+            isPlaying = true;
+            document.getElementById('sound-icon').setAttribute('data-lucide', 'volume-2');
+            lucide.createIcons();
+          }
+          document.body.removeEventListener('click', startAudio);
+          document.body.removeEventListener('touchstart', startAudio);
+        };
+        document.body.addEventListener('click', startAudio);
+        document.body.addEventListener('touchstart', startAudio);
+      });
+    }
+
     function toggleAudio() {
       if (!isPlaying) {
-        audio.volume = 0.35; audio.play().then(() => { isPlaying = true; document.getElementById('sound-icon').setAttribute('data-lucide', 'volume-2'); lucide.createIcons(); });
+        audio.volume = 0.35; audio.play();
+        isPlaying = true; 
+        document.getElementById('sound-icon').setAttribute('data-lucide', 'volume-2'); 
+        lucide.createIcons();
       } else {
-        audio.pause(); isPlaying = false; document.getElementById('sound-icon').setAttribute('data-lucide', 'music'); lucide.createIcons();
+        audio.pause(); 
+        isPlaying = false; 
+        document.getElementById('sound-icon').setAttribute('data-lucide', 'music'); 
+        lucide.createIcons();
       }
     }
   </script>
